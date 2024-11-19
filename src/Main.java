@@ -12,7 +12,6 @@ public class Main {
         Program p = new Program(size, 800, 75);
 
 
-        //Jeg tester lige på min stationær om det virker
         World w = p.getWorld();
         p.show();
     }
