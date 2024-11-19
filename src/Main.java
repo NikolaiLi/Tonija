@@ -16,7 +16,7 @@ public class Main {
         // w.setTile(new Location(0, 0), new <MyClass>());
 
         // p.setDisplayInformation(<MyClass>.class, new DisplayInformation(<Color>, "<ImageName>"));
-
+        // first test with pushing with intellij changes
         p.show();
     }
 }
