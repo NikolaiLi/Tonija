@@ -17,6 +17,7 @@ public class Main {
 
         // p.setDisplayInformation(<MyClass>.class, new DisplayInformation(<Color>, "<ImageName>"));
         // first test with pushing with intellij changes
+        // test 1
         p.show();
     }
 }
