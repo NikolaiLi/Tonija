@@ -14,7 +14,7 @@ public class Grass {
         if(!list.isEmpty()){
             Location location = list.get(random.nextInt(list.size()));
 
-            if(world.containsNonBlocking(location)){
+            if(world.isTileEmpty(location)){
                 world.setTile(location, this);
                 spread(world, location);
             }
@@ -33,10 +33,10 @@ public class Grass {
         Set<Location> surroundingTiles = world.getSurroundingTiles(location);
         List<Location> list = new ArrayList<>(surroundingTiles);
 
-        if(!list.isEmpty() && Math.random() < 0.25){
+        if(!list.isEmpty() /*&& Math.random() < 0.25*/){
             Location new_location = list.get(random.nextInt(list.size()));
-            if(!world.containsNonBlocking(new_location)){
-                world.setTile(new_location, this);
+            if(world.isTileEmpty(new_location)){
+                world.add(new Grass());
             }
         }
     }

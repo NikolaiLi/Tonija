@@ -36,6 +36,26 @@ public class Main {
             world.setTile(l, new Rabbit());
         }
 
+        DisplayInformation di_grass = new DisplayInformation(Color.green, "grass");
+        p.setDisplayInformation(Grass.class, di_grass);
+
+        // Spawner Rabbits forskellige steder (Krav 1)
+
+        int amountOfGrass = 1;
+        for(int i = 0; i < amountOfGrass; i++){
+            int x = r.nextInt(size);
+            int y = r.nextInt(size);
+            Location l = new Location(x,y);
+
+            while(!world.isTileEmpty(l)) {
+                x = r.nextInt(size);
+                y = r.nextInt(size);
+                l = new Location(x,y);
+            }
+
+            world.setTile(l, new Grass());
+        }
+
         p.show();
         p.simulate();
     }
