@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
         int size = 15;
-        int delay = 300;
+        int delay = 150;
         int display_size = 800;
 
         Program p = new Program(size, display_size, delay);

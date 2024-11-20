@@ -4,6 +4,12 @@ import itumulator.world.Location;
 import java.util.*;
 
 public class Rabbit implements Actor {
+    int hunger;
+
+    public Rabbit() {
+        hunger = 100;
+    }
+
     @Override
     public void act(World world) {
         Random r = new Random();
@@ -17,5 +23,18 @@ public class Rabbit implements Actor {
             world.move(this, l);
         }
 
-        }
     }
+
+    public void starve() {
+        hunger = hunger - 10;
+    }
+
+    public int getHunger() {
+        return hunger;
+    }
+
+
+
+
+}
+
