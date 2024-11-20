@@ -37,10 +37,6 @@ public class Main {
         }
 
         p.show();
-
-        for (int i = 0; i < 200; i++) {
-            p.simulate();
-        }
-
+        p.simulate();
     }
 }
