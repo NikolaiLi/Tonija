@@ -1,5 +1,5 @@
 import java.awt.Color;
-
+import java.util.Random;
 import itumulator.executable.DisplayInformation;
 import itumulator.executable.Program;
 import itumulator.world.Location;
@@ -8,15 +8,39 @@ import itumulator.world.World;
 public class Main {
 
     public static void main(String[] args) {
-        int size = 5;
-        Program p = new Program(size, 800, 75);
+        int size = 15;
+        int delay = 300;
+        int display_size = 800;
 
-        World w = p.getWorld();
+        Program p = new Program(size, display_size, delay);
+        World world = p.getWorld();
 
-        // w.setTile(new Location(0, 0), new <MyClass>());
+        DisplayInformation di = new DisplayInformation(Color.yellow, "rabbit-small");
+        p.setDisplayInformation(Rabbit.class, di);
 
-        // p.setDisplayInformation(<MyClass>.class, new DisplayInformation(<Color>, "<ImageName>"));
+        // Spawner Rabbits forskellige steder (Krav 1)
+        int amountOfRabbits = 3;
+        Random r = new Random();
+
+        for(int i = 0; i < amountOfRabbits; i++){
+            int x = r.nextInt(size);
+            int y = r.nextInt(size);
+            Location l = new Location(x,y);
+
+            while(!world.isTileEmpty(l)) {
+                x = r.nextInt(size);
+                y = r.nextInt(size);
+                l = new Location(x,y);
+            }
+
+            world.setTile(l, new Rabbit());
+        }
 
         p.show();
+
+        for (int i = 0; i < 200; i++) {
+            p.simulate();
+        }
+
     }
 }
