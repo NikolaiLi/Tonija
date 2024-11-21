@@ -38,6 +38,17 @@ public class Rabbit extends Creatures implements Actor {
             world.move(this, l);
         }
 
+        // Tjekker om der er kaniner i nabopositionerne, hvis der er fødes der en kanin
+        Random random = new Random();
+        int chanceOfBirth = random.nextInt(100);
+        for (Location location : list) {
+            if (world.getTile(location) instanceof Rabbit && chanceOfBirth >= 95) {
+                breed(world);
+                System.out.println("A rabbit has been born");
+                return;
+            }
+        }
+
     }
 
     /**
@@ -64,6 +75,19 @@ public class Rabbit extends Creatures implements Actor {
     @Override
     public boolean isAlive() {
         return super.isAlive();
+    }
+
+    public void breed(World world) {
+        Random random = new Random();
+
+        Set<Location> neighbours = world.getEmptySurroundingTiles();
+        List<Location> list = new ArrayList<>(neighbours);
+
+        if (!neighbours.isEmpty()) {
+            int randomNumber = random.nextInt(list.size());
+            Location location = list.get(randomNumber);
+            world.setTile(location, new Rabbit());
+        }
     }
 }
 
