@@ -36,7 +36,7 @@ public class Grass implements Actor, NonBlocking {
         Set<Location> surroundingTiles = world.getSurroundingTiles(location);
         List<Location> list = new ArrayList<>(surroundingTiles);
 
-        if (!list.isEmpty() /*&& Math.random() < 0.25*/) {
+        if (!list.isEmpty() && Math.random() < 0.25) {
             Location new_location = list.get(random.nextInt(list.size()));
             if (world.isTileEmpty(new_location) && !world.containsNonBlocking(new_location)) {
                 world.setTile(new_location, new Grass());
