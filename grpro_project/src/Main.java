@@ -33,10 +33,10 @@ public class Main {
         World world = p.getWorld();
 
         DisplayInformation di_BabyRabbit = new DisplayInformation(Color.yellow, "rabbit-small");
-        p.setDisplayInformation(Rabbit.class, di_BabyRabbit);
+        p.setDisplayInformation(BabyRabbit.class, di_BabyRabbit);
 
         DisplayInformation di_AdultRabbit = new DisplayInformation(Color.orange, "rabbit-large");
-        p.setDisplayInformation(Rabbit.class, di_AdultRabbit);
+        p.setDisplayInformation(AdultRabbit.class, di_AdultRabbit);
 
         // Spawner Rabbits forskellige steder (Krav 1)
         int amountOfRabbits = 3;
@@ -53,7 +53,7 @@ public class Main {
                 l = new Location(x, y);
             }
 
-            world.setTile(l, new Rabbit());
+            world.setTile(l, new BabyRabbit());
         }
 
         p.setDisplayInformation(Grass.class, new DisplayInformation(Color.green, "grass"));
