@@ -1,11 +1,12 @@
 import itumulator.executable.Program;
 import itumulator.simulator.Actor;
 import itumulator.world.Location;
+import itumulator.world.NonBlocking;
 import itumulator.world.World;
 
 import java.util.*;
 
-public class Grass implements Actor {
+public class Grass implements Actor, NonBlocking {
     Random random = new Random();
 
     @Override
