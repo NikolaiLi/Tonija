@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="72225a80-6ecd-412b-b2b7-a21b0552b04c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/grpro_project/src/Grass.java" beforeDir="false" afterPath="$PROJECT_DIR$/grpro_project/src/Grass.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +28,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/tore2/Tonija/grpro_project",
     "node.js.detected.package.eslint": "true",
@@ -68,6 +69,7 @@
       <workItem from="1732106655621" duration="349000" />
       <workItem from="1732107019620" duration="2000" />
       <workItem from="1732107328447" duration="72000" />
+      <workItem from="1732194331244" duration="400000" />
     </task>
     <servers />
   </component>

@@ -4,7 +4,11 @@ import itumulator.world.World;
 
 import java.util.*;
 
-public class Grass {
+public class Grass implements Actor{
     Random random = new Random();
-    
+
+    @Override
+    public void act(World world){
+        
+    }
 }
