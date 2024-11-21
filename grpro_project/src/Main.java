@@ -15,13 +15,17 @@ public class Main {
         int display_size = 800;
 
 
-        //System.out.println("Current Working Directory: " + System.getProperty("user.dir"));
+        //FILE READING AND MANIPULATION
         String filePath = "data/week-1/t1-1a.txt";
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;
             while ((line = reader.readLine()) != null) {
                 System.out.println(reader.readLine());
+                //Hvordan skal filerne manipuleres?:
+                //Første element, size variablen skal opdateres til dette
+                    //Skal ikke være i samme while loop som andet og tredje
+                //Andet/Tredje element,  type + antal || type + antal(min,max)
             }
             reader.close();
         } catch (IOException e) {
