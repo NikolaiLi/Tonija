@@ -1,2 +1,3 @@
-public class AdultRabbit {
+public class AdultRabbit extends Rabbit {
+
 }

@@ -15,8 +15,11 @@ public class Main {
         Program p = new Program(size, display_size, delay);
         World world = p.getWorld();
 
-        DisplayInformation di_rabbit = new DisplayInformation(Color.yellow, "rabbit-small");
-        p.setDisplayInformation(Rabbit.class, di_rabbit);
+        DisplayInformation di_BabyRabbit = new DisplayInformation(Color.yellow, "rabbit-small");
+        p.setDisplayInformation(Rabbit.class, di_BabyRabbit);
+
+        DisplayInformation di_AdultRabbit = new DisplayInformation(Color.orange, "rabbit-large");
+        p.setDisplayInformation(Rabbit.class, di_AdultRabbit);
 
         // Spawner Rabbits forskellige steder (Krav 1)
         int amountOfRabbits = 3;
