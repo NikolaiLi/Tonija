@@ -1,5 +1,7 @@
+import itumulator.world.World;
 abstract public class Creature {
     protected int hunger;
+    protected int hungerLimit;
     protected boolean alive;
     protected int age;
 
@@ -13,9 +15,18 @@ abstract public class Creature {
         hunger -= 5;
     }
 
+    public void energize(){
+        hunger += 15;
+        if (hunger > 100) {
+            hunger = 100;
+        }
+    }
+
     public int getHunger() {
         return hunger;
     }
+
+    public abstract void eat(World world);
 
     public boolean isAlive() {
         return alive;

@@ -4,6 +4,8 @@ import itumulator.world.Location;
 import java.util.*;
 
 abstract public class Rabbit extends Creature implements Actor {
+Random r = new Random();
+protected boolean RabbitHole = false;
 
     public Rabbit() {
         super();
@@ -30,8 +32,6 @@ abstract public class Rabbit extends Creature implements Actor {
         }
 
         // Flytter kaninen over til en tilfældig nabo-tile
-        Random r = new Random();
-
         Set<Location> neighbours = world.getEmptySurroundingTiles();
         List<Location> list = new ArrayList<>(neighbours);
 
@@ -40,6 +40,33 @@ abstract public class Rabbit extends Creature implements Actor {
             Location l = list.get(randomNumber);
             world.move(this, l);
         }
+    }
+    //spiser græsset på en tilfældig nabo-tile
+    /**
+     * A method that lets a rabbit eat the tile of grass on which it stands upon to energize.
+     * The method checks for grass underneath the rabbit before committing.
+     *
+     * @param world
+     */
+    @Override
+    public void eat(World world) {
+        Location location = world.getLocation(this);
+        Object terrain = world.getNonBlocking(location);
+        if (terrain instanceof Grass) {
+            world.delete(terrain);
+            this.energize();
+        } else {
+            System.out.println("Nothing to eat");
+        }
+    }
+
+
+    /**
+     * Energize() er en metode, som giver energi til objektet, altså Rabbit.
+     */
+    @Override
+    public void energize() {
+        super.energize();
     }
 
     /**
@@ -66,6 +93,10 @@ abstract public class Rabbit extends Creature implements Actor {
     @Override
     public boolean isAlive() {
         return super.isAlive();
+    }
+
+    public boolean HoleAlreadyMade(){
+        return RabbitHole;
     }
 }
 
