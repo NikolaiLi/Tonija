@@ -36,8 +36,8 @@ public class Main {
             world.setTile(l, new Rabbit());
         }
 
-        DisplayInformation di_grass = new DisplayInformation(Color.green, "grass");
-        p.setDisplayInformation(Grass.class, di_grass);
+        p.setDisplayInformation(Grass.class, new DisplayInformation(Color.green, "grass"));
+
 
         // Spawner Rabbits forskellige steder (Krav 1)
 
