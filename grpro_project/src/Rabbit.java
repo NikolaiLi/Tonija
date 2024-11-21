@@ -3,7 +3,7 @@ import itumulator.world.World;
 import itumulator.world.Location;
 import java.util.*;
 
-public class Rabbit extends Creatures implements Actor {
+public class Rabbit extends Creature implements Actor {
 
     public Rabbit() {
         super();
