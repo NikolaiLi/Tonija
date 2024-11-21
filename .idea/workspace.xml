@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="72225a80-6ecd-412b-b2b7-a21b0552b04c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/grpro_project/src/Grass.java" beforeDir="false" afterPath="$PROJECT_DIR$/grpro_project/src/Grass.java" afterDir="false" />
-    </list>
+    <list default="true" id="72225a80-6ecd-412b-b2b7-a21b0552b04c" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,7 +28,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/tore2/Tonija/grpro_project",
+    "last_opened_file_path": "C:/Users/tore2/GitHub/Tonija/grpro_project",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -70,6 +68,7 @@
       <workItem from="1732107019620" duration="2000" />
       <workItem from="1732107328447" duration="72000" />
       <workItem from="1732194331244" duration="400000" />
+      <workItem from="1732195028663" duration="82000" />
     </task>
     <servers />
   </component>
