@@ -17,7 +17,7 @@ public class Grass implements Actor, NonBlocking {
         if (!list.isEmpty()) {
             Location location = list.get(random.nextInt(list.size()));
 
-            if (world.isTileEmpty(location)) {
+            if (world.isTileEmpty(location) && !world.containsNonBlocking(location)) {
                 spread(world, location);
             }
         } else {
@@ -38,7 +38,7 @@ public class Grass implements Actor, NonBlocking {
 
         if (!list.isEmpty() /*&& Math.random() < 0.25*/) {
             Location new_location = list.get(random.nextInt(list.size()));
-            if (world.isTileEmpty(new_location)) {
+            if (world.isTileEmpty(new_location) && !world.containsNonBlocking(new_location)) {
                 world.setTile(new_location, new Grass());
             }
         }
