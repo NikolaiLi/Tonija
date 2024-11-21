@@ -9,6 +9,6 @@ public class Grass implements Actor{
 
     @Override
     public void act(World world){
-        
+        world.
     }
 }
