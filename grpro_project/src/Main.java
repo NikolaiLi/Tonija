@@ -10,7 +10,7 @@ import itumulator.world.World;
 public class Main {
 
     public static void main(String[] args) {
-        int size = 15;
+        int size = 5;
         int delay = 150;
         int display_size = 800;
 
