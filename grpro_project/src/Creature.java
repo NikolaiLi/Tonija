@@ -1,7 +1,6 @@
 import itumulator.world.World;
 abstract public class Creature {
     protected int hunger;
-    protected int hungerLimit;
     protected boolean alive;
     protected int age;
 
