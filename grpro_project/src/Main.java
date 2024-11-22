@@ -10,22 +10,67 @@ import itumulator.world.World;
 public class Main {
 
     public static void main(String[] args) {
-        int size = 5;
+        int size = 0; //Updated through txt files in the file manipulation section
         int delay = 150;
         int display_size = 800;
+        int amountOfGrass = 0; //Updated through txt files in the file manipulation section
+        int amountOfRabbits = 0; //Updated through txt files in the file manipulation section
+        Random r = new Random();
 
 
-        //FILE READING AND MANIPULATION
-        String filePath = "data/week-1/t1-1a.txt";
+
+        //------------------------FILE MANIPULATION------------------------\\
+        String filePath = "data/week-1/t1-2cde.txt";
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;
+
+            line = reader.readLine();
+            System.out.println(line);
+            if (line != null) {
+                size = Integer.parseInt(line.trim());
+                System.out.println("World size set to: " + size);
+            }
+
             while ((line = reader.readLine()) != null) {
-                System.out.println(reader.readLine());
-                //Hvordan skal filerne manipuleres?:
-                //Første element, size variablen skal opdateres til dette
-                    //Skal ikke være i samme while loop som andet og tredje
-                //Andet/Tredje element,  type + antal || type + antal(min,max)
+                line = line.trim();
+                String[] parts = line.split(" ");
+
+                if(parts.length < 2){
+                    System.out.println("Skipping invalid line: " + line);
+                    continue;
+                }
+                String className = parts[0].toLowerCase();
+                String numberInfo = parts[1];
+
+
+                int count = 0;
+                if(numberInfo.contains("-")){
+                    String[] range = numberInfo.split("-");
+                    int min = Integer.parseInt(range[0]);
+                    int max = Integer.parseInt(range[1]);
+                    count = r.nextInt(max - min + 1) + min;
+                } else {
+                    count = Integer.parseInt(numberInfo);
+                }
+
+                switch (className) {
+                    case "grass":
+                        amountOfGrass = count;
+                        System.out.println("Added " + count + " Grass objects");
+                        break;
+
+                    case "rabbit":
+                        amountOfRabbits = count;
+                        System.out.println("Added " + count + " Rabbits objects");
+                        break;
+                        /*
+                        case "burrow":
+                            amountOfHoles = count;
+                            System.out.println("Added " + count + " RabbitHole objects");
+                            break;*/
+                }
+
             }
             reader.close();
         } catch (IOException e) {
@@ -42,10 +87,7 @@ public class Main {
         DisplayInformation di_AdultRabbit = new DisplayInformation(Color.orange, "rabbit-large");
         p.setDisplayInformation(AdultRabbit.class, di_AdultRabbit);
 
-        // Spawner Rabbits forskellige steder (Krav 1)
-        int amountOfRabbits = 3;
-        Random r = new Random();
-
+        //------------------------PLACE RABBIT------------------------\\
         for (int i = 0; i < amountOfRabbits; i++) {
             int x = r.nextInt(size);
             int y = r.nextInt(size);
@@ -62,10 +104,7 @@ public class Main {
 
         p.setDisplayInformation(Grass.class, new DisplayInformation(Color.green, "grass"));
 
-
-        // Spawner Rabbits forskellige steder (Krav 1)
-
-        int amountOfGrass = 3;
+        //------------------------PLACE GRASS------------------------\\
         for (int i = 0; i < amountOfGrass; i++) {
             int x = r.nextInt(size);
             int y = r.nextInt(size);
