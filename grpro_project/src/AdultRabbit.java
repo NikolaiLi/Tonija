@@ -4,9 +4,11 @@ import java.util.*;
 
 public class AdultRabbit extends Rabbit{
 
-    public AdultRabbit() {
+    public AdultRabbit(int hunger) {
         super();
         age = 15;
+        this.hunger = hunger;
+        increaseMaxHunger(50);
     }
 
     @Override
