@@ -65,7 +65,7 @@ public class Main {
 
         // Spawner Rabbits forskellige steder (Krav 1)
 
-        int amountOfGrass = 1;
+        int amountOfGrass = 3;
         for (int i = 0; i < amountOfGrass; i++) {
             int x = r.nextInt(size);
             int y = r.nextInt(size);
