@@ -78,15 +78,32 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-
         Program p = new Program(size, display_size, delay);
         World world = p.getWorld();
+        
+        //------------------------DISPLAY INFORMATION ------------------------\\
+        p.setDisplayInformation(Grass.class, new DisplayInformation(Color.green, "grass"));
 
         DisplayInformation di_BabyRabbit = new DisplayInformation(Color.yellow, "rabbit-small");
         p.setDisplayInformation(BabyRabbit.class, di_BabyRabbit);
 
         DisplayInformation di_AdultRabbit = new DisplayInformation(Color.orange, "rabbit-large");
         p.setDisplayInformation(AdultRabbit.class, di_AdultRabbit);
+
+        //------------------------PLACE GRASS------------------------\\
+        for (int i = 0; i < amountOfGrass; i++) {
+            int x = r.nextInt(size);
+            int y = r.nextInt(size);
+            Location l = new Location(x, y);
+
+            while (!world.isTileEmpty(l) || world.containsNonBlocking(l)) {
+                x = r.nextInt(size);
+                y = r.nextInt(size);
+                l = new Location(x, y);
+            }
+
+            world.setTile(l, new Grass());
+        }
 
         //------------------------PLACE RABBIT------------------------\\
         for (int i = 0; i < amountOfRabbits; i++) {
@@ -103,22 +120,6 @@ public class Main {
             world.setTile(l, new BabyRabbit());
         }
 
-        p.setDisplayInformation(Grass.class, new DisplayInformation(Color.green, "grass"));
-
-        //------------------------PLACE GRASS------------------------\\
-        for (int i = 0; i < amountOfGrass; i++) {
-            int x = r.nextInt(size);
-            int y = r.nextInt(size);
-            Location l = new Location(x, y);
-
-            while (!world.isTileEmpty(l)) {
-                x = r.nextInt(size);
-                y = r.nextInt(size);
-                l = new Location(x, y);
-            }
-
-            world.setTile(l, new Grass());
-        }
         /*
         //------------------------PLACE RABBITHOLE------------------------\\
         for (int i = 0; i < amountOfRabbitHoles; i++) {
@@ -126,7 +127,7 @@ public class Main {
             int y = r.nextInt(size);
             Location l = new Location(x, y);
 
-            while (!world.isTileEmpty(l)) {
+            while (!world.isTileEmpty(l) || world.containsNonBlocking(l)) {
                 x = r.nextInt(size);
                 y = r.nextInt(size);
                 l = new Location(x, y);
