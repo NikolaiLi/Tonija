@@ -27,7 +27,7 @@ public class AdultRabbit extends Rabbit{
         // Tjekker om der er kaniner i nabopositionerne, hvis der er fødes der en kanin
         int chanceOfBirth = r.nextInt(100);
         for (Location location : list) {
-            if (world.getTile(location) instanceof AdultRabbit && chanceOfBirth >= 95) {
+            if (world.getTile(location) instanceof AdultRabbit && chanceOfBirth >= 50) {
                 breed(world);
                 System.out.println("A baby rabbit has been born");
                 return;
