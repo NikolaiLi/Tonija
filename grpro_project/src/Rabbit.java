@@ -1,10 +1,9 @@
-import itumulator.simulator.Actor;
 import itumulator.world.World;
 import itumulator.world.Location;
 import java.util.*;
 
-abstract public class Rabbit extends Creature implements Actor {
-    Random r = new Random();
+abstract public class Rabbit extends Creature {
+    protected Random r = new Random();
     protected boolean RabbitHole = false;
 
     public Rabbit() {
@@ -59,7 +58,6 @@ abstract public class Rabbit extends Creature implements Actor {
         if (terrain instanceof Grass) {
             world.delete(terrain);
             this.energize();
-            return;
         }
     }
 

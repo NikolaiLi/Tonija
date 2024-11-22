@@ -1,5 +1,6 @@
+import itumulator.simulator.Actor;
 import itumulator.world.World;
-abstract public class Creature {
+abstract public class Creature implements Actor {
     protected int hunger;
     protected boolean alive;
     protected int age;
@@ -24,6 +25,8 @@ abstract public class Creature {
     public int getHunger() {
         return hunger;
     }
+
+    public abstract void act(World world);
 
     public abstract void eat(World world);
 

@@ -5,5 +5,5 @@ import itumulator.world.World;
 
 import java.util.*;
 
-abstract public class Terrain {
+abstract public class Terrain implements Actor, NonBlocking{
 }

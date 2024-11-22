@@ -5,7 +5,7 @@ import itumulator.world.World;
 
 import java.util.*;
 
-public class Grass implements Actor, NonBlocking {
+public class Grass extends Terrain {
     Random random = new Random();
 
     @Override

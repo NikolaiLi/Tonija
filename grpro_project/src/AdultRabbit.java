@@ -21,10 +21,10 @@ public class AdultRabbit extends Rabbit{
         }
 
         // Finder ledige nabopositioner
-        Set<Location> neighbours = world.getEmptySurroundingTiles();
+        Set<Location> neighbours = world.getSurroundingTiles();
         List<Location> list = new ArrayList<>(neighbours);
 
-        // Tjekker om der er kaniner i nabopositionerne, hvis der er fødes der en kanin
+        // Tjekker om der er voksne kaniner i nabopositionerne, og hvis der er, er der 50% chance for at føde en babykanin på en nærliggende empty tile
         int chanceOfBirth = r.nextInt(100);
         for (Location location : list) {
             if (world.getTile(location) instanceof AdultRabbit && chanceOfBirth >= 50) {
@@ -45,6 +45,8 @@ public class AdultRabbit extends Rabbit{
             int randomNumber = random.nextInt(list.size());
             Location location = list.get(randomNumber);
             world.setTile(location, new BabyRabbit());
+        } else {
+            System.out.println("No space available for a baby rabbit to be born");
         }
     }
 
