@@ -15,6 +15,7 @@ public class Main {
         int display_size = 800;
         int amountOfGrass = 0; //Updated through txt files in the file manipulation section
         int amountOfRabbits = 0; //Updated through txt files in the file manipulation section
+        int amountOfRabbitHoles = 0;
         Random r = new Random();
 
 
@@ -118,6 +119,21 @@ public class Main {
 
             world.setTile(l, new Grass());
         }
+        /*
+        //------------------------PLACE RABBITHOLE------------------------\\
+        for (int i = 0; i < amountOfRabbitHoles; i++) {
+            int x = r.nextInt(size);
+            int y = r.nextInt(size);
+            Location l = new Location(x, y);
+
+            while (!world.isTileEmpty(l)) {
+                x = r.nextInt(size);
+                y = r.nextInt(size);
+                l = new Location(x, y);
+            }
+
+            world.setTile(l, new RabbitHole());
+        }*/
 
         p.show();
         p.simulate();
