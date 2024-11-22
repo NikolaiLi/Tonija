@@ -15,7 +15,7 @@ abstract public class Creature {
     }
 
     public void energize(){
-        hunger += 15;
+        hunger += 30;
         if (hunger > 100) {
             hunger = 100;
         }

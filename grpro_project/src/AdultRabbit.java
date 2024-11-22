@@ -11,22 +11,21 @@ public class AdultRabbit extends Rabbit{
 
     @Override
     public void act(World world) {
-        Random random = new Random();
-        int chanceOfDying = random.nextInt(10);
-        if (age > 40 && chanceOfDying > 8) {
+        // Henter super-klassens act (Rabbit's act)
+        super.act(world);
+
+        int chanceOfDying = r.nextInt(10);
+        if (age > 60 && chanceOfDying == 1) {
             world.delete(this);
             System.out.println("An adult rabbit has died of age");
         }
-
-        // Henter super-klassens act (Rabbit's act)
-        super.act(world);
 
         // Finder ledige nabopositioner
         Set<Location> neighbours = world.getEmptySurroundingTiles();
         List<Location> list = new ArrayList<>(neighbours);
 
         // Tjekker om der er kaniner i nabopositionerne, hvis der er fødes der en kanin
-        int chanceOfBirth = random.nextInt(100);
+        int chanceOfBirth = r.nextInt(100);
         for (Location location : list) {
             if (world.getTile(location) instanceof AdultRabbit && chanceOfBirth >= 95) {
                 breed(world);
