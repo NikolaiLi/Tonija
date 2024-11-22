@@ -18,7 +18,7 @@ public class Main {
         Random r = new Random();
 
         //------------------------FILE MANIPULATION------------------------\\
-        String filePath = "data/week-1/t1-1a.txt";
+        String filePath = "data/week-1/t1-2cde.txt";
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;
@@ -42,7 +42,7 @@ public class Main {
                     String numberInfo = parts[1];
 
 
-                    int count = 0;
+                    int count;
                     if(numberInfo.contains("-")){
                         String[] range = numberInfo.split("-");
                         int min = Integer.parseInt(range[0]);
@@ -109,7 +109,7 @@ public class Main {
             int y = r.nextInt(size);
             Location l = new Location(x, y);
 
-            while (!world.isTileEmpty(l)) {
+            while (!world.isTileEmpty(l) || world.containsNonBlocking(l)) {
                 x = r.nextInt(size);
                 y = r.nextInt(size);
                 l = new Location(x, y);
