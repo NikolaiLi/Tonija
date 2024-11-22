@@ -22,6 +22,6 @@ public class BabyRabbit extends Rabbit {
         System.out.println("Baby Rabbit has grown up");
         Location l = world.getLocation(this);
         world.delete(this);
-        world.setTile(l, new AdultRabbit());
+        world.setTile(l, new AdultRabbit(getHunger()));
     }
 }

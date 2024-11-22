@@ -2,11 +2,13 @@ import itumulator.simulator.Actor;
 import itumulator.world.World;
 abstract public class Creature implements Actor {
     protected int hunger;
+    protected int maxHunger;
     protected boolean alive;
     protected int age;
 
     public Creature() {
         hunger = 100;
+        maxHunger = hunger;
         alive = true;
         age = 0;
     }
@@ -17,9 +19,13 @@ abstract public class Creature implements Actor {
 
     public void energize(){
         hunger += 30;
-        if (hunger > 100) {
-            hunger = 100;
+        if (hunger > maxHunger) {
+            hunger = maxHunger;
         }
+    }
+
+    public void increaseMaxHunger(int n) {
+        maxHunger += n;
     }
 
     public int getHunger() {
