@@ -65,11 +65,11 @@ public class Main {
                         amountOfRabbits = count;
                         System.out.println("Added " + count + " Rabbits objects");
                         break;
-                        /*
-                        case "burrow":
-                            amountOfHoles = count;
-                            System.out.println("Added " + count + " RabbitHole objects");
-                            break;*/
+
+                    case "burrow":
+                        amountOfRabbitHoles = count;
+                        System.out.println("Added " + count + " RabbitHole objects");
+                        break;
                 }
 
             }
@@ -121,7 +121,7 @@ public class Main {
         }
 
         /*
-        //------------------------PLACE RABBITHOLE------------------------\\
+        //------------------------PLACE RABBIT HOLE------------------------\\
         for (int i = 0; i < amountOfRabbitHoles; i++) {
             int x = r.nextInt(size);
             int y = r.nextInt(size);
@@ -133,7 +133,7 @@ public class Main {
                 l = new Location(x, y);
             }
 
-            world.setTile(l, new RabbitHole());
+            world.setTile(l, new RabbitHole(//HOME,//EXIT));
         }*/
 
         p.show();
