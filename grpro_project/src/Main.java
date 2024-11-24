@@ -90,6 +90,10 @@ public class Main {
         DisplayInformation di_AdultRabbit = new DisplayInformation(Color.orange, "rabbit-large");
         p.setDisplayInformation(AdultRabbit.class, di_AdultRabbit);
 
+        DisplayInformation di_RabbitHole = new DisplayInformation(Color.black, "hole");
+        p.setDisplayInformation(RabbitHole.class, di_RabbitHole);
+
+
         //------------------------PLACE GRASS------------------------\\
         for (int i = 0; i < amountOfGrass; i++) {
             int x = r.nextInt(size);

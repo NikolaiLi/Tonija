@@ -3,7 +3,8 @@ import itumulator.world.World;
 import java.util.*;
 
 public class AdultRabbit extends Rabbit{
-
+Random r = new Random();
+    
     public AdultRabbit(int hunger) {
         super();
         age = 15;
@@ -35,7 +36,13 @@ public class AdultRabbit extends Rabbit{
                 return;
             }
         }
+
+        //10% chance to dig rabbithole, if unblocking element is empty and rabbit has not dug a hole already
+        if (r.nextInt(100) < 10 && this.isAlive()) {
+            digRabbitHole(world);
+        }
     }
+
 
     public void breed(World world) {
         Random random = new Random();
@@ -50,6 +57,46 @@ public class AdultRabbit extends Rabbit{
         } else {
             System.out.println("No space available for a baby rabbit to be born");
         }
+    }
+
+    public void digRabbitHole(World world) {
+        if (!AlreadyBuiltRabbitHole) {
+            Location current = world.getLocation(this);
+            if (!world.containsNonBlocking(current)) {
+                RabbitHole rabbitHole = new RabbitHole(world);
+                world.setTile(current, rabbitHole);
+                AlreadyBuiltRabbitHole = true;
+                rabbitHole.setLocation(world);
+                System.out.println("Rabbit has dug a hole at " + current);
+            } else {
+                System.out.println("Cannot dig hole. Non-blocking element already present on tile");
+            }
+        } else {
+            System.out.println("Rabbit already has a hole");
+        }
+    }
+
+    public void digTunnel() {
+        RabbitHole rabbitHole = this.getCurrentHidingPlace();
+        Map<RabbitHole, ArrayList<RabbitHole>> tunnels = rabbitHole.getTunnels();
+        HashSet<RabbitHole> exits = new HashSet<>(tunnels.get(rabbitHole));
+        Set<RabbitHole> allHoles = tunnels.keySet();
+        if (exits.equals(allHoles)) {
+            System.out.println("Cannot dig tunnel. RabbitHole is already connected to all other RabbitHoles.");
+            return;
+        }
+        RabbitHole newExit = null;
+        ArrayList<RabbitHole> allHolesList= new ArrayList<>(allHoles);
+        while (!tunnels.get(rabbitHole).contains(newExit)) {
+            RabbitHole tempExit = allHolesList.get(r.nextInt(allHolesList.size()));
+            if (!exits.contains(tempExit)) {
+                newExit = tempExit;
+                tunnels.get(rabbitHole).add(newExit);
+                tunnels.get(newExit).add(rabbitHole);
+                System.out.println("New tunnel built between " + rabbitHole + " and " + newExit);
+            }
+        }
+
     }
 
 }

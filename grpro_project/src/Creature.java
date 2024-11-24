@@ -32,6 +32,8 @@ abstract public class Creature implements Actor {
         return hunger;
     }
 
+    public abstract void move(World world);
+
     public abstract void act(World world);
 
     public abstract void eat(World world);

@@ -1,4 +1,3 @@
-import itumulator.simulator.Actor;
 import itumulator.world.Location;
 import itumulator.world.NonBlocking;
 import itumulator.world.World;
@@ -7,25 +6,26 @@ import java.util.*;
 
 public class RabbitHole implements NonBlocking {
     Random r = new Random();
-    protected HashMap<Location, ArrayList<Location>> tunnels;
-    protected Location home;
-    protected Location exit;
+    protected Map<RabbitHole, ArrayList<RabbitHole>> tunnels = new HashMap<>();
+    protected Location rabbitHoleLocation;
 
-    public RabbitHole(Location home, Location exit){
-        this.home = home;
-        this.exit = exit;
-        System.out.println("RabbitHole has been dug");
-
-        if (!tunnels.containsKey(home)) {
-            tunnels.put(home, new ArrayList<>());
-            tunnels.get(home).add(exit);
-        }
-        else {
-            tunnels.get(home).add(exit);
+    public RabbitHole(World world){
+        if (!tunnels.containsKey(this)) {
+            tunnels.put(this, new ArrayList<>());
+            tunnels.get(this).add(this);
+            System.out.println("RabbitHole has been dug");
         }
     }
 
-    public HashMap<Location, ArrayList<Location>> getTunnels() {
+    public Map<RabbitHole, ArrayList<RabbitHole>> getTunnels() {
         return tunnels;
+    }
+
+    public void setLocation(World world){
+        rabbitHoleLocation = world.getLocation(this);
+    }
+
+    public Location getLocation() {
+        return rabbitHoleLocation;
     }
 }
