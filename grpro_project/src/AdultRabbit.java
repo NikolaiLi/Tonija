@@ -20,9 +20,6 @@ Random r = new Random();
         // Hvis Rabbit er 60, så har den chancen for at dø
         dyingOfAge(world);
 
-        // Finder ledige nabopositioner &
-        // Tjekker om der er voksne kaniner i nabopositionerne, og hvis der er, er der 50% chance for at føde en babykanin på en nærliggende empty tile
-
         if (!hiding) {
             Set<Location> neighbours = world.getSurroundingTiles();
             List<Location> list = new ArrayList<>(neighbours);
@@ -57,7 +54,7 @@ Random r = new Random();
     }
 
     public void digRabbitHole(World world) {
-        if (!AlreadyBuiltRabbitHole && !hiding) {
+        if (!AlreadyBuiltRabbitHole && !hiding && isAlive()) {
             Location current = world.getLocation(this);
             if (!world.containsNonBlocking(current)) {
                 RabbitHole rabbitHole = new RabbitHole(world);
@@ -97,10 +94,12 @@ Random r = new Random();
     }
 
     public void dyingOfAge(World world) {
-        int chanceOfDying = r.nextInt(10);
-        if (age > 60 && chanceOfDying == 1) {
-            world.delete(this);
-            System.out.println("An adult rabbit has died of age");
+        if (isAlive()) {
+            int chanceOfDying = r.nextInt(10);
+            if (age > 60 && chanceOfDying == 1) {
+                world.delete(this);
+                System.out.println("An adult rabbit has died of age");
+            }
         }
     }
 
