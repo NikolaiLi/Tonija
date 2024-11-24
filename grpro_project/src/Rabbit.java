@@ -5,10 +5,13 @@ import java.util.*;
 public abstract class Rabbit extends Creature {
     protected Random r = new Random();
     protected boolean AlreadyBuiltRabbitHole = false;
-    protected RabbitHole currentHidingPlace = null;
+    protected RabbitHole currentHidingPlace;
+    protected boolean hiding;
 
     public Rabbit() {
         super();
+        hiding = false;
+        currentHidingPlace = null;
     }
 
     @Override
@@ -19,25 +22,39 @@ public abstract class Rabbit extends Creature {
             return;
         }
 
-        // Sulter kaninen
-        starve();
-
         // Tjekker om kaninen er ved at dø af sult
         if (getHunger() <= 0){
-            alive = false;
-            world.delete(this);
-            System.out.println("A rabbit has died of hunger");
+            hungerDeath(world);
             return;
         }
 
         //
         aging();
 
-        // Får kaninen til at spise, hvis der er græs
-        eat(world);
+        if (world.isDay()) {
+            if (hiding) {
+                System.out.println("Trying to unhide");
+                unhide2(world);
+                hiding = false;
+            }
 
-        // Flytter kaninen over til en tilfældig nabo-tile
-        move(world);
+            // Får kaninen til at spise, hvis der er græs
+            eat(world);
+
+            // Flytter kaninen over til en tilfældig nabo-tile
+            move(world);
+
+            // Sulter kaninen
+            starve();
+        }
+
+        if (world.isNight()) {
+            if (!hiding) {
+                System.out.println("Finding hiding spot");
+                hide(world);
+            }
+        }
+
     }
 
 
@@ -85,9 +102,14 @@ public abstract class Rabbit extends Creature {
     public void hide(World world) {
         Object o = world.getNonBlocking(world.getLocation(this));
         if (o instanceof RabbitHole) {
+            System.out.println("Rabbit is almost hiding");
             currentHidingPlace = (RabbitHole) o;
+            world.remove(this);
+            hiding = true;
+            System.out.println("Rabbit is hiding");
+        } else {
+            System.out.println("Didn't find a hiding spot");
         }
-        world.remove(this);
     }
 
     /**
@@ -99,9 +121,10 @@ public abstract class Rabbit extends Creature {
     public void unhide(World world) {
         if (world.isDay()) {
             if (!world.isOnTile(this)) {
-                RabbitHole hidingspot = this.getCurrentHidingPlace();
-                ArrayList<RabbitHole> allExits = hidingspot.getTunnels().get(hidingspot);
+                RabbitHole hidingSpot = currentHidingPlace;
+                ArrayList<RabbitHole> allExits = hidingSpot.getTunnels().get(hidingSpot);
                 ArrayList<RabbitHole> unblockedExits = new ArrayList<>();
+
                 for (RabbitHole exit : allExits) {
                     if (world.isTileEmpty(exit.getLocation())) {
                         unblockedExits.add(exit);
@@ -113,12 +136,28 @@ public abstract class Rabbit extends Creature {
                     Location rabbithole = exit.getLocation();
                     world.setTile(rabbithole,this);
                 } else {
-                        System.out.println("No exits available yet. Rabbit remains in hiding at " + this.getCurrentHidingPlace().getLocation());
+                    System.out.println("No exits available yet. Rabbit remains in hiding at " + this.getCurrentHidingPlace().getLocation());
                 }
             }
         }
     }
 
+    public void unhide2(World world) {
+        if (!world.isOnTile(this)) {
+            RabbitHole hidingSpot = currentHidingPlace;
+            world.setCurrentLocation(currentHidingPlace.getLocation());
+            ArrayList<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
+            int size = r.nextInt(list.size());
+
+            if (!list.isEmpty()) {
+                System.out.println("Rabbit trying to come out");
+                world.setTile(list.get(size),this);
+                System.out.println("Rabbit came out (Rabbit is gay)");
+            } else {
+                System.out.println("No exit available");
+            }
+        }
+    }
 
     /**
      * Energize() er en metode, som giver energi til objektet, altså Rabbit.
@@ -160,5 +199,11 @@ public abstract class Rabbit extends Creature {
 
     public RabbitHole getCurrentHidingPlace() {
         return currentHidingPlace;
+    }
+
+    public void hungerDeath(World world) {
+        alive = false;
+        world.delete(this);
+        System.out.println("A rabbit has died of hunger");
     }
 }
