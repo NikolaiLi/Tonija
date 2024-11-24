@@ -124,7 +124,7 @@ public class Main {
             world.setTile(l, new BabyRabbit());
         }
 
-        /*
+
         //------------------------PLACE RABBIT HOLE------------------------\\
         for (int i = 0; i < amountOfRabbitHoles; i++) {
             int x = r.nextInt(size);
@@ -138,7 +138,7 @@ public class Main {
             }
 
             world.setTile(l, new RabbitHole(world));
-        }*/
+        }
 
         p.show();
         p.simulate();

@@ -206,4 +206,6 @@ public abstract class Rabbit extends Creature {
         world.delete(this);
         System.out.println("A rabbit has died of hunger");
     }
+
+    public boolean hasBuiltRabbitHole(){ return AlreadyBuiltRabbitHole; }
 }
