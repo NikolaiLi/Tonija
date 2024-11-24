@@ -251,4 +251,6 @@ public abstract class Rabbit extends Creature {
             System.out.println("No RabbitHole found");
         }
     }
+
+    public boolean hasBuiltRabbitHole(){ return AlreadyBuiltRabbitHole; }
 }
