@@ -28,15 +28,12 @@ public abstract class Rabbit extends Creature {
             return;
         }
 
-        //
+        // Bliver ældre
         aging();
 
         if (world.isDay()) {
-            if (hiding) {
-                System.out.println("Trying to unhide");
-                unhide2(world);
-                hiding = false;
-            }
+            // unhider
+            unhide2(world);
 
             // Får kaninen til at spise, hvis der er græs
             eat(world);
@@ -49,10 +46,7 @@ public abstract class Rabbit extends Creature {
         }
 
         if (world.isNight()) {
-            if (!hiding) {
-                System.out.println("Finding hiding spot");
-                hide(world);
-            }
+            seek(world);
         }
 
     }
@@ -85,11 +79,13 @@ public abstract class Rabbit extends Creature {
      */
     @Override
     public void eat(World world) {
-        Location location = world.getLocation(this);
-        Object terrain = world.getNonBlocking(location);
-        if (terrain instanceof Grass) {
-            world.delete(terrain);
-            this.energize();
+        if (!hiding) {
+            Location location = world.getLocation(this);
+            Object terrain = world.getNonBlocking(location);
+            if (terrain instanceof Grass) {
+                world.delete(terrain);
+                this.energize();
+            }
         }
     }
 
@@ -102,7 +98,6 @@ public abstract class Rabbit extends Creature {
     public void hide(World world) {
         Object o = world.getNonBlocking(world.getLocation(this));
         if (o instanceof RabbitHole) {
-            System.out.println("Rabbit is almost hiding");
             currentHidingPlace = (RabbitHole) o;
             world.remove(this);
             hiding = true;
@@ -119,7 +114,7 @@ public abstract class Rabbit extends Creature {
      * @param world
      */
     public void unhide(World world) {
-        if (world.isDay()) {
+        if (hiding) {
             if (!world.isOnTile(this)) {
                 RabbitHole hidingSpot = currentHidingPlace;
                 ArrayList<RabbitHole> allExits = hidingSpot.getTunnels().get(hidingSpot);
@@ -147,12 +142,11 @@ public abstract class Rabbit extends Creature {
             RabbitHole hidingSpot = currentHidingPlace;
             world.setCurrentLocation(currentHidingPlace.getLocation());
             ArrayList<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
-            int size = r.nextInt(list.size());
 
             if (!list.isEmpty()) {
-                System.out.println("Rabbit trying to come out");
+                int size = r.nextInt(list.size());
                 world.setTile(list.get(size),this);
-                System.out.println("Rabbit came out (Rabbit is gay)");
+                hiding = false;
             } else {
                 System.out.println("No exit available");
             }
@@ -205,5 +199,56 @@ public abstract class Rabbit extends Creature {
         alive = false;
         world.delete(this);
         System.out.println("A rabbit has died of hunger");
+    }
+
+    private void moveTowards(World world, Location target) {
+        Location current = world.getLocation(this);
+        int diffX = target.getX() - current.getX();
+        int diffY = target.getY() - current.getY();
+
+        int stepX = Integer.compare(diffX, 0);
+        int stepY = Integer.compare(diffY, 0);
+
+        Location nextStep = new Location(current.getX() + stepX, current.getY() + stepY);
+
+        if (world.isTileEmpty(nextStep)) {
+            world.move(this, nextStep);
+        } else {
+            System.out.println("Path blocked!");
+        }
+    }
+
+    public void seek(World world) {
+        if (!hiding) {
+            Location currentLocation = world.getLocation(this);
+            Queue<Location> toVisit = new LinkedList<>();
+            Set<Location> visited = new HashSet<>();
+            toVisit.add(currentLocation);
+
+            while (!toVisit.isEmpty()) {
+                Location current = toVisit.poll();
+                visited.add(current);
+
+                if (world.getTile(current) instanceof RabbitHole) {
+                    System.out.println("Found RabbitHole at: " + current);
+                    moveTowards(world, current);
+                    Location currentL = world.getLocation(this);
+                    Object obj = world.getNonBlocking(currentL);
+                    if (obj instanceof RabbitHole) {
+                        System.out.println("Trying to hide");
+                        hide(world);
+                    }
+                    return;
+                }
+
+                for (Location neighbor : world.getSurroundingTiles(current)) {
+                    if (!visited.contains(neighbor) && !toVisit.contains(neighbor)) {
+                        toVisit.add(neighbor);
+                    }
+                }
+            }
+
+            System.out.println("No RabbitHole found");
+        }
     }
 }
