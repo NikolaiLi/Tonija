@@ -33,7 +33,7 @@ public abstract class Rabbit extends Creature {
 
         if (world.isDay()) {
             // unhider
-            unhide2(world);
+            unhide(world);
 
             // Får kaninen til at spise, hvis der er græs
             eat(world);
@@ -113,7 +113,7 @@ public abstract class Rabbit extends Creature {
      *
      * @param world
      */
-    public void unhide(World world) {
+/*    public void unhideTest(World world) {
         if (hiding) {
             if (!world.isOnTile(this)) {
                 RabbitHole hidingSpot = currentHidingPlace;
@@ -135,9 +135,9 @@ public abstract class Rabbit extends Creature {
                 }
             }
         }
-    }
+    }*/
 
-    public void unhide2(World world) {
+    public void unhide(World world) {
         if (!world.isOnTile(this)) {
             RabbitHole hidingSpot = currentHidingPlace;
             world.setCurrentLocation(currentHidingPlace.getLocation());
