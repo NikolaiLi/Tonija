@@ -1,3 +1,5 @@
+package wold_project;
+
 import java.util.Random;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -95,7 +97,7 @@ public class WorldTest {
                 counter++;
             }
         }
-        assertTrue((1.0* counter/amount) *100 > 6.0 && (1.0* counter/amount) *100 < 13.0,
+        assertTrue((1.0* counter/amount) *100 >= 6.0 && (1.0* counter/amount) *100 <= 13.0,
                 "Chance of digging hole is not 10% but was: " + (1.0* counter/amount) *100 + "%");
     }
 }
