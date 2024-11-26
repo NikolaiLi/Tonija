@@ -90,7 +90,7 @@ public class Main {
         DisplayInformation di_AdultRabbit = new DisplayInformation(Color.orange, "rabbit-large");
         p.setDisplayInformation(AdultRabbit.class, di_AdultRabbit);
 
-        DisplayInformation di_RabbitHole = new DisplayInformation(Color.black, "hole");
+        DisplayInformation di_RabbitHole = new DisplayInformation(Color.black, "hole-small");
         p.setDisplayInformation(RabbitHole.class, di_RabbitHole);
 
 
