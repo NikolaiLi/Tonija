@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Test;
 
 import itumulator.world.Location;
 import itumulator.world.World;
+import world_project.AdultRabbit;
+import world_project.BabyRabbit;
+import world_project.Grass;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WorldTest {

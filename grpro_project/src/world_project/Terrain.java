@@ -1,9 +1,7 @@
-import itumulator.simulator.Actor;
-import itumulator.world.Location;
-import itumulator.world.NonBlocking;
-import itumulator.world.World;
+package world_project;
 
-import java.util.*;
+import itumulator.simulator.Actor;
+import itumulator.world.NonBlocking;
 
 abstract public class Terrain implements Actor, NonBlocking{
 }

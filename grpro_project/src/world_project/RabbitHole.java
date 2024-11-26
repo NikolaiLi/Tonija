@@ -1,3 +1,5 @@
+package world_project;
+
 import itumulator.world.Location;
 import itumulator.world.NonBlocking;
 import itumulator.world.World;
@@ -13,7 +15,7 @@ public class RabbitHole implements NonBlocking {
         if (!tunnels.containsKey(this)) {
             tunnels.put(this, new ArrayList<>());
             tunnels.get(this).add(this);
-            System.out.println("RabbitHole has been dug");
+            System.out.println("world_project.RabbitHole has been dug");
         }
     }
 

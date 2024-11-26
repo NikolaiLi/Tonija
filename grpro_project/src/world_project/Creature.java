@@ -1,3 +1,5 @@
+package world_project;
+
 import itumulator.simulator.Actor;
 import itumulator.world.World;
 abstract public class Creature implements Actor {

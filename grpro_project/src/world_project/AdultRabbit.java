@@ -1,3 +1,5 @@
+package world_project;
+
 import itumulator.world.Location;
 import itumulator.world.World;
 import java.util.*;
@@ -14,10 +16,10 @@ Random r = new Random();
 
     @Override
     public void act(World world) {
-        // Henter super-klassens act (Rabbit's act)
+        // Henter super-klassens act (world_project.Rabbit's act)
         super.act(world);
 
-        // Hvis Rabbit er 60, så har den chancen for at dø
+        // Hvis world_project.Rabbit er 60, så har den chancen for at dø
         dyingOfAge(world);
 
         if (!hiding) {
@@ -61,12 +63,12 @@ Random r = new Random();
                 world.setTile(current, rabbitHole);
                 AlreadyBuiltRabbitHole = true;
                 rabbitHole.setLocation(world);
-                System.out.println("Rabbit has dug a hole at " + current);
+                System.out.println("world_project.Rabbit has dug a hole at " + current);
             } else {
                 System.out.println("Cannot dig hole. Non-blocking element already present on tile");
             }
         } else {
-            System.out.println("Rabbit already has a hole");
+            System.out.println("world_project.Rabbit already has a hole");
         }
     }
 
@@ -76,7 +78,7 @@ Random r = new Random();
         HashSet<RabbitHole> exits = new HashSet<>(tunnels.get(rabbitHole));
         Set<RabbitHole> allHoles = tunnels.keySet();
         if (exits.equals(allHoles)) {
-            System.out.println("Cannot dig tunnel. RabbitHole is already connected to all other RabbitHoles.");
+            System.out.println("Cannot dig tunnel. world_project.RabbitHole is already connected to all other RabbitHoles.");
             return;
         }
         RabbitHole newExit = null;

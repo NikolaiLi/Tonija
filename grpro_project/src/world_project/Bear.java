@@ -1,3 +1,5 @@
+package world_project;
+
 import itumulator.world.World;
 import itumulator.world.Location;
 import java.util.*;

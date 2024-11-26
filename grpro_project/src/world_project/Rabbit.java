@@ -1,3 +1,5 @@
+package world_project;
+
 import itumulator.world.World;
 import itumulator.world.Location;
 import java.util.*;
@@ -17,7 +19,7 @@ public abstract class Rabbit extends Creature {
     @Override
     public void act(World world)
     {
-        // Tjekker hvis Rabbit er død, hvis den er, skal det return ingenting.
+        // Tjekker hvis world_project.Rabbit er død, hvis den er, skal det return ingenting.
         if (!alive) {
             return;
         }
@@ -101,7 +103,7 @@ public abstract class Rabbit extends Creature {
             currentHidingPlace = (RabbitHole) o;
             world.remove(this);
             hiding = true;
-            System.out.println("Rabbit is hiding");
+            System.out.println("world_project.Rabbit is hiding");
         } else {
             System.out.println("Didn't find a hiding spot");
         }
@@ -116,22 +118,22 @@ public abstract class Rabbit extends Creature {
 /*    public void unhideTest(World world) {
         if (hiding) {
             if (!world.isOnTile(this)) {
-                RabbitHole hidingSpot = currentHidingPlace;
-                ArrayList<RabbitHole> allExits = hidingSpot.getTunnels().get(hidingSpot);
-                ArrayList<RabbitHole> unblockedExits = new ArrayList<>();
+                world_project.RabbitHole hidingSpot = currentHidingPlace;
+                ArrayList<world_project.RabbitHole> allExits = hidingSpot.getTunnels().get(hidingSpot);
+                ArrayList<world_project.RabbitHole> unblockedExits = new ArrayList<>();
 
-                for (RabbitHole exit : allExits) {
+                for (world_project.RabbitHole exit : allExits) {
                     if (world.isTileEmpty(exit.getLocation())) {
                         unblockedExits.add(exit);
                     }
                 }
                 if(!unblockedExits.isEmpty()) {
                     int number = r.nextInt(unblockedExits.size());
-                    RabbitHole exit = unblockedExits.get(number);
+                    world_project.RabbitHole exit = unblockedExits.get(number);
                     Location rabbithole = exit.getLocation();
                     world.setTile(rabbithole,this);
                 } else {
-                    System.out.println("No exits available yet. Rabbit remains in hiding at " + this.getCurrentHidingPlace().getLocation());
+                    System.out.println("No exits available yet. world_project.Rabbit remains in hiding at " + this.getCurrentHidingPlace().getLocation());
                 }
             }
         }
@@ -154,7 +156,7 @@ public abstract class Rabbit extends Creature {
     }
 
     /**
-     * Energize() er en metode, som giver energi til objektet, altså Rabbit.
+     * Energize() er en metode, som giver energi til objektet, altså world_project.Rabbit.
      */
     @Override
     public void energize() {
@@ -162,7 +164,7 @@ public abstract class Rabbit extends Creature {
     }
 
     /**
-     * Starve() er en metode som sørger for at sulte objektet, altså Rabbit.
+     * Starve() er en metode som sørger for at sulte objektet, altså world_project.Rabbit.
      */
     @Override
     public void starve() {
@@ -179,7 +181,7 @@ public abstract class Rabbit extends Creature {
     }
 
     /**
-     * isAlive() er en metode som returnerer en sandhedsværdi om Rabbit er død eller ej.
+     * isAlive() er en metode som returnerer en sandhedsværdi om world_project.Rabbit er død eller ej.
      */
 
     @Override
@@ -230,7 +232,7 @@ public abstract class Rabbit extends Creature {
                 visited.add(current);
 
                 if (world.getTile(current) instanceof RabbitHole) {
-                    System.out.println("Found RabbitHole at: " + current);
+                    System.out.println("Found world_project.RabbitHole at: " + current);
                     moveTowards(world, current);
                     Location currentL = world.getLocation(this);
                     Object obj = world.getNonBlocking(currentL);
@@ -248,7 +250,7 @@ public abstract class Rabbit extends Creature {
                 }
             }
 
-            System.out.println("No RabbitHole found");
+            System.out.println("No world_project.RabbitHole found");
         }
     }
 

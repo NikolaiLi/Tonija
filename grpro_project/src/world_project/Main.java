@@ -1,3 +1,5 @@
+package world_project;
+
 import java.awt.Color;
 import java.io.*;
 import java.util.Random;
@@ -7,7 +9,7 @@ import itumulator.executable.Program;
 import itumulator.world.Location;
 import itumulator.world.World;
 
-public class RabbitTest {
+public class Main {
 
     public static void main(String[] args) {
         int size = 0; //Updated through txt files in the file manipulation section
@@ -58,7 +60,7 @@ public class RabbitTest {
                 switch (className) {
                     case "grass":
                         amountOfGrass = count;
-                        System.out.println("Added " + count + " Grass objects");
+                        System.out.println("Added " + count + " world_project.Grass objects");
                         break;
 
                     case "rabbit":
@@ -68,7 +70,7 @@ public class RabbitTest {
 
                     case "burrow":
                         amountOfRabbitHoles = count;
-                        System.out.println("Added " + count + " RabbitHole objects");
+                        System.out.println("Added " + count + " world_project.RabbitHole objects");
                         break;
                 }
 
@@ -80,7 +82,7 @@ public class RabbitTest {
 
         Program p = new Program(size, display_size, delay);
         World world = p.getWorld();
-
+        
         //------------------------DISPLAY INFORMATION ------------------------\\
         p.setDisplayInformation(Grass.class, new DisplayInformation(Color.green, "grass"));
 
@@ -90,7 +92,7 @@ public class RabbitTest {
         DisplayInformation di_AdultRabbit = new DisplayInformation(Color.orange, "rabbit-large");
         p.setDisplayInformation(AdultRabbit.class, di_AdultRabbit);
 
-        DisplayInformation di_RabbitHole = new DisplayInformation(Color.black, "hole");
+        DisplayInformation di_RabbitHole = new DisplayInformation(Color.black, "hole-small");
         p.setDisplayInformation(RabbitHole.class, di_RabbitHole);
 
 
@@ -124,7 +126,7 @@ public class RabbitTest {
             world.setTile(l, new BabyRabbit());
         }
 
-        /*
+
         //------------------------PLACE RABBIT HOLE------------------------\\
         for (int i = 0; i < amountOfRabbitHoles; i++) {
             int x = r.nextInt(size);
@@ -137,8 +139,8 @@ public class RabbitTest {
                 l = new Location(x, y);
             }
 
-            world.setTile(l, new RabbitHole(//HOME,//EXIT));
-        }*/
+            world.setTile(l, new RabbitHole(world));
+        }
 
         p.show();
         p.simulate();
