@@ -99,4 +99,3 @@ public class WorldTest {
                 "Chance of digging hole is not 10% but was: " + (1.0* counter/amount) *100 + "%");
     }
 }
-//
