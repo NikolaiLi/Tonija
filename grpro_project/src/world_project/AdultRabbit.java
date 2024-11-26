@@ -100,6 +100,7 @@ Random r = new Random();
             int chanceOfDying = r.nextInt(10);
             if (age > 60 && chanceOfDying == 1) {
                 world.delete(this);
+                alive = false;
                 System.out.println("An adult rabbit has died of age");
             }
         }
