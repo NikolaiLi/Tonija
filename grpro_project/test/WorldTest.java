@@ -1,6 +1,5 @@
 import java.util.Random;
 
-import itumulator.executable.Program;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,8 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class WorldTest {
     World world;
     int size = 15;
-    int delay = 150;
-    int display_size = 800;
     Random r = new Random();
 
     @BeforeEach
@@ -67,7 +64,6 @@ public class WorldTest {
 
         rabbit.act(world);
 
-        Location l = world.getLocation(rabbit);
         assertFalse(world.containsNonBlocking(grass_location));
     }
 
@@ -75,7 +71,7 @@ public class WorldTest {
     public void ChanceOfRabbitDiggingHole(){
         int amount = 200;
         int counter = 0;
-        Program p = new Program(size, display_size, delay);
+
 
         //add and locate people
         for(int i = 0; i < amount; i++){
