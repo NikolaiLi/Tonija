@@ -2,10 +2,10 @@ package world_project;
 
 import itumulator.world.Location;
 import itumulator.world.World;
-
+import itumulator.simulator.Actor;
 import java.util.*;
 
-public class Grass extends Terrain {
+public class Grass extends Terrain implements Actor {
     Random random = new Random();
 
     @Override
