@@ -82,6 +82,12 @@ public class Main {
 
         Program p = new Program(size, display_size, delay);
         World world = p.getWorld();
+
+        Bear bear = new Bear();
+        bear.makeTerritory(world);
+        Location territoryCenter = bear.getTerritoryCenter();
+        world.setTile(territoryCenter, bear);
+
         
         //------------------------DISPLAY INFORMATION ------------------------\\
         p.setDisplayInformation(Grass.class, new DisplayInformation(Color.green, "grass"));
@@ -94,6 +100,9 @@ public class Main {
 
         DisplayInformation di_RabbitHole = new DisplayInformation(Color.black, "hole-small");
         p.setDisplayInformation(RabbitHole.class, di_RabbitHole);
+
+        DisplayInformation di_Bear = new DisplayInformation(Color.darkGray, "bear");
+        p.setDisplayInformation(Bear.class, di_Bear);
 
 
         //------------------------PLACE GRASS------------------------\\
