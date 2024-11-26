@@ -6,7 +6,7 @@ import itumulator.world.World;
 
 import java.util.*;
 
-public class RabbitHole implements NonBlocking {
+public class RabbitHole extends Hole {
     Random r = new Random();
     protected Map<RabbitHole, ArrayList<RabbitHole>> tunnels = new HashMap<>();
     protected Location rabbitHoleLocation;
