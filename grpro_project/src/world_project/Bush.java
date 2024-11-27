@@ -7,7 +7,7 @@ import itumulator.world.World;
 
 import java.awt.*;
 
-public class Bush /*extends Terrain*/ implements Actor, DynamicDisplayInformationProvider {
+public class Bush implements Actor, DynamicDisplayInformationProvider {
     protected boolean hasFruits = true;
     int steps;
     DisplayInformation di_berry           = new DisplayInformation(Color.green, "bush-berries");
@@ -33,6 +33,10 @@ public class Bush /*extends Terrain*/ implements Actor, DynamicDisplayInformatio
         }
     }
 
+    /**
+     * when this method is called, the hasFruits variable can be changed.
+     * @param x
+     */
     public void isRipe(boolean x){
         hasFruits = x;
     }
