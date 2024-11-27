@@ -12,12 +12,17 @@ import itumulator.world.World;
 public class Main {
 
     public static void main(String[] args) {
-        int size = 0; //Updated through txt files in the file manipulation section
+        int size = 0;
         int delay = 150;
         int display_size = 800;
-        int amountOfGrass = 0; //Updated through txt files in the file manipulation section
-        int amountOfRabbits = 0; //Updated through txt files in the file manipulation section
+        int amountOfGrass = 0;
+        int amountOfRabbits = 0;
         int amountOfRabbitHoles = 0;
+        int amountOfBears = 0;
+        int bearXCoordinate;
+        int bearYCoordinate;
+        int amountOfWolves = 0;
+        int amountOfBerries = 0;
         Random r = new Random();
 
 
@@ -45,9 +50,18 @@ public class Main {
                 }
                 String className = parts[0].toLowerCase();
                 String numberInfo = parts[1];
+                if(parts.length > 2){
+                    String coordinates = parts[2];
+                    coordinates = coordinates.replaceAll("[()]","");
+                    String[] xAndy = coordinates.split(",");
+
+                    bearXCoordinate = Integer.parseInt(xAndy[0]);
+                    bearYCoordinate = Integer.parseInt(xAndy[1]);
+                    System.out.println("Coordinates: x = " + bearXCoordinate + ", y = " + bearYCoordinate);
+                }
 
 
-                int count = 0;
+                int count;
                 if(numberInfo.contains("-")){
                     String[] range = numberInfo.split("-");
                     int min = Integer.parseInt(range[0]);
@@ -82,6 +96,11 @@ public class Main {
                     case "bear":
                         amountOfBears = count;
                         System.out.println("Added " + count + " Bear objects");
+                        break;
+
+                    case "berry":
+                        amountOfBerries = count;
+                        System.out.println("Added " + count + " Berries objects");
                         break;*/
                 }
 
@@ -101,7 +120,8 @@ public class Main {
 
         
         //------------------------DISPLAY INFORMATION ------------------------\\
-        p.setDisplayInformation(Grass.class, new DisplayInformation(Color.green, "grass"));
+        DisplayInformation diGrass = new DisplayInformation(Color.green, "grass");
+        p.setDisplayInformation(Grass.class, diGrass);
 
         DisplayInformation di_BabyRabbit = new DisplayInformation(Color.yellow, "rabbit-small");
         p.setDisplayInformation(BabyRabbit.class, di_BabyRabbit);
