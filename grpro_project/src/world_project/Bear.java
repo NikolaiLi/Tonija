@@ -17,6 +17,7 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
 
     Bear() {
         health = 200;
+        maxEnergy = 200;
     }
 
     @Override
@@ -35,7 +36,11 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
         // Bear moves around randomly in the territory
         move(world);
 
+        // If there is a Creature nearby, the bear will attack the Creature
+        attack(world);
 
+        // If there is a berry bush nearby, the bear will eat the berries in the bush.
+        eat(world);
     }
 
     @Override
@@ -59,7 +64,17 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
 
     @Override
     public void eat(World world) {
+        Set<Location> neighbourTiles = world.getSurroundingTiles();
+        List<Location> locations = new ArrayList<>(neighbourTiles);
 
+        for (Location location : locations) {
+            if (world.getTile(location) instanceof Bush) {
+                Object objectBush = world.getTile(location);
+                Bush bush = (Bush) objectBush;
+                bush.isRipe(false);
+                energize();
+            }
+        }
     }
 
     @Override
