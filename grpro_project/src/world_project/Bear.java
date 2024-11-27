@@ -13,8 +13,11 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
     Random r = new Random();
     Location territoryCenter;
     Set<Location> territoryArea;
-
     DisplayInformation di_bear = new DisplayInformation(Color.green, "bear");
+
+    Bear() {
+        health = 200;
+    }
 
     @Override
     public DisplayInformation getInformation() {
