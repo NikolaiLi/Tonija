@@ -20,7 +20,7 @@ public class Main {
         int bearXCoordinate;
         int bearYCoordinate;
         int amountOfWolves = 0;
-        int amountOfBBushes = 0;
+        int amountOfBushes = 0;
         Random r = new Random();
 
 
@@ -85,7 +85,6 @@ public class Main {
                         System.out.println("Added " + count + " RabbitHole objects");
                         break;
 
-                    /*
                     case "wolf":
                         amountOfWolves = count;
                         System.out.println("Added " + count + " Wolf objects");
@@ -94,10 +93,10 @@ public class Main {
                     case "bear":
                         amountOfBears = count;
                         System.out.println("Added " + count + " Bear objects");
-                        break;*/
+                        break;
 
                     case "berry":
-                        amountOfBBushes = count;
+                        amountOfBushes = count;
                         System.out.println("Added " + count + " Bush objects");
                         break;
                 }
@@ -164,7 +163,7 @@ public class Main {
         }
 
         //------------------------PLACE BERRY BUSH------------------------\\
-        for (int i = 0; i < amountOfBBushes; i++) {
+        for (int i = 0; i < amountOfBushes; i++) {
             int x = r.nextInt(size);
             int y = r.nextInt(size);
             Location l = new Location(x, y);
@@ -176,6 +175,36 @@ public class Main {
             }
 
             world.setTile(l, new Bush());
+        }
+
+        //------------------------PLACE BEAR------------------------\\
+        for (int i = 0; i < amountOfBears; i++) {
+            int x = r.nextInt(size);
+            int y = r.nextInt(size);
+            Location l = new Location(x, y);
+
+            while (!world.isTileEmpty(l) || world.containsNonBlocking(l)) {
+                x = r.nextInt(size);
+                y = r.nextInt(size);
+                l = new Location(x, y);
+            }
+
+            world.setTile(l, new Bear());
+        }
+
+        //------------------------PLACE WOLF------------------------\\
+        for (int i = 0; i < amountOfWolves; i++) {
+            int x = r.nextInt(size);
+            int y = r.nextInt(size);
+            Location l = new Location(x, y);
+
+            while (!world.isTileEmpty(l) || world.containsNonBlocking(l)) {
+                x = r.nextInt(size);
+                y = r.nextInt(size);
+                l = new Location(x, y);
+            }
+
+            world.setTile(l, new Wolf());
         }
 
         p.show();
