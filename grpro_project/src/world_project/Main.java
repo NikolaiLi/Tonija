@@ -28,7 +28,7 @@ public class Main {
 
 
         //------------------------FILE MANIPULATION------------------------\\
-        String filePath = "data/week-1/t1-2cde.txt";
+        String filePath = "data/week-1/t1-1c.txt";
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;
@@ -119,23 +119,6 @@ public class Main {
         world.setTile(territoryCenter, bear);
 
         
-        //------------------------DISPLAY INFORMATION ------------------------\\
-        DisplayInformation diGrass = new DisplayInformation(Color.green, "grass");
-        p.setDisplayInformation(Grass.class, diGrass);
-
-        DisplayInformation di_BabyRabbit = new DisplayInformation(Color.yellow, "rabbit-small");
-        p.setDisplayInformation(BabyRabbit.class, di_BabyRabbit);
-
-        DisplayInformation di_AdultRabbit = new DisplayInformation(Color.orange, "rabbit-large");
-        p.setDisplayInformation(AdultRabbit.class, di_AdultRabbit);
-
-        DisplayInformation di_RabbitHole = new DisplayInformation(Color.black, "hole-small");
-        p.setDisplayInformation(RabbitHole.class, di_RabbitHole);
-
-        DisplayInformation di_Bear = new DisplayInformation(Color.darkGray, "bear");
-        p.setDisplayInformation(Bear.class, di_Bear);
-
-
         //------------------------PLACE GRASS------------------------\\
         for (int i = 0; i < amountOfGrass; i++) {
             int x = r.nextInt(size);

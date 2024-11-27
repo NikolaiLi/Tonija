@@ -1,12 +1,24 @@
 package world_project;
 
+import itumulator.executable.DisplayInformation;
+import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.world.Location;
 import itumulator.world.World;
 import itumulator.simulator.Actor;
-import java.util.*;
 
-public class Grass extends Terrain implements Actor {
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+
+public class Grass extends Terrain implements Actor, DynamicDisplayInformationProvider {
     Random random = new Random();
+    DisplayInformation di_grass = new DisplayInformation(Color.green, "grass");
+
+    @Override
+    public DisplayInformation getInformation() {
+        return di_grass;
+    }
+
 
     @Override
     public void act(World world) {

@@ -1,13 +1,24 @@
 package world_project;
 
+import itumulator.executable.DisplayInformation;
+import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.world.Location;
 import itumulator.world.World;
 
+import java.awt.*;
 
-public class BabyRabbit extends Rabbit {
+
+public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvider {
 
     public BabyRabbit() {
         super();
+    }
+
+    DisplayInformation di_baby_rabbit = new DisplayInformation(Color.green, "rabbit-small");
+
+    @Override
+    public DisplayInformation getInformation() {
+        return di_baby_rabbit;
     }
 
     public void act(World world) {

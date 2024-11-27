@@ -1,13 +1,25 @@
 package world_project;
 
+import itumulator.executable.DisplayInformation;
+import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.world.World;
 import itumulator.world.Location;
-import java.util.*;
 
-public class Bear extends Creature {
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+
+public class Bear extends Creature implements DynamicDisplayInformationProvider {
     Random r = new Random();
     Location territoryCenter;
     Set<Location> territoryArea;
+
+    DisplayInformation di_bear = new DisplayInformation(Color.green, "bear");
+
+    @Override
+    public DisplayInformation getInformation() {
+        return di_bear;
+    }
 
 
     @Override

@@ -1,17 +1,28 @@
 package world_project;
 
+import itumulator.executable.DisplayInformation;
+import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.world.Location;
 import itumulator.world.World;
-import java.util.*;
 
-public class AdultRabbit extends Rabbit{
-Random r = new Random();
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+
+public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProvider {
+    Random r = new Random();
+    DisplayInformation di_adult_rabbit = new DisplayInformation(Color.green, "rabbit-large");
 
     public AdultRabbit(int hunger) {
         super();
         age = 15;
         this.hunger = hunger;
         increaseMaxHunger(50);
+    }
+
+    @Override
+    public DisplayInformation getInformation() {
+        return di_adult_rabbit;
     }
 
     @Override
