@@ -193,7 +193,7 @@ public class Main {
         }
 
         //------------------------PLACE WOLF------------------------\\
-        for (int i = 0; i < amountOfWolves; i++) {
+        for (int i = 0; i < 1; i++) {
             int x = r.nextInt(size);
             int y = r.nextInt(size);
             Location l = new Location(x, y);
@@ -204,7 +204,7 @@ public class Main {
                 l = new Location(x, y);
             }
 
-            world.setTile(l, new Wolf());
+            world.setTile(l, new Wolf(amountOfWolves, world));
         }
 
         p.show();
