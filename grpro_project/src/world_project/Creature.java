@@ -3,35 +3,35 @@ package world_project;
 import itumulator.simulator.Actor;
 import itumulator.world.World;
 abstract public class Creature implements Actor {
-    protected int hunger;
-    protected int maxHunger;
+    protected int energy;
+    protected int maxEnergy;
     protected boolean alive;
     protected int age;
+    protected int health;
 
     public Creature() {
-        hunger = 100;
-        maxHunger = hunger;
+        maxEnergy = energy;
         alive = true;
         age = 0;
     }
 
     public void starve() {
-        hunger -= 5;
+        energy -= 5;
     }
 
     public void energize(){
-        hunger += 30;
-        if (hunger > maxHunger) {
-            hunger = maxHunger;
+        energy += 30;
+        if (energy > maxEnergy) {
+            energy = maxEnergy;
         }
     }
 
-    public void increaseMaxHunger(int n) {
-        maxHunger += n;
+    public void increaseMaxEnergy(int n) {
+        maxEnergy += n;
     }
 
-    public int getHunger() {
-        return hunger;
+    public int getEnergy() {
+        return energy;
     }
 
     public abstract void move(World world);
@@ -51,4 +51,11 @@ abstract public class Creature implements Actor {
     public void aging() {
         age++;
     }
+
+    public void attack(World world) {}
+
+    public int getHealth(World world) {
+        return health;
+    }
+
 }

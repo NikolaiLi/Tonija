@@ -13,11 +13,11 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
     Random r = new Random();
     DisplayInformation di_adult_rabbit = new DisplayInformation(Color.green, "rabbit-large");
 
-    public AdultRabbit(int hunger) {
+    public AdultRabbit(int energy) {
         super();
         age = 15;
-        this.hunger = hunger;
-        increaseMaxHunger(50);
+        this.energy = energy;
+        increaseMaxEnergy(50);
     }
 
     @Override

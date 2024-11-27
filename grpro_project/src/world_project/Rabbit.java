@@ -12,6 +12,7 @@ public abstract class Rabbit extends Creature {
 
     public Rabbit() {
         super();
+        energy = 100;
         hiding = false;
         currentHidingPlace = null;
     }
@@ -25,7 +26,7 @@ public abstract class Rabbit extends Creature {
         }
 
         // Tjekker om kaninen er ved at dø af sult
-        if (getHunger() <= 0){
+        if (getEnergy() <= 0){
             hungerDeath(world);
             return;
         }
@@ -176,8 +177,8 @@ public abstract class Rabbit extends Creature {
      */
 
     @Override
-    public int getHunger() {
-        return super.getHunger();
+    public int getEnergy() {
+        return super.getEnergy();
     }
 
     /**

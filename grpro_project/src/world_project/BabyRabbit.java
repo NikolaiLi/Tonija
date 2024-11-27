@@ -38,11 +38,11 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
                 world.setTile(rabbitHoleLocation, this);
                 world.delete(this);
                 System.out.println("Baby Rabbit has grown up");
-                world.setTile(rabbitHoleLocation, new AdultRabbit(getHunger()));
+                world.setTile(rabbitHoleLocation, new AdultRabbit(getEnergy()));
             } else {
                 Object o = world.getTile(rabbitHoleLocation);
                 world.remove(o);
-                Rabbit adultRabbit = new AdultRabbit(getHunger());
+                Rabbit adultRabbit = new AdultRabbit(getEnergy());
                 world.setTile(rabbitHoleLocation, adultRabbit);
                 adultRabbit.hide(world);
                 world.setTile(rabbitHoleLocation, o);
@@ -51,7 +51,7 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
             System.out.println("BabyRabbit has grown up");
             Location l = world.getLocation(this);
             world.delete(this);
-            world.setTile(l, new AdultRabbit(getHunger()));
+            world.setTile(l, new AdultRabbit(getEnergy()));
         }
     }
 }

@@ -24,11 +24,15 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
 
     @Override
     public void act(World world) {
+        // Checks if the bear is alive, if not, return nothing.
         if (!isAlive()) {
             return;
         }
 
+        // Bear moves around randomly in the territory
         move(world);
+
+
     }
 
     @Override
@@ -43,7 +47,6 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
         }
 
         if (!possibleLocations.isEmpty()) {
-            Random r = new Random();
             int randomIndex = r.nextInt(possibleLocations.size());
             Location chosenLocation = possibleLocations.get(randomIndex);
             world.move(this, chosenLocation);
@@ -53,6 +56,26 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
 
     @Override
     public void eat(World world) {
+
+    }
+
+    @Override
+    public void attack(World world) {
+        Set<Location> neighbourTiles = world.getSurroundingTiles();
+        List<Location> neighbourLocations = new ArrayList<>(neighbourTiles);
+        List<Location> targetLocations = new ArrayList<>();
+
+        for (Location location : neighbourLocations) {
+            if (world.getTile(location) instanceof Bear || world.getTile(location) instanceof Wolf) {
+                targetLocations.add(location);
+            }
+        }
+
+        if (!targetLocations.isEmpty()) {
+            int randomIndex = r.nextInt(targetLocations.size());
+            Location chosenLocation = targetLocations.get(randomIndex);
+            Object targetEnemy = world.getTile(chosenLocation);
+        }
 
     }
 
