@@ -25,7 +25,7 @@ abstract public class Creature implements Actor {
         }
     }
 
-    public void increaseMaxHunger(int n) {
+    public void increaseMaxEnergy(int n) {
         maxEnergy += n;
     }
 
