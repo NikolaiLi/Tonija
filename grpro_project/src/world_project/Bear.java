@@ -78,6 +78,7 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
             int randomIndex = r.nextInt(targetLocations.size());
             Location chosenLocation = targetLocations.get(randomIndex);
             Object targetEnemy = world.getTile(chosenLocation);
+
         }
 
     }

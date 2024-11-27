@@ -58,10 +58,15 @@ abstract public class Creature implements Actor {
         return health;
     }
 
+    public void takeDamage(int amountOfDamage) {
+        health -= amountOfDamage;
+    }
+
     public void bledOut(World world) {
         if (health <= 0) {
             world.delete(this);
         }
     }
+
 
 }
