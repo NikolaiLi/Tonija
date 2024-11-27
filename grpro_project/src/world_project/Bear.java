@@ -69,7 +69,8 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
         List<Location> targetLocations = new ArrayList<>();
 
         for (Location location : neighbourLocations) {
-            if (world.getTile(location) instanceof Bear || world.getTile(location) instanceof Wolf) {
+            Object tile = world.getTile(location);
+            if (tile instanceof Creature) {
                 targetLocations.add(location);
             }
         }
@@ -78,9 +79,13 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
             int randomIndex = r.nextInt(targetLocations.size());
             Location chosenLocation = targetLocations.get(randomIndex);
             Object targetEnemy = world.getTile(chosenLocation);
-        }
 
+            if (targetEnemy instanceof Creature creatureTargetEnemy) {
+                creatureTargetEnemy.takeDamage(50);
+            }
+        }
     }
+
 
     public void makeTerritory(World world) {
         int worldSize = world.getSize();
