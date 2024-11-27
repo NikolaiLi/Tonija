@@ -60,7 +60,7 @@ public class Main {
                 switch (className) {
                     case "grass":
                         amountOfGrass = count;
-                        System.out.println("Added " + count + " world_project.Grass objects");
+                        System.out.println("Added " + count + " Grass objects");
                         break;
 
                     case "rabbit":
@@ -70,8 +70,19 @@ public class Main {
 
                     case "burrow":
                         amountOfRabbitHoles = count;
-                        System.out.println("Added " + count + " world_project.RabbitHole objects");
+                        System.out.println("Added " + count + " RabbitHole objects");
                         break;
+
+                    /*
+                    case "wolf":
+                        amountOfWolves = count;
+                        System.out.println("Added " + count + " Wolf objects");
+                        break;
+
+                    case "bear":
+                        amountOfBears = count;
+                        System.out.println("Added " + count + " Bear objects");
+                        break;*/
                 }
 
             }
