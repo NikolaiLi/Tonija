@@ -20,13 +20,13 @@ public class Main {
         int bearXCoordinate;
         int bearYCoordinate;
         int amountOfWolves = 0;
-        int amountOfBerries = 0;
+        int amountOfBBushes = 0;
         Random r = new Random();
 
 
 
         //------------------------FILE MANIPULATION------------------------\\
-        String filePath = "data/week-1/t1-1c.txt";
+        String filePath = "data/week-2/test.txt";
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;
@@ -94,12 +94,12 @@ public class Main {
                     case "bear":
                         amountOfBears = count;
                         System.out.println("Added " + count + " Bear objects");
-                        break;
+                        break;*/
 
                     case "berry":
-                        amountOfBerries = count;
-                        System.out.println("Added " + count + " Berries objects");
-                        break;*/
+                        amountOfBBushes = count;
+                        System.out.println("Added " + count + " Bush objects");
+                        break;
                 }
 
             }
@@ -161,6 +161,21 @@ public class Main {
             }
 
             world.setTile(l, new RabbitHole(world));
+        }
+
+        //------------------------PLACE BERRY BUSH------------------------\\
+        for (int i = 0; i < amountOfBBushes; i++) {
+            int x = r.nextInt(size);
+            int y = r.nextInt(size);
+            Location l = new Location(x, y);
+
+            while (!world.isTileEmpty(l) || world.containsNonBlocking(l)) {
+                x = r.nextInt(size);
+                y = r.nextInt(size);
+                l = new Location(x, y);
+            }
+
+            world.setTile(l, new Bush());
         }
 
         p.show();
