@@ -7,6 +7,7 @@ abstract public class Creature implements Actor {
     protected int maxEnergy;
     protected boolean alive;
     protected int age;
+    protected int health;
 
     public Creature() {
         maxEnergy = energy;
@@ -50,4 +51,11 @@ abstract public class Creature implements Actor {
     public void aging() {
         age++;
     }
+
+    public void attack(World world) {}
+
+    public int getHealth(World world) {
+        return health;
+    }
+
 }
