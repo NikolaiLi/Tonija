@@ -1,10 +1,8 @@
 package world_project;
 
-import java.awt.Color;
 import java.io.*;
 import java.util.Random;
 
-import itumulator.executable.DisplayInformation;
 import itumulator.executable.Program;
 import itumulator.world.Location;
 import itumulator.world.World;
@@ -118,7 +116,7 @@ public class Main {
         Location territoryCenter = bear.getTerritoryCenter();
         world.setTile(territoryCenter, bear);
 
-        
+
         //------------------------PLACE GRASS------------------------\\
         for (int i = 0; i < amountOfGrass; i++) {
             int x = r.nextInt(size);
