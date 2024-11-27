@@ -12,6 +12,7 @@ public abstract class Rabbit extends Creature {
 
     public Rabbit() {
         super();
+        energy = 100;
         hiding = false;
         currentHidingPlace = null;
     }
