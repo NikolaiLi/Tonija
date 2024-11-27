@@ -24,7 +24,7 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         this.isAlpha = true;
         System.out.println("Created Packleader");
         //creates the rest of the pack as children of the alphaWolf by calling the constructor used while in simulation
-        for (int i = 0; i < number-1; i++) {
+        for (int i = 0; i < number; i++) {
             Wolf wolf = new Wolf(this,world);
         }
     }
