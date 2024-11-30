@@ -15,7 +15,7 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
         health = 10;
     }
 
-    DisplayInformation di_baby_rabbit = new DisplayInformation(Color.green, "rabbit-small");
+    DisplayInformation di_baby_rabbit = new DisplayInformation(Color.magenta, "rabbit-small");
 
     @Override
     public DisplayInformation getInformation() {

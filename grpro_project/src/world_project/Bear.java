@@ -14,7 +14,7 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
     boolean hasTerritory = false;
     Location territoryCenter;
     Set<Location> territoryArea;
-    DisplayInformation di_bear = new DisplayInformation(Color.green, "bear");
+    DisplayInformation di_bear = new DisplayInformation(Color.red, "bear");
 
     public Bear() {
         health = 200;
@@ -84,6 +84,13 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
                 Object objectBush = world.getTile(location);
                 Bush bush = (Bush) objectBush;
                 bush.isRipe(false);
+                energize();
+            }
+
+            Object object = world.getTile(location);
+            if(object instanceof Rabbit){
+                System.out.println("Bear ate rabbit! Nom! Nom! Nom!");
+                world.delete(object);
                 energize();
             }
         }
