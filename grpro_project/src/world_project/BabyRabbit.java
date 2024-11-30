@@ -35,6 +35,7 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
     public void grow(World world) {
         if (hiding) {
             Location rabbitHoleLocation = currentHidingPlace.getLocation();
+            System.out.println("Here comes the ERROR");
             if (world.isTileEmpty(rabbitHoleLocation)) {
                 world.setTile(rabbitHoleLocation, this);
                 world.delete(this);

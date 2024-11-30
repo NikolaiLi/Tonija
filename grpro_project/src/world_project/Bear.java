@@ -11,11 +11,12 @@ import java.util.List;
 
 public class Bear extends Creature implements DynamicDisplayInformationProvider {
     Random r = new Random();
+    boolean hasTerritory = false;
     Location territoryCenter;
     Set<Location> territoryArea;
     DisplayInformation di_bear = new DisplayInformation(Color.green, "bear");
 
-    Bear() {
+    public Bear() {
         health = 200;
         maxEnergy = 200;
     }
@@ -33,6 +34,9 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
             return;
         }
 
+        // Creates territory for the bear
+        makeTerritory(world);
+
         // Bear moves around randomly in the territory
         move(world);
 
@@ -41,6 +45,14 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
 
         // If there is a berry bush nearby, the bear will eat the berries in the bush.
         eat(world);
+    }
+
+    public void makeTerritory(World world) {
+        if(!hasTerritory) {
+            hasTerritory = true;
+            territoryCenter = world.getLocation(this);
+            territoryArea = world.getSurroundingTiles(territoryCenter, 3);
+        }
     }
 
     @Override
@@ -99,16 +111,6 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
                 creatureTargetEnemy.takeDamage(50);
             }
         }
-    }
-
-
-    public void makeTerritory(World world) {
-        int worldSize = world.getSize();
-
-        int x = r.nextInt(worldSize);
-        int y = r.nextInt(worldSize);
-        territoryCenter = new Location(x, y);
-        territoryArea = world.getSurroundingTiles(territoryCenter, 3);
     }
 
     public Set<Location> getTerritoryArea() {

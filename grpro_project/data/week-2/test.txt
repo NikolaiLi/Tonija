@@ -1,5 +1,8 @@
 10
-berry 2
-wolf 3
-grass 4-7
-rabbit 4
+bear 1
+bear 1 (9,9)
+rabbit 2
+rabbit 2-4
+grass 2
+grass 2-4
+berry 3-8
