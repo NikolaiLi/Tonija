@@ -58,6 +58,7 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
             if (r.nextInt(100) < 10 && this.isAlive()) {
                 digRabbitHole(world);
             }
+            return;
         }
     }
 

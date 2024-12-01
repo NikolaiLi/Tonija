@@ -17,6 +17,7 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
     DisplayInformation di_bear = new DisplayInformation(Color.red, "bear");
 
     public Bear() {
+        super();
         health = 200;
         maxEnergy = 200;
         alive = true;
