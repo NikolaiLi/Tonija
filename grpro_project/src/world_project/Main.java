@@ -124,7 +124,7 @@ public class Main {
                     case "wolf":
                         System.out.println("Added " + count + " Wolf objects");
                         //------------------------PLACE WOLF------------------------\\
-                        for (int i = 0; i < count; i++) {
+                        for (int i = 0; i < 1; i++) {
                             int x = r.nextInt(size);
                             int y = r.nextInt(size);
                             Location l = new Location(x, y);
