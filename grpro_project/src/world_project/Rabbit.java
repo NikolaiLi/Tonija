@@ -109,9 +109,6 @@ public abstract class Rabbit extends Creature {
             currentHidingPlace = (RabbitHole) o;
             world.remove(this);
             hiding = true;
-            System.out.println("Rabbit is hiding");
-        } else {
-            System.out.println("Didn't find a hiding spot");
         }
     }
 
@@ -155,8 +152,6 @@ public abstract class Rabbit extends Creature {
                 int size = r.nextInt(list.size());
                 world.setTile(list.get(size),this);
                 hiding = false;
-            } else {
-                System.out.println("No exit available");
             }
         }
     }
@@ -226,8 +221,6 @@ public abstract class Rabbit extends Creature {
 
         if (world.isTileEmpty(nextStep)) {
             world.move(this, nextStep);
-        } else {
-            System.out.println("Path blocked!");
         }
     }
 
@@ -243,12 +236,10 @@ public abstract class Rabbit extends Creature {
                 visited.add(current);
 
                 if (world.getTile(current) instanceof RabbitHole) {
-                    System.out.println("Found RabbitHole at: " + current);
                     moveTowards(world, current);
                     Location currentL = world.getLocation(this);
                     Object obj = world.getNonBlocking(currentL);
                     if (obj instanceof RabbitHole) {
-                        System.out.println("Trying to hide");
                         hide(world);
                     }
                     return;
@@ -260,8 +251,6 @@ public abstract class Rabbit extends Creature {
                     }
                 }
             }
-
-            System.out.println("No RabbitHole found");
         }
     }
 
