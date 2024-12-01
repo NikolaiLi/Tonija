@@ -161,7 +161,7 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
             if (targetEnemy instanceof Creature creatureTargetEnemy && creatureTargetEnemy != this) {
                 creatureTargetEnemy.takeDamage(50);
                 System.out.println("Rabbit damaged");
-                if (creatureTargetEnemy.getHealth(world) < 0) {
+                if (creatureTargetEnemy.getHealth(world) <= 0) {
                     energize();
                     System.out.println("Rabbit ate");
                 }
