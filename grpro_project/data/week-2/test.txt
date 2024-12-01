@@ -1,6 +1,4 @@
 7
-bear 1
-rabbit 2
-rabbit 2-4
-grass 2
-grass 2-4
+berry 2
+rabbit 4-5
+rabbit 1

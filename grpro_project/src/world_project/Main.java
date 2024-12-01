@@ -2,6 +2,7 @@ package world_project;
 
 import java.io.*;
 import java.util.Random;
+import java.util.function.Supplier;
 
 import itumulator.executable.Program;
 import itumulator.world.Location;
@@ -20,7 +21,7 @@ public class Main {
 
 
         //------------------------FILE MANIPULATION------------------------\\
-        String filePath = "data/week-2/testWolf.txt";
+        String filePath = "data/week-2/test.txt";
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;
@@ -88,20 +89,8 @@ public class Main {
                     case "rabbit":
                         System.out.println("Added " + count + " Rabbits objects");
                         //------------------------PLACE RABBIT------------------------\\
-                        for (int i = 0; i < count; i++) {
-                            int x = r.nextInt(size);
-                            int y = r.nextInt(size);
-                            Location l = new Location(x, y);
-
-                            while (!world.isTileEmpty(l)) {
-                                x = r.nextInt(size);
-                                y = r.nextInt(size);
-                                l = new Location(x, y);
-                            }
-
-                            world.setTile(l, new BabyRabbit());
-                        }
-                        break;
+                        addObjects(count, BabyRabbit::new, size, r, world);
+                            break;
 
                     case "burrow":
                         System.out.println("Added " + count + " RabbitHole objects");
@@ -167,19 +156,7 @@ public class Main {
                     case "berry":
                         System.out.println("Added " + count + " Bush objects");
                         //------------------------PLACE BERRY BUSH------------------------\\
-                        for (int i = 0; i < count; i++) {
-                            int x = r.nextInt(size);
-                            int y = r.nextInt(size);
-                            Location l = new Location(x, y);
-
-                            while (!world.isTileEmpty(l) || world.containsNonBlocking(l)) {
-                                x = r.nextInt(size);
-                                y = r.nextInt(size);
-                                l = new Location(x, y);
-                            }
-
-                            world.setTile(l, new Bush());
-                        }
+                        addObjects(count, Bush::new,size, r, world);
                         break;
                 }
 
@@ -191,5 +168,21 @@ public class Main {
 
         p.show();
         p.simulate();
+    }
+
+    private static void addObjects(int count, Supplier<Object> objectSupplier, int size, Random r, World world){
+        for (int i = 0; i < count; i++) {
+            int x = r.nextInt(size);
+            int y = r.nextInt(size);
+            Location l = new Location(x, y);
+
+            while (!world.isTileEmpty(l) || world.containsNonBlocking(l)) {
+                x = r.nextInt(size);
+                y = r.nextInt(size);
+                l = new Location(x, y);
+            }
+
+            world.setTile(l, objectSupplier.get());
+        }
     }
 }
