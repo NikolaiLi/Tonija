@@ -20,7 +20,7 @@ public class Main {
 
 
         //------------------------FILE MANIPULATION------------------------\\
-        String filePath = "data/week-2/test.txt";
+        String filePath = "data/week-2/testWolf.txt";
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;
@@ -135,7 +135,7 @@ public class Main {
                                 l = new Location(x, y);
                             }
 
-                            world.setTile(l, new Wolf(count, world));
+                            world.setTile(l, new Wolf(count, world, l));
                         }
                         break;
 
