@@ -2,3 +2,4 @@
 bear 1
 rabbit 1
 wolf 1
+berry 2

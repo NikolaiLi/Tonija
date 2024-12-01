@@ -87,8 +87,13 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
     public void eat(World world) {
         Set<Location> neighbourTiles = world.getSurroundingTiles();
         List<Location> locations = new ArrayList<>(neighbourTiles);
+        Location bear_location = world.getLocation(this);
 
         for (Location location : locations) {
+            if(location.equals(bear_location)) {
+                continue;
+            }
+
             if (world.getTile(location) instanceof Bush) {
                 Object objectBush = world.getTile(location);
                 Bush bush = (Bush) objectBush;
@@ -97,8 +102,8 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
             }
 
             Object object = world.getTile(location);
-            if(object instanceof Rabbit){
-                System.out.println("Bear ate rabbit! Nom! Nom! Nom!");
+            if(object instanceof Creature){
+                System.out.println("Bear ate animal! Nom! Nom! Nom!");
                 world.delete(object);
                 energize();
             }
