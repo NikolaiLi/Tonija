@@ -11,10 +11,12 @@ import java.util.*;
 public class WolfHole extends Hole implements DynamicDisplayInformationProvider {
     Random r = new Random();
     protected Location wolfHoleLocation;
-    DisplayInformation di_wolf_hole = new DisplayInformation(Color.darkGray, "Hole");
+
 
     public WolfHole() {
     }
+
+    DisplayInformation di_wolf_hole = new DisplayInformation(Color.darkGray, "hole");
 
     @Override
     public DisplayInformation getInformation() {

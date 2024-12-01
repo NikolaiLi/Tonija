@@ -13,6 +13,7 @@ public abstract class Rabbit extends Creature {
     public Rabbit() {
         super();
         energy = 100;
+        maxEnergy = 100;
         hiding = false;
         currentHidingPlace = null;
     }
@@ -141,7 +142,7 @@ public abstract class Rabbit extends Creature {
     }*/
 
     public void unhide(World world) {
-        if (!world.isOnTile(this)) {
+        if (!world.isOnTile(this) && hiding) {
             RabbitHole hidingSpot = currentHidingPlace;
             world.setCurrentLocation(currentHidingPlace.getLocation());
             ArrayList<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
@@ -202,6 +203,11 @@ public abstract class Rabbit extends Creature {
         alive = false;
         world.delete(this);
         System.out.println("A rabbit has died of hunger");
+    }
+
+    public void Death(World world) {
+        alive = false;
+        world.delete(this);
     }
 
     private void moveTowards(World world, Location target) {
