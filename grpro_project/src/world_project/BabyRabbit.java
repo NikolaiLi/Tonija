@@ -23,13 +23,21 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
     }
 
     public void act(World world) {
-        if (age == 15) {
-            grow(world);
-            return;
+        if (health <= 0) {
+            alive = false;
+            world.delete(this);
         }
 
-        // Henter superklassens act (Rabbit's act)
-        super.act(world);
+        while (alive) {
+           if (age == 15) {
+               grow(world);
+               return;
+           }
+
+           // Henter superklassens act (Rabbit's act)
+           super.act(world);
+           return;
+       }
     }
 
     public void grow(World world) {
