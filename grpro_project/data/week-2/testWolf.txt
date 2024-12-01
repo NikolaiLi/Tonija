@@ -1,3 +1,10 @@
+<<<<<<< Updated upstream
 15
 grass 10-15
 rabbit 5-7
+=======
+10
+wolf 2
+Wolf 1
+Rabbit 1
+>>>>>>> Stashed changes

@@ -13,56 +13,56 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     public DisplayInformation di_wolf = new DisplayInformation(Color.gray, "wolf");
     Random r = new Random();
 
-    protected ArrayList<Wolf> wolfpack;
-    protected boolean isAlpha;
+    protected ArrayList<Wolf> wolfpack = new ArrayList<Wolf>();
+    protected boolean isLeader;
     protected boolean hiding;
+
+    Location currentLocation;
+
     protected boolean AlreadyDugWolfhole = false;
     protected Map<ArrayList<Wolf>, Location> wolfHoleLocations = new HashMap<ArrayList<Wolf>, Location>();
     public Map<ArrayList<Wolf>, Set<Location>> wolfTerritories = new HashMap<>();
 
-    //Constructor used when new wolf is created from files in filereader
+
+    //1st Constructor: Filereader Constructor used when new wolf is created from files in filereader
+    //This wolf automatically creates a Wolfpack, and becomes the leader, then calls 2nd Constructor to create the rest of the pack.
     Wolf(int number, World world, Location initialSpawn) {
         super();
         health = 80;
         energy = 125;
         maxEnergy = 125;
-        this.wolfpack = new ArrayList<>();
         wolfpack.add(this);
-        this.isAlpha = true;
+        this.isLeader = true;
+
         System.out.println("Created Packleader");
-        //creates the rest of the pack as children of the alphaWolf by calling the constructor used while in simulation
+
+        //calls 2nd constructor calling the constructor used while in simulation
         for (int i = 0; i < number - 1; i++) {
             Wolf wolf = new Wolf(this, world, initialSpawn);
         }
     }
 
-    //Constructor used when new wolf is created from a wolf in the simulation.
+    //2nd Constructor: used when a new wolf is born by another wolf in the wolfhole while running the simulation.
+    // Or when the wolfLeader calls it before simulation starts running to complete the rest of the wolfpack from filereader.
     Wolf(Wolf wolfmother, World world, Location initialSpawn) {
         super();
         health = 80;
         energy = 125;
-        this.wolfpack = wolfmother.getWolfpack();
+        maxEnergy = 125;
+        wolfpack = wolfmother.wolfpack;
         wolfpack.add(this);
-        this.isAlpha = false;
+        isLeader = false;
 
         System.out.println("Created wolf in wolfpack");
 
-        //placing wolf in the wolfHole where breeding took place. If hole is blocked, temporarily removes object to spawn wolf in hole.
+        //if wolf has been born during the simulation, parent gave birth while hiding in wolfhole, and the new wolf will start out in hiding as well
         if (wolfmother.hiding) {
-            if (!world.isOnTile(wolfmother)) {
-                Location l = world.getLocation(wolfmother);
-                world.setCurrentLocation(l);
-                if (world.isTileEmpty(l)) {
-                    world.setTile(l, this);
-                } else {
-                    Object o = world.getTile(l);
-                    world.remove(o);
-                    world.setTile(l, this);
-                    this.hide(world);
-                    world.setTile(l, o);
-                }
-            }
-        } else {//placing wolf next to alphawolf (only used when creating wolfpack from files in filereader
+            hiding = true;
+        }
+
+        //if wolf was created straight from filereader, the wolf will be placed next to its wolfLeader
+        //This method is only used when a wolf is created by calling this constructor while using the 1st constructor.
+        else {
             world.setCurrentLocation(initialSpawn);
             ArrayList<Location> neighbours = new ArrayList<>(world.getEmptySurroundingTiles());
             if (!neighbours.isEmpty()) {
@@ -71,56 +71,31 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
             } else {
                 System.out.println("No empty tile to spawn wolf");
             }
-
         }
     }
 
 
+//ABSTRACT METHODS
+
+    @Override
     public void act(World world) {
-        //outside the act loop
-        if (!alive) {
-            death(world);
+
+        if (health <= 0 && alive) {
+            alive = false;
+            world.delete(this);
         }
 
-        while (alive) {// Tjekker hvis world_project.Wolf er død, hvis den er, skal act stoppes.
-            if (!hiding) {
-                setAlphaTerritory(world);
-            }
+        while (alive) {
 
-            // Tjekker om wolf er ved at dø af sult
-            if (getEnergy() <= 0) {
-                hungerDeath(world);
-                return;
-            }
+            //wolfLeader hunts for food, while pack follows
+            hunt(world);
 
-            if (world.isDay()) {
-                move(world);
 
-                // unhider
-                unhide(world);
 
-                // Flytter wolf mod en rabbit, hvis det er en alpha
-                seekRabbit(world);
-
-                //Flytter wolf mod sit territorie, hvis den ikke er alpha
-                seekTerritory(world);
-
-                //Attacks enemy in neighbouring Tile
-                attack(world);
-
-                // Sulter wolf
-                starve();
-
-                //AlfaWolf prøver at grave et hul
-                digWolfHole(world);
-            }
-
-            if (world.isNight()) {
-                seekWolfHole(world);
-            }
             return;
         }
     }
+
 
 
     @Override
@@ -128,6 +103,9 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         return di_wolf;
     }
 
+
+
+    //moves wolf to random free tile
     @Override
     public void move(World world) {
         Set<Location> neighbours = world.getEmptySurroundingTiles();
@@ -140,166 +118,90 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
+
+
     @Override
     public void eat(World world) {
-        energize();
-        System.out.println("Wolf has eaten its prey");
+
     }
 
+
+
+//BEHAVIOUR methods
+
+    //method has 2 paths, depending on if wolf is leader or not.
+    //Path 1: if Leader, hunts for rabbits in 2 tile radius, else moves randomly
+    //Path 2: if !Leader, follows the wolf in wolfpack array index ahead of itself (i.e. wolf in index 1 follows index 0, the wolfLeader)
+    public void hunt(World world) {
+        //path 1
+        if (isLeader && !hiding) {
+            Location currentLocation = world.getLocation(this);
+            Queue<Location> toVisit = new LinkedList<>(world.getSurroundingTiles(2));
+            Set<Location> visited = new HashSet<>();
+            toVisit.add(currentLocation);
+
+            while (!toVisit.isEmpty()) {
+                Location current = toVisit.poll();
+                visited.add(current);
+
+                if (world.getTile(current) instanceof Rabbit) {
+                    System.out.println("wolfLeader follows rabbit at: " + current);
+                    moveTowards(world, current);
+                    return;
+                }
+            }
+
+            //if no rabbit is found, wolfLeader moves aimlessly
+            move(world);
+            return;
+        }
+
+        //path 2
+        if (!isLeader && !hiding) {
+            int ownIndex = wolfpack.indexOf(this);
+            Wolf target = wolfpack.get(ownIndex-1);
+            if (world.isOnTile(target)) {
+                Location l = world.getLocation(target);
+                moveTowards(world, l);
+            }
+        }
+    }
+
+
+    //attacks a random neighbouring enemy creature, as long as they are not part of the wolf's wolfpack
+    @Override
     public void attack(World world) {
-        if (!hiding) {
-            System.out.println("wolf current position: " + world.getLocation(this));
-            //Attack kører i 2 dele. hvis Wolf er i sit territorie, og der er et fjendtligt creature, angribes dette. Ellers angribes en tilfældig naboUlv eller Rabbit, i rækkefølge efter trussel-niveau.
-            //tjekker først, om wolf allerede er i territoriet, og at der er en enenmy i territoriet den kan angribe (vælger random enemy fra listen af territory)
-            if (wolfTerritories.get(wolfpack).contains(world.getLocation(this)) && !(isAlpha)) {
-                ArrayList<Location> territory = new ArrayList<>(wolfTerritories.get(wolfpack));
-                for (Location l : territory) {
-                    Object o = world.getTile(l);
+        Set<Location> neighbourTiles = world.getSurroundingTiles();
+        List<Location> neighbourLocations = new ArrayList<>(neighbourTiles);
+        List<Location> targetLocations = new ArrayList<>();
 
-                    //Springer over hvis object == null eller object er en del af wolfpack
-                    if (!(o instanceof Creature) || (o instanceof Wolf ally && wolfpack.contains(ally))) {
-                        continue;
-                    }
-
-                    //angriber kun, hvis der er en enemy i territoriet, som ikke er en wolf fra samme wolfpack
-                    Creature enemy = (Creature) o;
-                    enemy.takeDamage(50);
-                    System.out.println("Wolf hits enemy " + enemy + " for 50 damage");
-                    if (enemy.health <= 0) {
-                        System.out.println("Wolf has slain enemy in territory!");
-                        eat(world);
-                        return;
-                    }
-                }
+        for (Location location : neighbourLocations) {
+            Object tile = world.getTile(location);
+            if (tile instanceof Creature enemy && !wolfpack.contains(enemy)) {
+                targetLocations.add(location);
             }
+        }
 
-            //Angriber en tilfældig fjendtlig naboulv
-            Set<Location> neighbourTiles = world.getSurroundingTiles();
-            List<Location> locations = new ArrayList<>(neighbourTiles);
-            for (Location l : locations) {
-                Object o = world.getTile(l);
+        if (!targetLocations.isEmpty()) {
+            int randomIndex = r.nextInt(targetLocations.size());
+            Location chosenLocation = targetLocations.get(randomIndex);
+            Object targetEnemy = world.getTile(chosenLocation);
 
-                // Skipper null objects
-                if (o == null) {
-                    continue;
-                }
-
-                if (o instanceof Wolf enemy) {
-                    if (!wolfpack.contains(enemy)) {
-                        enemy.takeDamage(50);
-                        System.out.println("Wolf hits enemy wolf for 50 damage");
-                        if (enemy.getHealth(world) <= 0) {
-                            System.out.println("Wolf has slain Enemy wolf");
-                            eat(world);
-                            return;
-                        }
-                    }
-                }
-
-                //angriber en tilfældig nabokanin
-                if (o instanceof Rabbit) {
-                    Rabbit prey = (Rabbit) o;
-                    prey.takeDamage(50);
-                    if (prey.getHealth(world) <= 0) {
-                        System.out.println("Wolf has slain Rabbit Prey");
-                        eat(world);
-                        return;
-                    }
+            if (targetEnemy instanceof Creature creatureTargetEnemy && creatureTargetEnemy != this) {
+                creatureTargetEnemy.takeDamage(35);
+                System.out.println("Rabbit damaged");
+                if (creatureTargetEnemy.getHealth(world) < 0) {
+                    energize();
+                    System.out.println("Rabbit ate");
                 }
             }
         }
     }
 
 
-    public ArrayList<Wolf> getWolfpack() {
-        return wolfpack;
-    }
-
-    public void seekRabbit(World world) {
-        if (isAlpha) {
-            if (world.isOnTile(this)) {
-                Location currentLocation = world.getLocation(this);
-                Queue<Location> toVisit = new LinkedList<>(wolfTerritories.get(wolfpack));
-                Set<Location> visited = new HashSet<>();
-                toVisit.add(currentLocation);
-
-                while (!toVisit.isEmpty()) {
-                    Location current = toVisit.poll();
-                    visited.add(current);
-
-                    if (world.getTile(current) instanceof Rabbit) {
-                        System.out.println("Hunting Rabbit at: " + current);
-                        moveTowards(world, current);
-                        setAlphaTerritory(world);//opdaterer wolfpacks territorie
-                        Location currentL = world.getLocation(this);
-                        Object obj = world.getTile(currentL);
-                        if (obj instanceof Rabbit) {
-                            System.out.println("Wolf at " + currentLocation + "has approached Rabbit at: " + currentL);
-                        }
-                        return;
-                    }
-                }
-
-                System.out.println("No Prey found, wolf wanders aimlessly");
-                move(world);
-            }
-        }
-    }
-
-    public void seekTerritory(World world) {
-        if (!isAlpha) {
-            if (!wolfTerritories.containsKey(wolfpack)) {
-                System.out.println("No territory found for wolfpack. Registering territory...");
-                setAlphaTerritory(world); // register territory for this wolfpack
-                wolfTerritories.put(wolfpack, new HashSet<>());
-            } else {
-                setAlphaTerritory(world);
-            }
-
-            if (!wolfTerritories.get(wolfpack).contains(world.getLocation(this))) {//checks if wolfs current tile is part of the territory of its wolfpack before running method.
-                Location currentLocation = world.getLocation(this);
-                Queue<Location> toVisit = new LinkedList<>();
-                Set<Location> visited = new HashSet<>();
-                toVisit.add(currentLocation);
-                Set<Location> territory = wolfTerritories.get(wolfpack);
 
 
-                while (!toVisit.isEmpty()) {
-                    Location current = toVisit.poll();
-                    visited.add(current);
-
-
-                    if (territory.contains(current)) {
-                        System.out.println("Seeking territory near: " + current);
-                        moveTowards(world, current);
-                        return;
-                    }
-
-                    for (Location neighbor : world.getSurroundingTiles(current)) {
-                        if (!visited.contains(neighbor) && !toVisit.contains(neighbor)) {
-                            toVisit.add(neighbor);
-                        }
-                    }
-                }
-                System.out.println("No Territory found");
-            }
-        }
-    }
-
-
-    public void seekWolfHole(World world) {
-        if (!(wolfHoleLocations.get(wolfpack) == null)) {
-            Location wolfHoleLocation = wolfHoleLocations.get(wolfpack);
-            this.moveTowards(world, wolfHoleLocation);
-
-            Location currentL = world.getLocation(this);
-            Object obj = world.getNonBlocking(currentL);
-            if (obj instanceof WolfHole) {
-                System.out.println("Wolf is trying to hide");
-                hide(world);
-            }
-        }
-    }
+    // private methods
 
 
     private void moveTowards(World world, Location target) {
@@ -320,87 +222,5 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     }
 
 
-    public void digWolfHole(World world) {
-        if (isAlpha && !AlreadyDugWolfhole) {
-            System.out.println("wolf tries to dig hole");
-            if (!(wolfHoleLocations.containsKey(wolfpack)) && !hiding && isAlive() && (r.nextInt(100)) < 10) {
-                Location current = world.getLocation(this);
-                if (!world.containsNonBlocking(current)) {
-                    WolfHole wolfhole = new WolfHole();
-                    world.setTile(current, wolfhole);
-                    wolfHoleLocations.put(wolfpack, current);
-                    AlreadyDugWolfhole = true;
-                    System.out.println("WolfLeader has dug a hole at " + current);
-                } else {
-                    System.out.println("Cannot dig Wolfhole. Non-blocking element already present on tile");
-                }
-            } else {
-                System.out.println("Wolf already has a hole");
-            }
-        }
-    }
 
-    public void hide(World world) {
-        Object o = world.getNonBlocking(world.getLocation(this));
-        if (o instanceof WolfHole) {
-            world.remove(this);
-            hiding = true;
-            System.out.println("Wolf is hiding");
-        } else {
-            System.out.println("Didn't find a hiding spot");
-        }
-    }
-
-    public void unhide(World world) {
-        if (!world.isOnTile(this) && hiding) {
-            Location hidingSpot = wolfHoleLocations.get(wolfpack);
-            world.setCurrentLocation(hidingSpot);
-            ArrayList<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
-
-            if (!list.isEmpty()) {
-                int size = r.nextInt(list.size());
-                world.setTile(list.get(size), this);
-                hiding = false;
-            } else {
-                System.out.println("No exit available");
-            }
-        }
-    }
-
-    private void setAlphaTerritory(World world) {
-        if (!wolfpack.isEmpty() && world.isOnTile(wolfpack.getFirst())) {
-            Location l = world.getLocation(wolfpack.getFirst());
-            HashSet<Location> territory = new HashSet<>();
-            world.setCurrentLocation(l);
-            territory = new HashSet<>(world.getSurroundingTiles(2));
-            wolfTerritories.put(wolfpack, territory);
-        }
-    }
-
-
-    private void hungerDeath(World world) {
-        alive = false;
-        world.delete(this);
-        System.out.println("A wolf has died of hunger");
-        wolfpack.remove(this);
-        if (!wolfpack.isEmpty()) {
-            wolfpack.getFirst().isAlpha = true;
-        } else {
-            System.out.println("last wolf in wolfpack has died, their legacy will not be forgotten");
-        }
-    }
-
-
-    public void death(World world) {
-        if (health <= 0) {
-            world.delete(this);
-            System.out.println("Wolf has no health left and has died");
-            wolfpack.remove(this);
-            if (!wolfpack.isEmpty()) {
-                wolfpack.getFirst().isAlpha = true;
-            } else {
-                System.out.println("last wolf in wolfpack has died, their legacy will not be forgotten");
-            }
-        }
-    }
 }
