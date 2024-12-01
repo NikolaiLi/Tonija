@@ -40,4 +40,8 @@ public class Bush implements Actor, DynamicDisplayInformationProvider {
     public void isRipe(boolean x){
         hasFruits = x;
     }
+
+    public boolean isHasFruits() {
+        return hasFruits;
+    }
 }

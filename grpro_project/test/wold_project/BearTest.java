@@ -10,6 +10,7 @@ import itumulator.world.Location;
 import itumulator.world.World;
 
 import world_project.Bear;
+import world_project.Bush;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,6 +36,7 @@ public class BearTest {
 
         Location new_location =  world.getLocation(bear);
         assertNotEquals(new_location,location);
+        assertNotNull(new_location);
     }
 
     @Test
@@ -55,13 +57,19 @@ public class BearTest {
     }
 
     @Test
-    public void BearEatsCreature(){
+    public void BearEatsBerries(){
         Bear bear = new Bear();
         Location location = new Location(0,0);
         world.setCurrentLocation(location);
         world.setTile(location, bear);
-        bear.makeTerritory(world);
 
+        Bush bush = new Bush();
+        Location location2 = new Location(1,1);
+        world.setTile(location2, bush);
 
+        bear.act(world);
+
+        assertFalse(bush.isHasFruits());
+        assertNotNull(location);
     }
 }
