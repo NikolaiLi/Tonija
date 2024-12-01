@@ -40,6 +40,9 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
         // Bear moves around randomly in the territory
         move(world);
 
+        // If there's a prey in Bears territory, it will hunt.
+        hunt(world);
+
         // If there is a Creature nearby, the bear will attack the Creature
         attack(world);
 
@@ -95,6 +98,35 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
             }
         }
     }
+
+    private void moveTowards(World world, Location target) {
+        Location current = world.getLocation(this);
+        int diffX = target.getX() - current.getX();
+        int diffY = target.getY() - current.getY();
+
+        int stepX = Integer.compare(diffX, 0);
+        int stepY = Integer.compare(diffY, 0);
+
+        Location nextStep = new Location(current.getX() + stepX, current.getY() + stepY);
+
+        if (world.isTileEmpty(nextStep)) {
+            world.move(this, nextStep);
+        } else {
+            System.out.println("Path blocked!");
+        }
+    }
+
+    public void hunt(World world) {
+        for (Location location : territoryArea) {
+            Object tile = world.getTile(location);
+            if (tile instanceof Creature && tile != this) {
+                System.out.println("Bear spotted a creature at " + location);
+                moveTowards(world, location);
+            }
+        }
+        System.out.println("No creatures found in bear's territory.");
+    }
+
 
     @Override
     public void attack(World world) {
