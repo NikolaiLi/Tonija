@@ -117,7 +117,7 @@ public class Main {
                                 l = new Location(x, y);
                             }
 
-                            world.setTile(l, new RabbitHole(world));
+                            world.setTile(l, new RabbitHole(world,l));
                         }
                         break;
 

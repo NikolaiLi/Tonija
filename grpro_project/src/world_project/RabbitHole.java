@@ -21,6 +21,15 @@ public class RabbitHole extends Hole implements DynamicDisplayInformationProvide
         }
     }
 
+    public RabbitHole(World world, Location location){
+        rabbitHoleLocation = location;
+        if (!tunnels.containsKey(this)) {
+            tunnels.put(this, new ArrayList<>());
+            tunnels.get(this).add(this);
+            System.out.println("RabbitHole has been dug");
+        }
+    }
+
     DisplayInformation di_rabbit_hole = new DisplayInformation(Color.green, "hole-small");
 
     @Override
