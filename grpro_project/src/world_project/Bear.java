@@ -19,6 +19,7 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
     public Bear() {
         health = 200;
         maxEnergy = 200;
+        alive = true;
     }
 
     @Override
@@ -29,25 +30,30 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
 
     @Override
     public void act(World world) {
-        // Checks if the bear is alive, if not, return nothing.
-        if (!isAlive()) {
-            return;
+
+        if (health <= 0 && alive) {
+            alive = false;
+            world.delete(this);
         }
 
-        // Creates territory for the bear
-        makeTerritory(world);
+        while (alive) {
+            // Creates territory for the bear
+            makeTerritory(world);
 
-        // Bear moves around randomly in the territory
-        move(world);
+            // Bear moves around randomly in the territory
+            move(world);
 
-        // If there's a prey in Bears territory, it will hunt.
-        hunt(world);
+            // If there's a prey in Bears territory, it will hunt.
+            hunt(world);
 
-        // If there is a Creature nearby, the bear will attack the Creature
-        attack(world);
+            // If there is a Creature nearby, the bear will attack the Creature
+            attack(world);
 
-        // If there is a berry bush nearby, the bear will eat the berries in the bush.
-        eat(world);
+            // If there is a berry bush nearby, the bear will eat the berries in the bush.
+            eat(world);
+
+            return;
+        }
     }
 
     public void makeTerritory(World world) {
@@ -146,7 +152,7 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
             Location chosenLocation = targetLocations.get(randomIndex);
             Object targetEnemy = world.getTile(chosenLocation);
 
-            if (targetEnemy instanceof Creature creatureTargetEnemy) {
+            if (targetEnemy instanceof Creature creatureTargetEnemy && creatureTargetEnemy != this) {
                 creatureTargetEnemy.takeDamage(50);
             }
         }
