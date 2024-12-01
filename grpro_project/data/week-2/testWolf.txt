@@ -1,4 +1,2 @@
-5
-rabbit 4
-grass 3
-burrow 1
+10
+wolf 5
