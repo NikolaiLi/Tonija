@@ -22,7 +22,7 @@ public abstract class Rabbit extends Creature {
     public void act(World world)
     {
         // Tjekker hvis world_project.Rabbit er død, hvis den er, skal det return ingenting.
-        if (!alive) {
+        if (alive && health <= 0) {
             death(world);
         }
 

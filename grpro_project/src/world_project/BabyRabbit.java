@@ -23,7 +23,7 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
     }
 
     public void act(World world) {
-        if (health <= 0) {
+        if (alive && health <= 0) {
             alive = false;
             world.delete(this);
         }

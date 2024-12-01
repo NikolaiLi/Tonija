@@ -29,7 +29,7 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
     @Override
     public void act(World world) {
         //outside the act loop
-        if (!alive) {
+        if (alive && health <= 0) {
             alive = false;
             world.delete(this);
         }

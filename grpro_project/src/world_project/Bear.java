@@ -32,7 +32,7 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
     @Override
     public void act(World world) {
 
-        if (health <= 0 && alive) {
+        if (alive && health <= 0) {
             alive = false;
             world.delete(this);
         }
@@ -160,10 +160,10 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
 
             if (targetEnemy instanceof Creature creatureTargetEnemy && creatureTargetEnemy != this) {
                 creatureTargetEnemy.takeDamage(50);
-                System.out.println("Rabbit damaged");
+                System.out.println("Rabbit damaged by Bear");
                 if (creatureTargetEnemy.getHealth(world) <= 0) {
                     energize();
-                    System.out.println("Rabbit ate");
+                    System.out.println("Bear ate Rabbit");
                 }
             }
         }
