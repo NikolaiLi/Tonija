@@ -17,7 +17,6 @@ public class RabbitHole extends Hole implements DynamicDisplayInformationProvide
         if (!tunnels.containsKey(this)) {
             tunnels.put(this, new ArrayList<>());
             tunnels.get(this).add(this);
-            System.out.println("RabbitHole has been dug");
         }
     }
 
@@ -26,7 +25,6 @@ public class RabbitHole extends Hole implements DynamicDisplayInformationProvide
         if (!tunnels.containsKey(this)) {
             tunnels.put(this, new ArrayList<>());
             tunnels.get(this).add(this);
-            System.out.println("RabbitHole has been dug");
         }
     }
 

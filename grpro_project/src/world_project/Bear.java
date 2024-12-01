@@ -17,9 +17,9 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
     DisplayInformation di_bear = new DisplayInformation(Color.red, "bear");
 
     public Bear() {
-        super();
-        health = 200;
         maxEnergy = 200;
+        energy = maxEnergy;
+        health = 200;
         alive = true;
     }
 
@@ -33,6 +33,11 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
     public void act(World world) {
 
         if (health <= 0 && alive) {
+            alive = false;
+            world.delete(this);
+        }
+
+        if (energy <= 0 && alive) {
             alive = false;
             world.delete(this);
         }
@@ -52,6 +57,11 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
 
             // If there is a berry bush nearby, the bear will eat the berries in the bush.
             eat(world);
+
+            // Bear using energy
+            starve();
+
+            System.out.println(energy);
 
             return;
         }
@@ -101,13 +111,6 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
                 bush.isRipe(false);
                 energize();
             }
-
-            Object object = world.getTile(location);
-            if(object instanceof Creature){
-                System.out.println("Bear ate animal! Nom! Nom! Nom!");
-                world.delete(object);
-                energize();
-            }
         }
     }
 
@@ -123,8 +126,6 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
 
         if (world.isTileEmpty(nextStep)) {
             world.move(this, nextStep);
-        } else {
-            System.out.println("Path blocked!");
         }
     }
 
@@ -132,11 +133,10 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
         for (Location location : territoryArea) {
             Object tile = world.getTile(location);
             if (tile instanceof Creature && tile != this) {
-                System.out.println("Bear spotted a creature at " + location);
                 moveTowards(world, location);
+                System.out.println("Hunting prey down!");
             }
         }
-        System.out.println("No creatures found in bear's territory.");
     }
 
 
@@ -160,6 +160,11 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
 
             if (targetEnemy instanceof Creature creatureTargetEnemy && creatureTargetEnemy != this) {
                 creatureTargetEnemy.takeDamage(50);
+                System.out.println("Rabbit damaged");
+                if (creatureTargetEnemy.getHealth(world) < 0) {
+                    energize();
+                    System.out.println("Rabbit ate");
+                }
             }
         }
     }
