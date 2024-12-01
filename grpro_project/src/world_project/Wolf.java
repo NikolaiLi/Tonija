@@ -30,7 +30,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         wolfpack.add(this);
         this.isAlpha = true;
         System.out.println("Created Packleader");
-
         //creates the rest of the pack as children of the alphaWolf by calling the constructor used while in simulation
         for (int i = 0; i < number-1; i++) {
             Wolf wolf = new Wolf(this, world, initialSpawn);
@@ -63,7 +62,7 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
                     world.setTile(l, o);
                 }
             }
-        } else { //placing wolf next to alphawolf (only used when creating wolfpack from files in filereader
+        } else {//placing wolf next to alphawolf (only used when creating wolfpack from files in filereader
             world.setCurrentLocation(initialSpawn);
             ArrayList<Location> neighbours = new ArrayList<>(world.getEmptySurroundingTiles());
             if (!neighbours.isEmpty()) {
@@ -78,45 +77,47 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
 
     public void act(World world) {
-        // Tjekker hvis world_project.Wolf er død, hvis den er, skal det return ingenting.
+        //outside the act loop
         if (!alive) {
+            death(world);
+        }
+
+        while (alive) {// Tjekker hvis world_project.Wolf er død, hvis den er, skal act stoppes.
+            if (!hiding) {
+                setAlphaTerritory(world);
+            }
+
+            // Tjekker om wolf er ved at dø af sult
+            if (getEnergy() <= 0){
+                hungerDeath(world);
+                return;
+            }
+
+            if (world.isDay()) {
+                // unhider
+                unhide(world);
+
+                // Flytter wolf mod en rabbit, hvis det er en alpha
+                seekRabbit(world);
+
+                //Flytter wolf mod sit territorie, hvis den ikke er alpha
+                seekTerritory(world);
+
+                //Attacks enemy in neighbouring Tile
+                attack(world);
+
+                // Sulter wolf
+                starve();
+
+                //AlfaWolf prøver at grave et hul
+                //digWolfHole(world);
+            }
+
+            if (world.isNight()) {
+                //seekWolfHole(world);
+            }
             return;
         }
-
-        if (!hiding) {
-            setAlphaTerritory(world);
-        }
-
-        // Tjekker om wolf er ved at dø af sult
-        if (getEnergy() <= 0){
-            hungerDeath(world);
-            return;
-        }
-
-        if (world.isDay()) {
-            // unhider
-            unhide(world);
-
-            // Flytter wolf mod en rabbit, hvis det er en alpha
-            seekRabbit(world);
-
-            //Flytter wolf mod sit territorie, hvis den ikke er alpha
-            seekTerritory(world);
-
-            //Attacks enemy in neighbouring Tile
-            attack(world);
-
-            // Sulter wolf
-            starve();
-
-            //AlfaWolf prøver at grave et hul
-            //digWolfHole(world);
-        }
-
-        if (world.isNight()) {
-            //seekWolfHole(world);
-        }
-
     }
 
 
@@ -127,8 +128,16 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         return di_wolf;
     }
 
+    @Override
     public void move(World world) {
+        Set<Location> neighbours = world.getEmptySurroundingTiles();
+        List<Location> list = new ArrayList<>(neighbours);
 
+        if (!neighbours.isEmpty()) {
+            int randomNumber = r.nextInt(list.size());
+            Location l = list.get(randomNumber);
+            world.move(this, l);
+        }
     }
 
     @Override
@@ -138,68 +147,64 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     }
 
     public void attack(World world) {
-        //Attack kører i 2 dele. hvis Wolf er i sit territorie, og der er et fjendtligt creature, angribes dette. Ellers angribes en tilfældig naboUlv eller Rabbit, i rækkefølge efter trussel-niveau.
-        //tjekker først, om wolf allerede er i territoriet, og at der er en enenmy i territoriet den kan angribe (vælger random enemy fra listen af territory)
-        if (wolfTerritories.get(wolfpack).contains(world.getLocation(this))){
-            ArrayList<Location> territory = new ArrayList<>(wolfTerritories.get(wolfpack));
-            for (Location l : territory) {
-                Object o = world.getTile(l);
+        if (!hiding) {
+            System.out.println("wolf current position: " + world.getLocation(this));
+            //Attack kører i 2 dele. hvis Wolf er i sit territorie, og der er et fjendtligt creature, angribes dette. Ellers angribes en tilfældig naboUlv eller Rabbit, i rækkefølge efter trussel-niveau.
+            //tjekker først, om wolf allerede er i territoriet, og at der er en enenmy i territoriet den kan angribe (vælger random enemy fra listen af territory)
+            if (wolfTerritories.get(wolfpack).contains(world.getLocation(this)) && !(isAlpha)){
+                ArrayList<Location> territory = new ArrayList<>(wolfTerritories.get(wolfpack));
+                for (Location l : territory) {
+                    Object o = world.getTile(l);
 
-                //Springer over hvis object == null eller object er en del af wolfpack
-                if (!(o instanceof Creature) || (o instanceof Wolf ally && wolfpack.contains(ally))) {
-                    continue;
-                }
-
-                //angriber kun, hvis der er en enemy i territoriet, som ikke er en wolf fra samme wolfpack
-                Creature enemy = (Creature) o;
-                enemy.health -= 50;
-                System.out.println("Wolf hits enemy " + enemy + " for 50 damage");
-                if (enemy.health <= 0) {
-                    if (enemy instanceof Wolf enemyWolf) {
-                        enemyWolf.wolfpack.remove(enemy);
+                    //Springer over hvis object == null eller object er en del af wolfpack
+                    if (!(o instanceof Creature) || (o instanceof Wolf ally && wolfpack.contains(ally))) {
+                        continue;
                     }
-                    world.delete(enemy);
-                    System.out.println("Wolf has slain Enemy " + enemy);
-                    eat(world);
-                    return;
-                }
-            }
-        }
 
-        //Angriber en tilfældig fjendtlig naboulv
-        Set<Location> neighbourTiles = world.getSurroundingTiles();
-        List<Location> locations = new ArrayList<>(neighbourTiles);
-        for (Location l : locations) {
-            Object o = world.getTile(l);
-
-            // Skipper null objects
-            if (o == null) {
-                continue;
-            }
-
-            if (o instanceof Wolf enemy) {
-                if (!wolfpack.contains(enemy)) {
-                    enemy.health -= 50;
-                    System.out.println("Wolf hits enemy wolf for 50 damage");
+                    //angriber kun, hvis der er en enemy i territoriet, som ikke er en wolf fra samme wolfpack
+                    Creature enemy = (Creature) o;
+                    enemy.takeDamage(50);
+                    System.out.println("Wolf hits enemy " + enemy + " for 50 damage");
                     if (enemy.health <= 0) {
-                        enemy.wolfpack.remove(enemy);
-                        world.delete(enemy);
-                        System.out.println("Wolf has slain Enemy wolf");
+                        System.out.println("Wolf has slain enemy in territory!");
                         eat(world);
                         return;
                     }
                 }
             }
 
-            //angriber en tilfældig nabokanin
-            if (o instanceof Rabbit) {
-                Rabbit prey = (Rabbit) o;
-                prey.health -= 50;
-                if (prey.health <= 0) {
-                    prey.Death(world);
-                    System.out.println("Wolf has slain Rabbit Prey");
-                    eat(world);
-                    return;
+            //Angriber en tilfældig fjendtlig naboulv
+            Set<Location> neighbourTiles = world.getSurroundingTiles();
+            List<Location> locations = new ArrayList<>(neighbourTiles);
+            for (Location l : locations) {
+                Object o = world.getTile(l);
+
+                // Skipper null objects
+                if (o == null) {
+                    continue;
+                }
+
+                if (o instanceof Wolf enemy) {
+                    if (!wolfpack.contains(enemy)) {
+                        enemy.takeDamage(50);
+                        System.out.println("Wolf hits enemy wolf for 50 damage");
+                        if (enemy.getHealth(world) <=0) {
+                            System.out.println("Wolf has slain Enemy wolf");
+                            eat(world);
+                            return;
+                        }
+                    }
+                }
+
+                //angriber en tilfældig nabokanin
+                if (o instanceof Rabbit) {
+                    Rabbit prey = (Rabbit) o;
+                    prey.takeDamage(50);
+                    if (prey.getHealth(world) <=0) {
+                        System.out.println("Wolf has slain Rabbit Prey");
+                        eat(world);
+                        return;
+                    }
                 }
             }
         }
@@ -214,7 +219,7 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         if (isAlpha) {
             if(world.isOnTile(this)) {
                 Location currentLocation = world.getLocation(this);
-                Queue<Location> toVisit = new LinkedList<>();
+                Queue<Location> toVisit = new LinkedList<>(wolfTerritories.get(wolfpack));
                 Set<Location> visited = new HashSet<>();
                 toVisit.add(currentLocation);
 
@@ -233,15 +238,10 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
                         }
                         return;
                     }
-
-                    for (Location neighbor : world.getSurroundingTiles(current)) {
-                        if (!visited.contains(neighbor) && !toVisit.contains(neighbor)) {
-                            toVisit.add(neighbor);
-                        }
-                    }
                 }
 
-                System.out.println("No Prey found");
+                System.out.println("No Prey found, wolf wanders aimlessly");
+                move(world);
             }
         }
     }
@@ -389,5 +389,20 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
             System.out.println("last wolf in wolfpack has died, their legacy will not be forgotten");
         }
     }
+
+
+    public void death(World world) {
+        if (health <= 0) {
+            world.delete(this);
+            System.out.println("Wolf has no health left and has died");
+            wolfpack.remove(this);
+            if (!wolfpack.isEmpty()) {
+                wolfpack.getFirst().isAlpha = true;
+            } else {
+                System.out.println("last wolf in wolfpack has died, their legacy will not be forgotten");
+            }
+        }
+    }
+
 
 }

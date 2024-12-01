@@ -23,36 +23,40 @@ public abstract class Rabbit extends Creature {
     {
         // Tjekker hvis world_project.Rabbit er død, hvis den er, skal det return ingenting.
         if (!alive) {
+            death(world);
+        }
+
+        //act runs in a loop that works while creature is alive
+        while (alive) {
+
+             //Tjekker om kaninen er ved at dø af sult
+            if (getEnergy() <= 0) {
+                hungerDeath(world);
+                return;
+            }
+
+            // Bliver ældre
+            aging();
+
+            if (world.isDay()) {
+                // unhider
+                unhide(world);
+
+                // Får kaninen til at spise, hvis der er græs
+                eat(world);
+
+                // Flytter kaninen over til en tilfældig nabo-tile
+                move(world);
+
+                // Sulter kaninen
+                starve();
+            }
+
+            if (world.isNight()) {
+                seek(world);
+            }
             return;
         }
-
-        // Tjekker om kaninen er ved at dø af sult
-        if (getEnergy() <= 0){
-            hungerDeath(world);
-            return;
-        }
-
-        // Bliver ældre
-        aging();
-
-        if (world.isDay()) {
-            // unhider
-            unhide(world);
-
-            // Får kaninen til at spise, hvis der er græs
-            eat(world);
-
-            // Flytter kaninen over til en tilfældig nabo-tile
-            move(world);
-
-            // Sulter kaninen
-            starve();
-        }
-
-        if (world.isNight()) {
-            seek(world);
-        }
-
     }
 
 
@@ -205,7 +209,7 @@ public abstract class Rabbit extends Creature {
         System.out.println("A rabbit has died of hunger");
     }
 
-    public void Death(World world) {
+    public void death(World world) {
         alive = false;
         world.delete(this);
     }

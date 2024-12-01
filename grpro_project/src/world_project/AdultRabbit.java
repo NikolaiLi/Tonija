@@ -28,28 +28,36 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
 
     @Override
     public void act(World world) {
-        // Henter super-klassens act (Rabbit's act)
-        super.act(world);
+        //outside the act loop
+        if (!alive) {
+            alive = false;
+            world.delete(this);
+        }
+        //act runs in a loop that works while creature is alive
+        while (alive) {
+            // Henter super-klassens act (Rabbit's act)
+            super.act(world);
 
-        // Hvis Rabbit er 60, så har den chancen for at dø
-        dyingOfAge(world);
+            // Hvis Rabbit er 60, så har den chancen for at dø
+            dyingOfAge(world);
 
-        if (!hiding) {
-            Set<Location> neighbours = world.getSurroundingTiles();
-            List<Location> list = new ArrayList<>(neighbours);
-            int chanceOfBirth = r.nextInt(100);
-            for (Location location : list) {
-                if (world.getTile(location) instanceof AdultRabbit && chanceOfBirth >= 95) {
-                    breed(world);
-                    System.out.println("A baby rabbit has been born");
-                    return;
+            if (!hiding) {
+                Set<Location> neighbours = world.getSurroundingTiles();
+                List<Location> list = new ArrayList<>(neighbours);
+                int chanceOfBirth = r.nextInt(100);
+                for (Location location : list) {
+                    if (world.getTile(location) instanceof AdultRabbit && chanceOfBirth >= 95) {
+                        breed(world);
+                        System.out.println("A baby rabbit has been born");
+                        return;
+                    }
                 }
             }
-        }
 
-        //10% chance to dig rabbithole, if unblocking element is empty and rabbit has not dug a hole already
-        if (r.nextInt(100) < 10 && this.isAlive()) {
-            digRabbitHole(world);
+            //10% chance to dig rabbithole, if unblocking element is empty and rabbit has not dug a hole already
+            if (r.nextInt(100) < 10 && this.isAlive()) {
+                digRabbitHole(world);
+            }
         }
     }
 
