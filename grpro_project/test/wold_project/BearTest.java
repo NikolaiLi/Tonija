@@ -1,6 +1,7 @@
 package wold_project;
 
 import java.util.Random;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,9 +43,25 @@ public class BearTest {
         Location location = new Location(0,0);
         world.setCurrentLocation(location);
         world.setTile(location, bear);
+        bear.makeTerritory(world);
+        Set<Location> territory = bear.getTerritoryArea();
 
-        bear.act(world);
+        for(int i = 0; i < 10; i++){
+            bear.act(world);
+        }
 
-        
+        Location l = world.getLocation(bear);
+        assertTrue(territory.contains(l));
+    }
+
+    @Test
+    public void BearEatsCreature(){
+        Bear bear = new Bear();
+        Location location = new Location(0,0);
+        world.setCurrentLocation(location);
+        world.setTile(location, bear);
+        bear.makeTerritory(world);
+
+
     }
 }
