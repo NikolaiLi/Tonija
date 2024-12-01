@@ -13,7 +13,7 @@ import world_project.Grass;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class WorldTest {
+public class RabbitTest {
     World world;
     int size = 15;
     Random r = new Random();
