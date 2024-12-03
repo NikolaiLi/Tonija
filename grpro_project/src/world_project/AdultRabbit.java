@@ -11,7 +11,8 @@ import java.util.List;
 
 public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProvider {
     Random r = new Random();
-    DisplayInformation di_adult_rabbit = new DisplayInformation(Color.green, "rabbit-large");
+    DisplayInformation di_adult_rabbit_day = new DisplayInformation(Color.green, "rabbit-large");
+    DisplayInformation di_adult_rabbit_night = new DisplayInformation(Color.green, "rabbit-large-sleeping");
 
     public AdultRabbit(int energy) {
         super();
@@ -25,7 +26,7 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
 
     @Override
     public DisplayInformation getInformation() {
-        return di_adult_rabbit;
+            return di_adult_rabbit_day;
     }
 
     @Override
