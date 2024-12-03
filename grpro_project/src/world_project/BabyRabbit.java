@@ -34,7 +34,6 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
                return;
            }
 
-           // Henter superklassens act (Rabbit's act)
            super.act(world);
            return;
        }

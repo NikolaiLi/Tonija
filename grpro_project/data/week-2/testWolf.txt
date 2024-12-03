@@ -1,2 +1,3 @@
-10
-Wolf 3
+5
+rabbit 4
+grass 7

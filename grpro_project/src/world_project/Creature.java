@@ -1,37 +1,24 @@
 package world_project;
 
 import itumulator.simulator.Actor;
+import itumulator.world.Location;
 import itumulator.world.World;
+
+import java.util.*;
+
 abstract public class Creature implements Actor {
     protected int energy;
     protected int maxEnergy;
     protected boolean alive;
     protected int age;
+    protected int ageOfDeath;
     protected int health;
+    protected Random r = new Random();
 
     public Creature() {
         maxEnergy = energy;
         alive = true;
         age = 0;
-    }
-
-    public void starve() {
-        energy -= 5;
-    }
-
-    public void energize(){
-        energy += 30;
-        if (energy > maxEnergy) {
-            energy = maxEnergy;
-        }
-    }
-
-    public void increaseMaxEnergy(int n) {
-        maxEnergy += n;
-    }
-
-    public int getEnergy() {
-        return energy;
     }
 
     public abstract void move(World world);
@@ -44,8 +31,31 @@ abstract public class Creature implements Actor {
         return alive;
     }
 
+    public int getEnergy() {
+        return energy;
+    }
+
     public int getAge() {
         return age;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void starve() {
+        energy -= 5;
+    }
+
+    public void energize(int addEnergy){
+        energy += addEnergy;
+        if (energy > maxEnergy) {
+            energy = maxEnergy;
+        }
+    }
+
+    public void increaseMaxEnergy(int n) {
+        maxEnergy += n;
     }
 
     public void aging() {
@@ -54,19 +64,44 @@ abstract public class Creature implements Actor {
 
     public void attack(World world) {}
 
-    public int getHealth(World world) {
-        return health;
-    }
-
     public void takeDamage(int amountOfDamage) {
         health -= amountOfDamage;
     }
 
-    public void bledOut(World world) {
-        if (health <= 0) {
-            world.delete(this);
+    public void death(World world) {
+        alive = false;
+        world.delete(this);
+    }
+
+    public void hungerDeath(World world) {
+        alive = false;
+        world.delete(this);
+        System.out.println("Died of hunger");
+    }
+
+    public void moveTowards(World world, Location target) {
+        Location current = world.getLocation(this);
+        int diffX = target.getX() - current.getX();
+        int diffY = target.getY() - current.getY();
+
+        int stepX = Integer.compare(diffX, 0);
+        int stepY = Integer.compare(diffY, 0);
+
+        Location nextStep = new Location(current.getX() + stepX, current.getY() + stepY);
+
+        if (world.isTileEmpty(nextStep)) {
+            world.move(this, nextStep);
         }
     }
 
-
+    public void dyingOfAge(World world, int ageOfDeath) {
+        if (isAlive()) {
+            int chanceOfDying = r.nextInt(10);
+            if (age > ageOfDeath && chanceOfDying == 1) {
+                world.delete(this);
+                alive = false;
+                System.out.println("An adult rabbit has died of age");
+            }
+        }
+    }
 }

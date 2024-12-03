@@ -109,25 +109,13 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
                 Object objectBush = world.getTile(location);
                 Bush bush = (Bush) objectBush;
                 bush.isRipe(false);
-                energize();
+                energize(50);
             }
         }
     }
 
-    private void moveTowards(World world, Location target) {
-        Location current = world.getLocation(this);
-        int diffX = target.getX() - current.getX();
-        int diffY = target.getY() - current.getY();
-
-        int stepX = Integer.compare(diffX, 0);
-        int stepY = Integer.compare(diffY, 0);
-
-        Location nextStep = new Location(current.getX() + stepX, current.getY() + stepY);
-
-        if (world.isTileEmpty(nextStep)) {
-            world.move(this, nextStep);
-        }
-    }
+    @Override
+    public void moveTowards(World world, Location target) {super.moveTowards(world, target);}
 
     public void hunt(World world) {
         for (Location location : territoryArea) {
@@ -160,10 +148,8 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
 
             if (targetEnemy instanceof Creature creatureTargetEnemy && creatureTargetEnemy != this) {
                 creatureTargetEnemy.takeDamage(50);
-                System.out.println("Rabbit damaged by Bear");
-                if (creatureTargetEnemy.getHealth(world) <= 0) {
-                    energize();
-                    System.out.println("Bear ate Rabbit");
+                if (creatureTargetEnemy.getHealth() <= 0) {
+                    energize(75);
                 }
             }
         }

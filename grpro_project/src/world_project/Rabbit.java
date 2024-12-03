@@ -92,7 +92,7 @@ public abstract class Rabbit extends Creature {
             Object terrain = world.getNonBlocking(location);
             if (terrain instanceof Grass) {
                 world.delete(terrain);
-                this.energize();
+                this.energize(10);
             }
         }
     }
@@ -160,8 +160,8 @@ public abstract class Rabbit extends Creature {
      * Energize() er en metode, som giver energi til objektet, altså world_project.Rabbit.
      */
     @Override
-    public void energize() {
-        super.energize();
+    public void energize(int addEnergy) {
+        super.energize(addEnergy);
     }
 
     /**
@@ -175,7 +175,6 @@ public abstract class Rabbit extends Creature {
     /**
      * getHunger() er en metode som returnere det antal hunger som objektet har.
      */
-
     @Override
     public int getEnergy() {
         return super.getEnergy();
@@ -184,45 +183,29 @@ public abstract class Rabbit extends Creature {
     /**
      * isAlive() er en metode som returnerer en sandhedsværdi om world_project.Rabbit er død eller ej.
      */
-
     @Override
     public boolean isAlive() {
         return super.isAlive();
     }
 
+    @Override
+    public void aging(){super.aging();}
+
     /**
      * getCurrentHidingPlace() returns the rabbithole that this rabbit is currently hiding inside.
      */
-
     public RabbitHole getCurrentHidingPlace() {
         return currentHidingPlace;
     }
 
-    public void hungerDeath(World world) {
-        alive = false;
-        world.delete(this);
-        System.out.println("A rabbit has died of hunger");
-    }
+    @Override
+    public void hungerDeath(World world){super.hungerDeath(world);}
 
-    public void death(World world) {
-        alive = false;
-        world.delete(this);
-    }
+    @Override
+    public void death(World world) {super.death(world);}
 
-    private void moveTowards(World world, Location target) {
-        Location current = world.getLocation(this);
-        int diffX = target.getX() - current.getX();
-        int diffY = target.getY() - current.getY();
-
-        int stepX = Integer.compare(diffX, 0);
-        int stepY = Integer.compare(diffY, 0);
-
-        Location nextStep = new Location(current.getX() + stepX, current.getY() + stepY);
-
-        if (world.isTileEmpty(nextStep)) {
-            world.move(this, nextStep);
-        }
-    }
+    @Override
+    public void moveTowards(World world, Location target) {super.moveTowards(world, target);}
 
     public void seek(World world) {
         if (!hiding) {
