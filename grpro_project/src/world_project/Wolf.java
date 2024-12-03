@@ -17,9 +17,10 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     protected boolean isLeader;
     protected boolean hiding;
     protected Location wolfHoleLocation;
+    protected int wolfPackID;
+    private static int nextPackID = 0;
 
-    protected boolean AlreadyDugWolfhole = false;
-    protected Map<ArrayList<Wolf>, Location> wolfHoleLocations = new HashMap<>();
+    public static Map<Integer, Location> wolfHoleLocations = new HashMap<>();
 
 
     //1st Constructor: Filereader Constructor used when new wolf is created from files in filereader
@@ -29,9 +30,11 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         health = 80;
         energy = 125;
         maxEnergy = 125;
+
         wolfpack.add(this);
         this.isLeader = true;
         wolfHoleLocation = null;
+        wolfPackID = nextPackID;
 
         System.out.println("Created Packleader");
 
@@ -48,10 +51,12 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         health = 80;
         energy = 125;
         maxEnergy = 125;
+
         wolfpack = wolfmother.wolfpack;
         wolfpack.add(this);
         isLeader = false;
-        wolfHoleLocation = null;
+        wolfHoleLocation = wolfmother.getWolfHoleLocation();
+        wolfPackID = wolfmother.wolfPackID;
 
         System.out.println("Created wolf in wolfpack");
 
@@ -83,6 +88,8 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
         if (alive && health <= 0) {
             alive = false;
+            wolfpack.remove(this);
+            wolfpack.getFirst().isLeader = true;
             world.delete(this);
         }
 
@@ -182,7 +189,9 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
             if (world.isOnTile(target)) {
                 Location l = world.getLocation(target);
                 moveTowards(world, l);
+                return;
             }
+            move(world);
         }
     }
 
@@ -191,10 +200,10 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     //Wolf seeks the WolfHole registered to the wolfpack.
     //if no wolfhole is currently registered to wolfpack, method does nothing.
     public void seekWolfHole(World world) {
-        if (!hiding && AlreadyDugWolfhole && wolfpack.getFirst().getWolfHoleLocation() != null) {
-            for (Wolf wolf : wolfpack) {
-                moveTowards(world, wolfHoleLocation);
-            }
+        if (!hiding && wolfHoleLocations.containsKey(wolfPackID)) {
+            moveTowards(world, wolfHoleLocations.get(wolfPackID));
+        } else if (!hiding) {
+            move(world);
         }
     }
 
@@ -238,18 +247,15 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     //digs a WolfHole. Only 1 WolfHole is possible per wolfpack.
     //if wolfTerritories already contains a wolfhole for the wolf's pack, returns method
     public void digWolfHole(World world) {
-        if (isLeader && !hiding && !AlreadyDugWolfhole && (!wolfHoleLocations.containsKey(wolfpack))) {
+        if (isLeader && !hiding && (!wolfHoleLocations.containsKey(wolfPackID))) {
             System.out.println("wolf tries to dig hole");
             if ((r.nextInt(100)) < 10) {
                 Location current = world.getLocation(this);
                 if (!world.containsNonBlocking(current)) {
                     WolfHole wolfhole = new WolfHole();
                     world.setTile(current, wolfhole);
-                    wolfHoleLocations.put(wolfpack, current);
-                    for(Wolf w : wolfpack) {
-                        AlreadyDugWolfhole = true;
-                        wolfHoleLocation = current;
-                    }
+                    wolfHoleLocations.put(wolfPackID, current);
+
                     System.out.println("WolfLeader has dug a hole at " + current);
                     return;
 
@@ -265,9 +271,9 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
     //Wolf hides, if not currently
     public void hide(World world) {
-        if(world.isOnTile(this) && !hiding && wolfHoleLocations.containsKey(wolfpack)) {
+        if(world.isOnTile(this) && !hiding && wolfHoleLocations.containsKey(wolfPackID)) {
             Object o = world.getNonBlocking(world.getLocation(this));
-            Location home = wolfHoleLocations.get(wolfpack);
+            Location home = wolfHoleLocations.get(wolfPackID);
             Location currentLocation = world.getLocation(this);
 
             if (o instanceof WolfHole wolfhole && home.equals(currentLocation)) {
@@ -282,7 +288,7 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
     public void unhide(World world) {
         if (!world.isOnTile(this) && hiding) {
-            Location hidingSpot = wolfHoleLocations.get(wolfpack);
+            Location hidingSpot = wolfHoleLocations.get(wolfPackID);
             world.setCurrentLocation(hidingSpot);
             ArrayList<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
 
@@ -296,6 +302,9 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
+
+
+// GET-Methods
 
     public Location getWolfHoleLocation() {
         return wolfHoleLocation;
@@ -322,7 +331,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
             System.out.println("Path blocked!");
         }
     }
-
 
 
 }
