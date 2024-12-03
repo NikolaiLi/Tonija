@@ -21,7 +21,7 @@ public class Main {
 
 
         //------------------------FILE MANIPULATION------------------------\\
-        String filePath = "data/week-2/tf2-5.txt";
+        String filePath = "data/week-2/testWolf.txt";
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;
@@ -72,41 +72,23 @@ public class Main {
                         System.out.println("Added " + count + " Grass objects");
                         //------------------------PLACE GRASS------------------------\\
                         for (int i = 0; i < count; i++) {
-                            int x = r.nextInt(size);
-                            int y = r.nextInt(size);
-                            Location l = new Location(x, y);
-
-                            while (!world.isTileEmpty(l) || world.containsNonBlocking(l)) {
-                                x = r.nextInt(size);
-                                y = r.nextInt(size);
-                                l = new Location(x, y);
-                            }
-
-                            world.setTile(l, new Grass());
+                            world.setTile(addLocation(world, r, size), new Grass());
                         }
                         break;
 
                     case "rabbit":
                         System.out.println("Added " + count + " Rabbits objects");
                         //------------------------PLACE RABBIT------------------------\\
-                        addObjects(count, BabyRabbit::new, size, r, world);
+                        for (int i = 0; i < count; i++) {
+                            world.setTile(addLocation(world,r,size), new BabyRabbit());
+                        }
                             break;
 
                     case "burrow":
                         System.out.println("Added " + count + " RabbitHole objects");
                         //------------------------PLACE RABBIT HOLE------------------------\\
                         for (int i = 0; i < count; i++) {
-                            int x = r.nextInt(size);
-                            int y = r.nextInt(size);
-                            Location l = new Location(x, y);
-
-                            while (!world.isTileEmpty(l) || world.containsNonBlocking(l)) {
-                                x = r.nextInt(size);
-                                y = r.nextInt(size);
-                                l = new Location(x, y);
-                            }
-
-                            world.setTile(l, new RabbitHole(world,l));
+                            world.setTile(addLocation(world,r,size), new RabbitHole(world,addLocation(world,r,size)));
                         }
                         break;
 
@@ -114,49 +96,33 @@ public class Main {
                         System.out.println("Added " + count + " Wolf objects");
                         //------------------------PLACE WOLF------------------------\\
                         for (int i = 0; i < 1; i++) {
-                            int x = r.nextInt(size);
-                            int y = r.nextInt(size);
-                            Location l = new Location(x, y);
-
-                            while (!world.isTileEmpty(l) || world.containsNonBlocking(l)) {
-                                x = r.nextInt(size);
-                                y = r.nextInt(size);
-                                l = new Location(x, y);
-                            }
-
+                            Location l = addLocation(world,r,size);
                             world.setTile(l, new Wolf(count, world, l));
-                        }
-                        break;
-
-                    case "bear":
-                        System.out.println("Added " + count + " Bear objects");
-                        //------------------------PLACE BEAR------------------------\\
-                        for (int i = 0; i < count; i++) {
-                            Location l;
-
-                            if (hasCoordinates) {
-                                l = new Location(bearXCoordinate, bearYCoordinate);
-                            } else {
-                                int x = r.nextInt(size);
-                                int y = r.nextInt(size);
-                                l = new Location(x, y);
-
-                                while (!world.isTileEmpty(l) || world.containsNonBlocking(l)) {
-                                    x = r.nextInt(size);
-                                    y = r.nextInt(size);
-                                    l = new Location(x, y);
-                                }
-                            }
-
-                            System.out.println("Bear coordinates: " + l.getX() + ", " + l.getY());
-                            world.setTile(l, new Bear());
                         }
                         break;
 
                     case "berry":
                         System.out.println("Added " + count + " Bush objects");
                         //------------------------PLACE BERRY BUSH------------------------\\
-                        addObjects(count, Bush::new,size, r, world);
+                        for (int i = 0; i < count; i++) {
+                            world.setTile(addLocation(world,r,size), new Bush());
+                        }
+                        break;
+
+                    case "bear":
+                        System.out.println("Added " + count + " Bear objects");
+                        //------------------------PLACE BEAR------------------------\\
+                        Location l;
+                        for (int i = 0; i < count; i++) {
+                            if (hasCoordinates) {
+                                l = new Location(bearXCoordinate, bearYCoordinate);
+                            }
+                            else {
+                                l = addLocation(world,r,size);
+                            }
+                            System.out.println("Bear coordinates: " + l.getX() + ", " + l.getY());
+                            world.setTile(l, new Bear());
+                        }
                         break;
                 }
 
@@ -170,19 +136,23 @@ public class Main {
         p.simulate();
     }
 
-    private static void addObjects(int count, Supplier<Object> objectSupplier, int size, Random r, World world){
-        for (int i = 0; i < count; i++) {
-            int x = r.nextInt(size);
-            int y = r.nextInt(size);
-            Location l = new Location(x, y);
+    /**
+     * Reduces potential redundancy with finding a random free tile to place blocking objects
+     * @param world to access the world library
+     * @param r fetch a randum number for finding a random tile
+     * @param size using the size of the program to avoid tileOutOfBounds errors
+     * @return location for the object to be placed on
+     */
+    private static Location addLocation(World world, Random r, int size){
+        int x = r.nextInt(size);
+        int y = r.nextInt(size);
+        Location l = new Location(x, y);
 
-            while (!world.isTileEmpty(l) || world.containsNonBlocking(l)) {
-                x = r.nextInt(size);
-                y = r.nextInt(size);
-                l = new Location(x, y);
-            }
-
-            world.setTile(l, objectSupplier.get());
+        while (!world.isTileEmpty(l) || world.containsNonBlocking(l)) {
+            x = r.nextInt(size);
+            y = r.nextInt(size);
+            l = new Location(x, y);
         }
+        return l;
     }
 }
