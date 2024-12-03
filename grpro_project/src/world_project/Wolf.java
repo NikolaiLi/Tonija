@@ -232,8 +232,8 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
             if (targetEnemy instanceof Creature creatureTargetEnemy && creatureTargetEnemy != this) {
                 creatureTargetEnemy.takeDamage(35);
                 System.out.println("Enemy creature damaged by Wolf");
-                if (creatureTargetEnemy.getHealth(world) <= 0) {
-                    energize();
+                if (creatureTargetEnemy.getHealth() <= 0) {
+                    energize(100);
                     System.out.println("Wolf ate enemy creature");
                 }
             }
@@ -302,35 +302,13 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
-
+    @Override
+    public void moveTowards(World world, Location target) {
+        super.moveTowards(world, target);
+    }
 
 // GET-Methods
-
     public Location getWolfHoleLocation() {
         return wolfHoleLocation;
     }
-
-
-
-// PRIVATE methods
-
-    //moves towards target location
-    private void moveTowards(World world, Location target) {
-        Location current = world.getLocation(this);
-        int diffX = target.getX() - current.getX();
-        int diffY = target.getY() - current.getY();
-
-        int stepX = Integer.compare(diffX, 0);
-        int stepY = Integer.compare(diffY, 0);
-
-        Location nextStep = new Location(current.getX() + stepX, current.getY() + stepY);
-
-        if (world.isTileEmpty(nextStep)) {
-            world.move(this, nextStep);
-        } else {
-            System.out.println("Path blocked!");
-        }
-    }
-
-
 }
