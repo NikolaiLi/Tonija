@@ -15,6 +15,7 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
 
     public AdultRabbit(int energy) {
         super();
+        animal = "Adult Rabbit";
         age = 15;
         ageOfDeath = 60;
         this.energy = energy;
@@ -30,16 +31,17 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
     @Override
     public void act(World world) {
         //outside the act loop
-        if (alive && health <= 0) {
-            alive = false;
-            world.delete(this);
-        }
+        //tjekker om Adult rabbit er død af hunger, age eller damage
+
+        hungerDeath(world, animal);
+
+        deathByDamage(world, animal);
+
+        dyingOfAge(world,ageOfDeath, animal);
 
         while (alive) {
 
             super.act(world);
-
-            dyingOfAge(world,ageOfDeath);
 
             breed(world);
 
@@ -52,7 +54,7 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
     }
 
     @Override
-    public void dyingOfAge(World world, int ageOfDeath) {super.dyingOfAge(world,ageOfDeath);}
+    public void dyingOfAge(World world, int ageOfDeath, String animal) {super.dyingOfAge(world,ageOfDeath, animal);}
 
 
     public void breed(World world) {

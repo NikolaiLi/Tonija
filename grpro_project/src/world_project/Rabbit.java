@@ -12,6 +12,7 @@ public abstract class Rabbit extends Creature {
 
     public Rabbit() {
         super();
+        animal = "Rabbit";
         energy = 100;
         maxEnergy = 100;
         hiding = false;
@@ -22,18 +23,12 @@ public abstract class Rabbit extends Creature {
     public void act(World world)
     {
         // Tjekker hvis world_project.Rabbit er død, hvis den er, skal det return ingenting.
-        if (alive && health <= 0) {
-            death(world);
-        }
+        hungerDeath(world, animal);
+
+        deathByDamage(world, animal);
 
         //act runs in a loop that works while creature is alive
         while (alive) {
-
-             //Tjekker om kaninen er ved at dø af sult
-            if (getEnergy() <= 0) {
-                hungerDeath(world);
-                return;
-            }
 
             // Bliver ældre
             aging();
@@ -199,10 +194,10 @@ public abstract class Rabbit extends Creature {
     }
 
     @Override
-    public void hungerDeath(World world){super.hungerDeath(world);}
+    public void hungerDeath(World world, String death){super.hungerDeath(world, animal);}
 
     @Override
-    public void death(World world) {super.death(world);}
+    public void deathByDamage(World world, String animal) {super.deathByDamage(world, animal);}
 
     @Override
     public void moveTowards(World world, Location target) {super.moveTowards(world, target);}

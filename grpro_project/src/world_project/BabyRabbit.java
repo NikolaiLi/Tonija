@@ -13,6 +13,7 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
     public BabyRabbit() {
         super();
         health = 10;
+        animal = "Baby Rabbit";
     }
 
     DisplayInformation di_baby_rabbit = new DisplayInformation(Color.magenta, "rabbit-small");
@@ -23,10 +24,11 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
     }
 
     public void act(World world) {
-        if (alive && health <= 0) {
-            alive = false;
-            world.delete(this);
-        }
+
+        //tjekker om baby rabbit er død af hunger, age eller damage
+        hungerDeath(world, animal);
+
+        deathByDamage(world, animal);
 
         while (alive) {
            if (age == 15) {

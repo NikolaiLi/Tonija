@@ -17,10 +17,12 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
     DisplayInformation di_bear = new DisplayInformation(Color.red, "bear");
 
     public Bear() {
+        animal = "Bear";
         maxEnergy = 200;
         energy = maxEnergy;
         health = 200;
         alive = true;
+        ageOfDeath = 150;
     }
 
     @Override
@@ -32,15 +34,13 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
     @Override
     public void act(World world) {
 
-        if (alive && health <= 0) {
-            alive = false;
-            world.delete(this);
-        }
+        //tjekker om bear er død af hunger, age eller damage
 
-        if (energy <= 0 && alive) {
-            alive = false;
-            world.delete(this);
-        }
+        hungerDeath(world, animal);
+
+        deathByDamage(world, animal);
+
+        dyingOfAge(world, ageOfDeath, animal);
 
         while (alive) {
             // Creates territory for the bear
@@ -61,7 +61,8 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
             // Bear using energy
             starve();
 
-            System.out.println(energy);
+            //aldrer bear
+            aging();
 
             return;
         }

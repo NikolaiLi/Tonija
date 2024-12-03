@@ -7,6 +7,7 @@ import itumulator.world.World;
 import java.util.*;
 
 abstract public class Creature implements Actor {
+    protected String animal;
     protected int energy;
     protected int maxEnergy;
     protected boolean alive;
@@ -68,15 +69,31 @@ abstract public class Creature implements Actor {
         health -= amountOfDamage;
     }
 
-    public void death(World world) {
-        alive = false;
-        world.delete(this);
+    public void deathByDamage(World world, String animal) {
+        if (alive && health <= 0) {
+            alive = false;
+            world.delete(this);
+            System.out.println(animal + " has bled out and died");
+        }
     }
 
-    public void hungerDeath(World world) {
-        alive = false;
-        world.delete(this);
-        System.out.println("Died of hunger");
+    public void hungerDeath(World world, String animal) {
+        if (energy <= 0 && alive) {
+            alive = false;
+            world.delete(this);
+            System.out.println(animal + " has died of hunger");
+        }
+    }
+
+    public void dyingOfAge(World world, int ageOfDeath, String animal) {
+        if (isAlive()) {
+            int chanceOfDying = r.nextInt(10);
+            if (age > ageOfDeath && chanceOfDying == 1) {
+                world.delete(this);
+                alive = false;
+                System.out.println(animal + " has died of age");
+            }
+        }
     }
 
     public void moveTowards(World world, Location target) {
@@ -91,17 +108,6 @@ abstract public class Creature implements Actor {
 
         if (world.isTileEmpty(nextStep)) {
             world.move(this, nextStep);
-        }
-    }
-
-    public void dyingOfAge(World world, int ageOfDeath) {
-        if (isAlive()) {
-            int chanceOfDying = r.nextInt(10);
-            if (age > ageOfDeath && chanceOfDying == 1) {
-                world.delete(this);
-                alive = false;
-                System.out.println("An adult rabbit has died of age");
-            }
         }
     }
 }

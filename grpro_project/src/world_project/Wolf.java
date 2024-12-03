@@ -27,9 +27,11 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     //This wolf automatically creates a Wolfpack, and becomes the leader, then calls 2nd Constructor to create the rest of the pack.
     Wolf(int number, World world, Location initialSpawn) {
         super();
+        animal = "WolfLeader";
         health = 80;
         energy = 125;
         maxEnergy = 125;
+        ageOfDeath = 80;
 
         wolfpack.add(this);
         this.isLeader = true;
@@ -48,9 +50,11 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     // Or when the wolfLeader calls it before simulation starts running to complete the rest of the wolfpack from filereader.
     Wolf(Wolf wolfmother, World world, Location initialSpawn) {
         super();
+        animal = "Wolf";
         health = 80;
         energy = 125;
         maxEnergy = 125;
+        ageOfDeath = 80;
 
         wolfpack = wolfmother.wolfpack;
         wolfpack.add(this);
@@ -85,13 +89,12 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     @Override
     public void act(World world) {
 
+        //tjekker om wolf er død af hunger, age, eller damage
+        hungerDeath(world, animal);
 
-        if (alive && health <= 0) {
-            alive = false;
-            wolfpack.remove(this);
-            wolfpack.getFirst().isLeader = true;
-            world.delete(this);
-        }
+        deathByDamage(world, animal);
+
+        dyingOfAge(world, ageOfDeath, animal);
 
         while (alive) {
 
@@ -122,6 +125,8 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
             }
 
+            aging();
+
             return;
         }
     }
@@ -151,6 +156,48 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
+
+    @Override
+    public void deathByDamage(World world, String animal) {
+        if (alive && health <= 0) {
+            alive = false;
+            if (isLeader) {
+                wolfpack.remove(this);
+                wolfpack.getFirst().isLeader = true;
+            }
+            world.delete(this);
+            System.out.println(animal + " has bled out and died");
+        }
+    }
+
+    @Override
+    public void hungerDeath(World world, String animal) {
+        if (energy <= 0 && alive) {
+            alive = false;
+            if (isLeader) {
+                wolfpack.remove(this);
+                wolfpack.getFirst().isLeader = true;
+            }
+            world.delete(this);
+            System.out.println(animal + " has died of hunger");
+        }
+    }
+
+    @Override
+    public void dyingOfAge(World world, int ageOfDeath, String animal) {
+        if (isAlive()) {
+            int chanceOfDying = r.nextInt(10);
+            if (age > ageOfDeath && chanceOfDying == 1) {
+                if (isLeader) {
+                    wolfpack.remove(this);
+                    wolfpack.getFirst().isLeader = true;
+                }
+                world.delete(this);
+                alive = false;
+                System.out.println(animal + " has died of age");
+            }
+        }
+    }
 
 
 //Movement methods
@@ -257,11 +304,9 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
                     wolfHoleLocations.put(wolfPackID, current);
 
                     System.out.println("WolfLeader has dug a hole at " + current);
-                    return;
 
                 } else {
                     System.out.println("Cannot dig Wolfhole. Non-blocking element already present on tile");
-                    return;
                 }
             }
         }
