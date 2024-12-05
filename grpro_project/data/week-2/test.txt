@@ -1,3 +1,6 @@
-4
-bear 1 (2,2)
-carcass fungi 1-3
+10
+bear 2
+wolf 3
+rabbit 5-15
+berry 6
+grass 7-15

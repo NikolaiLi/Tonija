@@ -102,9 +102,11 @@ abstract public class Creature implements Actor {
     }
 
     public void dropCarcass(World world) {
-        Location l = world.getLocation(this);
-        world.delete(this);
-        world.setTile(l, new Carcass(maxHealth, isInfected));
+        if (world.isOnTile(this)) {
+            Location l = world.getLocation(this);
+            world.delete(this);
+            world.setTile(l, new Carcass(maxHealth, isInfected));
+        }
     }
 
     public void moveTowards(World world, Location target) {
