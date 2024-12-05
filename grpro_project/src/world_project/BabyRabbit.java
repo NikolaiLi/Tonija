@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvider {
     DisplayInformation di_baby_rabbit = new DisplayInformation(Color.magenta, "rabbit-small");
-    DisplayInformation di_baby_rabbit_sleeping = new DisplayInformation(Color.magenta, "rabbit-small_sleeping");
+    DisplayInformation di_baby_rabbit_sleeping = new DisplayInformation(Color.magenta, "rabbit-small-sleeping");
     DisplayInformation currentDisplayInformation = di_baby_rabbit;
 
     public BabyRabbit() {

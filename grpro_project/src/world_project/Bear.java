@@ -15,7 +15,7 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
     Location territoryCenter;
     Set<Location> territoryArea;
     DisplayInformation di_bear = new DisplayInformation(Color.red, "bear");
-    DisplayInformation di_bear_sleeping = new DisplayInformation(Color.red, "bear_sleeping");
+    DisplayInformation di_bear_sleeping = new DisplayInformation(Color.red, "bear-sleeping");
     DisplayInformation currentDisplayInformation = di_bear;
 
     public Bear() {

@@ -11,8 +11,8 @@ import java.util.List;
 
 public class Wolf extends Creature implements DynamicDisplayInformationProvider {
     public DisplayInformation di_wolf = new DisplayInformation(Color.gray, "wolf");
-    public DisplayInformation di_wolf_sleeping = new DisplayInformation(Color.gray, "wolf");
-    public DisplayInformation currentDisplayInformation = new DisplayInformation(Color.gray, "wolf");
+    public DisplayInformation di_wolf_sleeping = new DisplayInformation(Color.gray, "wolf-sleeping");
+    public DisplayInformation currentDisplayInformation = di_wolf;
 
     Random r = new Random();
 
@@ -92,6 +92,9 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     @Override
     public void act(World world) {
 
+        //opdaterer displayInformation når dyret skal sove
+        changeCurrentDisplay(world);
+
         //tjekker om wolf er død af hunger, age, eller damage
         hungerDeath(world, animal);
 
@@ -140,7 +143,7 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
     @Override
     public DisplayInformation getInformation() {
-        return di_wolf;
+        return currentDisplayInformation;
     }
 
     @Override
