@@ -278,11 +278,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
             if (targetEnemy instanceof Creature creatureTargetEnemy && creatureTargetEnemy != this) {
                 creatureTargetEnemy.takeDamage(35);
-                System.out.println("Enemy creature damaged by Wolf");
-                if (creatureTargetEnemy.getHealth() <= 0) {
-                    energize(100);
-                    System.out.println("Wolf ate enemy creature");
-                }
             }
         }
     }
@@ -295,7 +290,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     //if wolfTerritories already contains a wolfhole for the wolf's pack, returns method
     public void digWolfHole(World world) {
         if (isLeader && !hiding && (!wolfHoleLocations.containsKey(wolfPackID))) {
-            System.out.println("wolf tries to dig hole");
             if ((r.nextInt(100)) < 10) {
                 Location current = world.getLocation(this);
                 if (!world.containsNonBlocking(current)) {
