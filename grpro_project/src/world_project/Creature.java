@@ -15,9 +15,10 @@ abstract public class Creature implements Actor {
     protected int age;
     protected int ageOfDeath;
     protected int health;
-    public int maxHealth;
-    public boolean isInfected;
+    protected int maxHealth;
+    protected boolean isInfected;
     protected Random r = new Random();
+    protected boolean sleeping;
 
     public Creature() {
         maxEnergy = energy;
