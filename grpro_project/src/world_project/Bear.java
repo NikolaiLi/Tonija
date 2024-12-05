@@ -49,26 +49,29 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
         dyingOfAge(world, ageOfDeath, animal);
 
         while (alive) {
-            // Creates territory for the bear
-            makeTerritory(world);
 
-            // Bear moves around randomly in the territory
-            move(world);
+            if (world.isDay()) {
+                // Creates territory for the bear
+                makeTerritory(world);
 
-            // If there's a prey in Bears territory, it will hunt.
-            hunt(world);
+                // Bear moves around randomly in the territory
+                move(world);
 
-            // If there is a Creature nearby, the bear will attack the Creature
-            attack(world);
+                // If there's a prey in Bears territory, it will hunt.
+                hunt(world);
 
-            // If there is a berry bush nearby, the bear will eat the berries in the bush.
-            eat(world);
+                // If there is a Creature nearby, the bear will attack the Creature
+                attack(world);
 
-            // Bear using energy
-            starve();
+                // If there is a berry bush nearby, the bear will eat the berries in the bush.
+                eat(world);
 
-            //aldrer bear
-            aging();
+                // Bear using energy
+                starve();
+
+                //aldrer bear
+                aging();
+            }
 
             return;
         }
