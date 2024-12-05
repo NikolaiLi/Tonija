@@ -1,5 +1,6 @@
 package world_project;
 
+import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.simulator.Actor;
 import itumulator.world.Location;
 import itumulator.world.World;
@@ -14,13 +15,15 @@ abstract public class Creature implements Actor {
     protected int age;
     protected int ageOfDeath;
     protected int health;
-    protected int maxHealth;
+    public int maxHealth;
+    public boolean isInfected;
     protected Random r = new Random();
 
     public Creature() {
         maxEnergy = energy;
         alive = true;
         age = 0;
+        isInfected = false;
     }
 
     public abstract void move(World world);
@@ -73,7 +76,7 @@ abstract public class Creature implements Actor {
     public void deathByDamage(World world, String animal) {
         if (alive && health <= 0) {
             alive = false;
-            world.delete(this);
+            dropCarcass(world);
             System.out.println(animal + " has bled out and died");
         }
     }
@@ -81,7 +84,7 @@ abstract public class Creature implements Actor {
     public void hungerDeath(World world, String animal) {
         if (energy <= 0 && alive) {
             alive = false;
-            world.delete(this);
+            dropCarcass(world);
             System.out.println(animal + " has died of hunger");
         }
     }
@@ -90,11 +93,17 @@ abstract public class Creature implements Actor {
         if (isAlive()) {
             int chanceOfDying = r.nextInt(10);
             if (age > ageOfDeath && chanceOfDying == 1) {
-                world.delete(this);
                 alive = false;
+                dropCarcass(world);
                 System.out.println(animal + " has died of age");
             }
         }
+    }
+
+    public void dropCarcass(World world) {
+        Location l = world.getLocation(this);
+        world.delete(this);
+        world.setTile(l, new Carcass(maxHealth, isInfected));
     }
 
     public void moveTowards(World world, Location target) {

@@ -21,7 +21,7 @@ public class Main {
 
 
         //------------------------FILE MANIPULATION------------------------\\
-        String filePath = "data/week-2/testWolf.txt";
+        String filePath = "data/week-2/test.txt";
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;

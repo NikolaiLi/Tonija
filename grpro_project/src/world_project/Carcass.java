@@ -1,19 +1,26 @@
 package world_project;
 
+import itumulator.executable.DisplayInformation;
+import itumulator.executable.DynamicDisplayInformationProvider;
 import itumulator.simulator.Actor;
 import itumulator.world.Location;
 import itumulator.world.World;
 
+import java.awt.*;
 import java.util.*;
 
-public class Carcass implements Actor {
+public class Carcass implements Actor, DynamicDisplayInformationProvider {
     boolean infected;
     int duration;
     int maxDuration;
     boolean isBig;
     Random r;
+    DisplayInformation displayBig;
+    DisplayInformation displaySmall;
 
     Carcass(int maxHealth, boolean isInfected) {
+        displayBig = new DisplayInformation(Color.blue, "carcass");
+        displaySmall = new DisplayInformation(Color.blue, "carcass-small");
         infected = isInfected;
         isBig = maxHealth >= 150;
 
@@ -23,6 +30,15 @@ public class Carcass implements Actor {
             duration = 50;
         }
         maxDuration = duration;
+    }
+
+    @Override
+    public DisplayInformation getInformation() {
+        if (isBig) {
+            return displayBig;
+        } else {
+            return displaySmall;
+        }
     }
 
     @Override
