@@ -113,6 +113,13 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
                 bush.isRipe(false);
                 energize(50);
             }
+
+            if (world.getTile(location) instanceof Carcass) {
+                Object objectCarcass = world.getTile(location);
+                Carcass carcass = (Carcass) objectCarcass;
+                carcass.gettingEaten(50);
+                energize(50);
+            }
         }
     }
 

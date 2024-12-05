@@ -98,6 +98,8 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
         while (alive) {
 
+            eat(world);
+
             //only happens during the day
             if (world.isDay()) {
 
@@ -140,6 +142,22 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
     @Override
     public void eat(World world) {
+        Set<Location> neighbourTiles = world.getSurroundingTiles();
+        List<Location> locations = new ArrayList<>(neighbourTiles);
+        Location wolf_location = world.getLocation(this);
+
+        for (Location location : locations) {
+            if(location.equals(wolf_location)) {
+                continue;
+            }
+
+            if (world.getTile(location) instanceof Carcass) {
+                Object objectCarcass = world.getTile(location);
+                Carcass carcass = (Carcass) objectCarcass;
+                carcass.gettingEaten(35);
+                energize(35);
+            }
+        }
     }
 
 

@@ -8,6 +8,7 @@ import java.util.*;
 
 public class Fungi implements Actor {
 
+
     public Fungi(boolean isBig) {
 
     }

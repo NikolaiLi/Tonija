@@ -68,6 +68,10 @@ public class Carcass implements Actor, DynamicDisplayInformationProvider {
         infected = true;
     }
 
+    public void gettingEaten(int damage) {
+        duration -= damage;
+    }
+
     public void chanceOfInfection() {
         if (!infected) {
             r = new Random();
