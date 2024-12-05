@@ -15,6 +15,7 @@ public class Main {
         int delay = 150;
         int display_size = 800;
         int count;
+        boolean hasCoordinates;
         Random r = new Random();
         Program p;
         World world;
@@ -54,7 +55,8 @@ public class Main {
                     numberInfo = parts[1];
                 }
 
-                boolean hasCoordinates = parts[2].contains("(");
+                hasCoordinates = parts.length > 2 && parts[2].contains("(");
+
                 int bearXCoordinate = -1, bearYCoordinate = -1;
 
                 if (hasCoordinates) {
