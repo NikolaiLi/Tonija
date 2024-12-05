@@ -15,6 +15,8 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
     Location territoryCenter;
     Set<Location> territoryArea;
     DisplayInformation di_bear = new DisplayInformation(Color.red, "bear");
+    DisplayInformation di_bear_sleeping = new DisplayInformation(Color.red, "bear_sleeping");
+    DisplayInformation currentDisplayInformation = di_bear;
 
     public Bear() {
         animal = "Bear";
@@ -28,12 +30,15 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
 
     @Override
     public DisplayInformation getInformation() {
-        return di_bear;
+        return currentDisplayInformation;
     }
 
 
     @Override
     public void act(World world) {
+
+        //opdaterer displayInformation når dyret skal sove
+        changeCurrentDisplay(world);
 
         //tjekker om bear er død af hunger, age eller damage
 
@@ -167,6 +172,16 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
 
     public Location getTerritoryCenter() {
         return territoryCenter;
+    }
+
+// PRIVATE METHODS
+
+    private void changeCurrentDisplay (World world) {
+        if (world.isDay()) {
+            currentDisplayInformation = di_bear;
+        } else if (world.isNight()) {
+            currentDisplayInformation = di_bear_sleeping;
+        }
     }
 
 }

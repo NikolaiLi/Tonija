@@ -11,8 +11,9 @@ import java.util.List;
 
 public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProvider {
     Random r = new Random();
-    DisplayInformation di_adult_rabbit_day = new DisplayInformation(Color.green, "rabbit-large");
-    DisplayInformation di_adult_rabbit_night = new DisplayInformation(Color.green, "rabbit-large-sleeping");
+    DisplayInformation di_adult_rabbit = new DisplayInformation(Color.green, "rabbit-large");
+    DisplayInformation di_adult_rabbit_sleeping = new DisplayInformation(Color.green, "rabbit-sleeping");
+    DisplayInformation currentDisplayInformation = di_adult_rabbit;
 
     public AdultRabbit(int energy) {
         super();
@@ -26,13 +27,16 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
     }
 
     @Override
-    public DisplayInformation getInformation() {
-            return di_adult_rabbit_day;
-    }
+    public DisplayInformation getInformation() {return currentDisplayInformation;}
+
 
     @Override
     public void act(World world) {
         //outside the act loop
+
+        //opdaterer displayInformation når dyret skal sove
+        changeCurrentDisplay(world);
+
         //tjekker om Adult rabbit er død af hunger, age eller damage
 
         hungerDeath(world, animal);
@@ -117,5 +121,17 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
 
     }
 
+
+
+
+// PRIVATE METHODS
+
+    private void changeCurrentDisplay (World world) {
+        if (world.isDay()) {
+            currentDisplayInformation = di_adult_rabbit;
+        } else if (world.isNight() && !hiding && !hasBuiltRabbitHole()) {
+            currentDisplayInformation = di_adult_rabbit_sleeping;
+        }
+    }
 
 }

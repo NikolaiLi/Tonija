@@ -11,6 +11,9 @@ import java.util.List;
 
 public class Wolf extends Creature implements DynamicDisplayInformationProvider {
     public DisplayInformation di_wolf = new DisplayInformation(Color.gray, "wolf");
+    public DisplayInformation di_wolf_sleeping = new DisplayInformation(Color.gray, "wolf");
+    public DisplayInformation currentDisplayInformation = new DisplayInformation(Color.gray, "wolf");
+
     Random r = new Random();
 
     protected ArrayList<Wolf> wolfpack = new ArrayList<>();
@@ -357,8 +360,22 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         super.moveTowards(world, target);
     }
 
+
+
 // GET-Methods
     public Location getWolfHoleLocation() {
         return wolfHoleLocation;
     }
+
+
+
+//PRIVATE METHODS
+    private void changeCurrentDisplay (World world) {
+        if (world.isDay()) {
+            currentDisplayInformation = di_wolf;
+        } else if (world.isNight() && !hiding && !wolfHoleLocations.containsKey(wolfPackID)) {
+            currentDisplayInformation = di_wolf_sleeping;
+        }
+    }
+
 }

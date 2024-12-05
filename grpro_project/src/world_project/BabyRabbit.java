@@ -9,6 +9,9 @@ import java.awt.*;
 
 
 public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvider {
+    DisplayInformation di_baby_rabbit = new DisplayInformation(Color.magenta, "rabbit-small");
+    DisplayInformation di_baby_rabbit_sleeping = new DisplayInformation(Color.magenta, "rabbit-small_sleeping");
+    DisplayInformation currentDisplayInformation = di_baby_rabbit;
 
     public BabyRabbit() {
         super();
@@ -17,14 +20,17 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
         animal = "Baby Rabbit";
     }
 
-    DisplayInformation di_baby_rabbit = new DisplayInformation(Color.magenta, "rabbit-small");
+
 
     @Override
     public DisplayInformation getInformation() {
-        return di_baby_rabbit;
+        return currentDisplayInformation;
     }
 
     public void act(World world) {
+
+        //opdaterer displayInformation når dyret skal sove
+        changeCurrentDisplay(world);
 
         //tjekker om baby rabbit er død af hunger, age eller damage
         hungerDeath(world, animal);
@@ -63,6 +69,16 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
             Location l = world.getLocation(this);
             world.delete(this);
             world.setTile(l, new AdultRabbit(getEnergy()));
+        }
+    }
+
+
+//PRIVATE METHODS
+    private void changeCurrentDisplay (World world) {
+        if (world.isDay()) {
+            currentDisplayInformation = di_baby_rabbit;
+        } else if (world.isNight() && !hiding && !hasBuiltRabbitHole()) {
+            currentDisplayInformation = di_baby_rabbit_sleeping;
         }
     }
 }
