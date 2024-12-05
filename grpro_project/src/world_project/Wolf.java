@@ -79,8 +79,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
             if (!neighbours.isEmpty()) {
                 Location l = neighbours.get(r.nextInt(neighbours.size()));
                 world.setTile(l, this);
-            } else {
-                System.out.println("No empty tile to spawn wolf");
             }
         }
     }
@@ -304,11 +302,7 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
                     WolfHole wolfhole = new WolfHole();
                     world.setTile(current, wolfhole);
                     wolfHoleLocations.put(wolfPackID, current);
-
                     System.out.println("WolfLeader has dug a hole at " + current);
-
-                } else {
-                    System.out.println("Cannot dig Wolfhole. Non-blocking element already present on tile");
                 }
             }
         }
@@ -326,9 +320,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
             if (o instanceof WolfHole wolfhole && home.equals(currentLocation)) {
                 world.remove(this);
                 hiding = true;
-                System.out.println("Wolf is hiding");
-            } else {
-                System.out.println("Didn't find a hiding spot");
             }
         }
     }
@@ -343,8 +334,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
                 int size = r.nextInt(list.size());
                 world.setTile(list.get(size), this);
                 hiding = false;
-            } else {
-                System.out.println("No free tile available to exit WolfHole");
             }
         }
     }
