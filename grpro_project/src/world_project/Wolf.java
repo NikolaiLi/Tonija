@@ -259,10 +259,12 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         if (!isLeader && !hiding) {
             int ownIndex = wolfpack.indexOf(this);
             Wolf target = wolfpack.get(ownIndex-1);
-            if (world.isOnTile(target)) {
-                Location l = world.getLocation(target);
-                moveTowards(world, l);
-                return;
+            if (!world.contains(target)) {
+                if (world.isOnTile(target)) {
+                    Location l = world.getLocation(target);
+                    moveTowards(world, l);
+                    return;
+                }
             }
             move(world);
         }
