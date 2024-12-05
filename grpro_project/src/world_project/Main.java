@@ -46,15 +46,15 @@ public class Main {
                     continue;
                 }
                 String className = parts[0].toLowerCase();
-                String numberInfo = parts[1];
+                String numberInfo;
                 boolean hasFungi = parts[1].equals("fungi");
-
                 if(hasFungi){
                     numberInfo = parts[2];
+                } else {
+                    numberInfo = parts[1];
                 }
 
-
-                boolean hasCoordinates = parts.length > 2;
+                boolean hasCoordinates = parts[2].contains("(");
                 int bearXCoordinate = -1, bearYCoordinate = -1;
 
                 if (hasCoordinates) {
@@ -63,7 +63,6 @@ public class Main {
                     bearXCoordinate = Integer.parseInt(xAndy[0]);
                     bearYCoordinate = Integer.parseInt(xAndy[1]);
                 }
-
 
                 if (numberInfo.contains("-")) {
                     String[] range = numberInfo.split("-");

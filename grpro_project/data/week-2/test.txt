@@ -1,3 +1,2 @@
 4
-wolf 1
-rabbit 3
+bear 1 (2,2)
