@@ -47,6 +47,13 @@ public class Main {
                 }
                 String className = parts[0].toLowerCase();
                 String numberInfo = parts[1];
+                boolean hasFungi = parts[1].equals("fungi");
+
+                if(hasFungi){
+                    numberInfo = parts[2];
+                }
+
+
                 boolean hasCoordinates = parts.length > 2;
                 int bearXCoordinate = -1, bearYCoordinate = -1;
 
@@ -122,6 +129,14 @@ public class Main {
                             }
                             System.out.println("Bear coordinates: " + l.getX() + ", " + l.getY());
                             world.setTile(l, new Bear());
+                        }
+                        break;
+
+                    case "carcass":
+                        System.out.println("Added " + count + " Carcass objects");
+
+                        for (int i = 0; i < count; i++) {
+                            world.setTile(addLocation(world,r,size), new Carcass(0,hasFungi));
                         }
                         break;
                 }
