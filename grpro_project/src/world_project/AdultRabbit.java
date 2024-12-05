@@ -90,11 +90,7 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
                 AlreadyBuiltRabbitHole = true;
                 rabbitHole.setLocation(world);
                 System.out.println("Rabbit has dug a hole at " + current);
-            } else {
-                System.out.println("Cannot dig hole. Non-blocking element already present on tile");
             }
-        } else {
-            System.out.println("Rabbit already has a hole");
         }
     }
 

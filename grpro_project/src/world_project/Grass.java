@@ -31,8 +31,6 @@ public class Grass extends Terrain implements Actor, DynamicDisplayInformationPr
             if (world.isTileEmpty(location) && !world.containsNonBlocking(location)) {
                 spread(world, location);
             }
-        } else {
-            System.out.println("Nothing to grow");
         }
 
         if(!world.contains(this)){
