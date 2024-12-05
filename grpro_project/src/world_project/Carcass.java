@@ -44,6 +44,8 @@ public class Carcass implements Actor, DynamicDisplayInformationProvider {
     @Override
     public void act(World world) {
         decompose(world);
+
+        chanceOfInfection();
     }
 
     public void decompose(World world) {
@@ -53,10 +55,12 @@ public class Carcass implements Actor, DynamicDisplayInformationProvider {
             duration -= 5;
         }
 
-        if (duration <= 0) {
+        if (duration <= 0 && infected) {
             Location l = world.getLocation(this);
             world.delete(this);
             world.setTile(l, new Fungi(isBig));
+        } else if (duration <= 0) {
+            world.delete(this);
         }
     }
 
@@ -92,12 +96,5 @@ public class Carcass implements Actor, DynamicDisplayInformationProvider {
                 }
             }
         }
-    }
-
-    public double test() {
-        int duration = 45;
-        int maxHealth = 200;
-        double durationPercentage = Math.round(((double) duration / maxHealth) * 100);
-        return durationPercentage;
     }
 }
