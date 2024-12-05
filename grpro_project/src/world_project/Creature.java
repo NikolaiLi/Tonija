@@ -14,6 +14,7 @@ abstract public class Creature implements Actor {
     protected int age;
     protected int ageOfDeath;
     protected int health;
+    protected int maxHealth;
     protected Random r = new Random();
 
     public Creature() {

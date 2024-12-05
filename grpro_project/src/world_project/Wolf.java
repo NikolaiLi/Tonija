@@ -29,6 +29,7 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         super();
         animal = "WolfLeader";
         health = 80;
+        maxHealth = health;
         energy = 125;
         maxEnergy = 125;
         ageOfDeath = 80;
@@ -52,6 +53,7 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         super();
         animal = "Wolf";
         health = 80;
+        maxHealth = health;
         energy = 125;
         maxEnergy = 125;
         ageOfDeath = 80;

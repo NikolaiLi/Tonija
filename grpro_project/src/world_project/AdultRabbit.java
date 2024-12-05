@@ -22,6 +22,7 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
         this.energy = energy;
         increaseMaxEnergy(50);
         health = 30;
+        maxHealth = health;
     }
 
     @Override

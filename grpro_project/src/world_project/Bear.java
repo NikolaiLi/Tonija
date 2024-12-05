@@ -21,6 +21,7 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
         maxEnergy = 200;
         energy = maxEnergy;
         health = 200;
+        maxHealth = health;
         alive = true;
         ageOfDeath = 150;
     }

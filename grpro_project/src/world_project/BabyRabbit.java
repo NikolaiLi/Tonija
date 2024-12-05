@@ -13,6 +13,7 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
     public BabyRabbit() {
         super();
         health = 10;
+        maxHealth = health;
         animal = "Baby Rabbit";
     }
 
