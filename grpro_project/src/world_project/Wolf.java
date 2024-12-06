@@ -279,8 +279,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     public void seekWolfHole(World world) {
         if (!hiding && wolfHoleLocations.containsKey(wolfPackID)) {
             moveTowards(world, wolfHoleLocations.get(wolfPackID));
-        } else if (!hiding) {
-            move(world);
         }
     }
 

@@ -77,7 +77,7 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
     private void changeCurrentDisplay (World world) {
         if (world.isDay()) {
             currentDisplayInformation = di_baby_rabbit;
-        } else if (world.isNight() && !hiding && !hasBuiltRabbitHole()) {
+        } else if (world.isNight() && !hiding && !seeking) {
             currentDisplayInformation = di_baby_rabbit_sleeping;
         }
     }

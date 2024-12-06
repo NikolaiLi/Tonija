@@ -9,6 +9,7 @@ public abstract class Rabbit extends Creature {
     protected boolean AlreadyBuiltRabbitHole = false;
     protected RabbitHole currentHidingPlace;
     protected boolean hiding;
+    protected boolean seeking;
 
     public Rabbit() {
         super();
@@ -17,6 +18,7 @@ public abstract class Rabbit extends Creature {
         maxEnergy = 100;
         hiding = false;
         currentHidingPlace = null;
+        seeking = false;
     }
 
     @Override
@@ -215,6 +217,7 @@ public abstract class Rabbit extends Creature {
 
                 if (world.getTile(current) instanceof RabbitHole) {
                     moveTowards(world, current);
+                    seeking = true;
                     Location currentL = world.getLocation(this);
                     Object obj = world.getNonBlocking(currentL);
                     if (obj instanceof RabbitHole) {
