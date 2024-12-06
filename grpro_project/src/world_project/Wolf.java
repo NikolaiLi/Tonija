@@ -216,7 +216,9 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
             if (age > ageOfDeath && chanceOfDying == 1) {
                 if (isLeader) {
                     wolfpack.remove(this);
-                    wolfpack.getFirst().isLeader = true;
+                    if (!wolfpack.isEmpty()) {
+                        wolfpack.getFirst().isLeader = true;
+                    }
                 }
                 world.delete(this);
                 alive = false;
@@ -259,7 +261,7 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         if (!isLeader && !hiding) {
             int ownIndex = wolfpack.indexOf(this);
             Wolf target = wolfpack.get(ownIndex-1);
-            if (!world.contains(target)) {
+            if (world.contains(target)) {
                 if (world.isOnTile(target)) {
                     Location l = world.getLocation(target);
                     moveTowards(world, l);

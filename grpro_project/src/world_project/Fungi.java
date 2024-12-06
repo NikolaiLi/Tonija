@@ -14,9 +14,11 @@ public class Fungi implements Actor, DynamicDisplayInformationProvider {
     DisplayInformation displayBig;
     int duration;
     boolean isBig;
+    boolean alive;
 
     public Fungi(boolean isBig) {
         this.isBig = isBig;
+        alive = true;
         if (isBig) {
             displayBig = new DisplayInformation(Color.yellow, "fungi");
             duration = 100;
@@ -28,7 +30,13 @@ public class Fungi implements Actor, DynamicDisplayInformationProvider {
 
     @Override
     public void act(World world) {
-        dying();
+        while (alive) {
+            spread(world);
+
+            dying(world);
+
+            return;
+        }
     }
 
     @Override
@@ -54,7 +62,12 @@ public class Fungi implements Actor, DynamicDisplayInformationProvider {
         }
     }
 
-    public void dying() {
+    public void dying(World world) {
         duration -= 5;
+
+        if (duration <= 0) {
+            alive = false;
+            world.delete(this);
+        }
     }
 }
