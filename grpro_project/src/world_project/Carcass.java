@@ -18,7 +18,7 @@ public class Carcass implements Actor, DynamicDisplayInformationProvider {
     DisplayInformation displayBig;
     DisplayInformation displaySmall;
 
-    Carcass(int maxHealth, boolean isInfected) {
+    public Carcass(int maxHealth, boolean isInfected) {
         displayBig = new DisplayInformation(Color.blue, "carcass");
         displaySmall = new DisplayInformation(Color.blue, "carcass-small");
         infected = isInfected;
