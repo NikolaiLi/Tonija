@@ -71,6 +71,7 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
         //if wolf has been born during the simulation, parent gave birth while hiding in wolfhole, and the new wolf will start out in hiding as well
         if (wolfmother.hiding) {
+            world.add(this);
             hiding = true;
         }
 
@@ -128,6 +129,9 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
                 //wolf will try to hide, if currently standing on top of its wolfHole
                 hide(world);
+
+                //if WolfLeader is currently hiding with another wolf, they will try to breed another wolf
+                breed(world);
 
             }
 
@@ -310,6 +314,31 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
+
+    // if two wolves from the same pack are hiding in the same wolfhole, they will try to breed another wolf, unless the wolfpack contains 5 wolves already
+    public void breed(World world) {
+        if (isLeader && hiding && (wolfpack.size() <= 5) && (r.nextInt(100) <= 10)) {
+            System.out.println("wolves try to breed");
+
+            ArrayList<Wolf> tempWolfPack = new ArrayList<>(wolfpack);
+            int wolfcounter = wolfpack.size();
+
+            for (Wolf wolf : tempWolfPack) {
+                if (wolfcounter >= 4) {
+                    break;
+                }
+                if (wolf.equals(this)) {
+                    System.out.println("Leader cant breed with itself");
+                    continue;
+                }
+                if (wolf.hiding) {
+                    Wolf wolfcub = new Wolf(this, world, this.wolfHoleLocation);
+                    System.out.println("A new wolf has been born");
+                    wolfcounter ++;
+                }
+            }
+        }
+    }
 
 
 
