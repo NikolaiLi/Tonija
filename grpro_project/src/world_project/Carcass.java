@@ -71,8 +71,10 @@ public class Carcass implements Actor, DynamicDisplayInformationProvider {
     public void getInfected() {
         infected = true;
     }
-    
+
     public int getDuration() {return duration;}
+
+    public boolean getIsBig(){return isBig;}
 
     public void gettingEaten(int damage) {
         duration -= damage;
