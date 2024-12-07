@@ -1,41 +1,71 @@
 package wold_project;
 
 import java.util.Random;
-import java.util.Set;
 
+import itumulator.executable.Program;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import itumulator.world.Location;
 import itumulator.world.World;
 
-import world_project.Bear;
-import world_project.Bush;
+import world_project.Fungi;
+import world_project.Carcass;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FungiTest {
     World world;
+    Program p;
     int size = 15;
     Random r = new Random();
 
     @BeforeEach
     public void setUp(){
-        world = new World(15);
+        p = new Program(size,600,150);
+        world = p.getWorld();
     }
 
     @Test
-    public void BearMovesDuringDay(){
-        world.setDay();
-        Bear bear = new Bear();
-        Location location = new Location(0,0);
-        world.setCurrentLocation(location);
-        world.setTile(location, bear);
+    public void FungiSpreadsSpores(){
+        Fungi fungi = new Fungi(false);
+        Carcass carcass = new Carcass(100, false);
+        Location l1 = new Location(0,0);
+        Location l2 = new Location(0,1);
+        world.setCurrentLocation(l1);
+        world.setTile(l1, fungi);
+        world.setTile(l2, carcass);
 
-        bear.act(world);
+        p.simulate();
 
-        Location new_location =  world.getLocation(bear);
-        assertNotEquals(new_location,location);
-        assertNotNull(new_location);
+        assertTrue(carcass.getIsInfected());
+    }
+
+    @Test
+    public void FungiSpreadRadius(){
+        Fungi fungi = new Fungi(false);
+        Carcass carcass1 = new Carcass(100, false);
+        Carcass carcass2 = new Carcass(100, false);
+        Carcass carcass3 = new Carcass(100, false);
+        Location l1 = new Location(0,0);
+        Location l2 = new Location(0,1);
+        Location l3 = new Location(0,2);
+        Location l4 = new Location(0,3);
+        world.setCurrentLocation(l1);
+        world.setTile(l1, fungi);
+        world.setTile(l2, carcass1);
+        world.setTile(l3, carcass2);
+        world.setTile(l4, carcass3);
+
+        p.simulate();
+
+        assertTrue(carcass1.getIsInfected());
+        assertTrue(carcass2.getIsInfected());
+        assertFalse(carcass3.getIsInfected());
+    }
+
+    @Test
+    public void FungiDies(){
+        
     }
 }

@@ -87,16 +87,16 @@ public class Carcass implements Actor, DynamicDisplayInformationProvider {
             int oneFourthDuration = maxDuration / 4;
 
             if (duration > halfDuration) {
-                if (r.nextInt(100) > 1) {
-                    infected = true;
+                if (r.nextInt(100) < 1) {
+                    getInfected();
                 }
             } else if (duration < halfDuration && duration > oneFourthDuration) {
-                if (r.nextInt(100) > 3) {
-                    infected = true;
+                if (r.nextInt(100) < 25) {
+                    getInfected();
                 }
             } else if (duration < oneFourthDuration) {
-                if (r.nextInt(100) > 5) {
-                    infected = true;
+                if (r.nextInt(100) < 50) {
+                    getInfected();
                 }
             }
         }

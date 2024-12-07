@@ -1,10 +1,9 @@
 package wold_project;
 
 import java.util.Random;
-import java.util.Set;
 
 import itumulator.executable.Program;
-import itumulator.simulator.Simulator;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +24,6 @@ public class CarcassTest {
 
     @BeforeEach
     public void setUp(){
-
         p = new Program(size,600,150);
         world = p.getWorld();
     }
