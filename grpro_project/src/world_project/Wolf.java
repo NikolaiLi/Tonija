@@ -321,7 +321,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     // if two wolves from the same pack are hiding in the same wolfhole, they will try to breed another wolf, unless the wolfpack contains 5 wolves already
     public void breed(World world) {
         if (isLeader && hiding && (wolfpack.size() <= 5) && (r.nextInt(100) <= 10)) {
-            System.out.println("wolves try to breed");
 
             ArrayList<Wolf> tempWolfPack = new ArrayList<>(wolfpack);
             int wolfcounter = wolfpack.size();
@@ -331,7 +330,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
                     break;
                 }
                 if (wolf.equals(this)) {
-                    System.out.println("Leader cant breed with itself");
                     continue;
                 }
                 if (wolf.hiding) {
