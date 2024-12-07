@@ -27,6 +27,22 @@ public class FungiTest {
     }
 
     @Test
+    public void FungiDies(){
+        Fungi fungi = new Fungi(false);
+        Location l = new Location(0,0);
+        world.setCurrentLocation(l);
+        world.setTile(l, fungi);
+
+        assertTrue(world.contains(fungi));
+
+        for(int i = 0; i < 10; i++){
+            p.simulate();
+        }
+
+        assertFalse(world.contains(fungi));
+    }
+
+    @Test
     public void FungiSpreadsSpores(){
         Fungi fungi = new Fungi(false);
         Carcass carcass = new Carcass(100, false);
@@ -62,10 +78,5 @@ public class FungiTest {
         assertTrue(carcass1.getIsInfected());
         assertTrue(carcass2.getIsInfected());
         assertFalse(carcass3.getIsInfected());
-    }
-
-    @Test
-    public void FungiDies(){
-        
     }
 }
