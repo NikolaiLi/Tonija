@@ -195,7 +195,8 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
                 wolfpack.remove(this);
                 wolfpack.getFirst().isLeader = true;
             }
-            world.delete(this);
+
+            dropCarcass(world);
             System.out.println(animal + " has bled out and died");
         }
     }
@@ -208,7 +209,8 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
                 wolfpack.remove(this);
                 wolfpack.getFirst().isLeader = true;
             }
-            world.delete(this);
+
+            dropCarcass(world);
             System.out.println(animal + " has died of hunger");
         }
     }
@@ -224,8 +226,9 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
                         wolfpack.getFirst().isLeader = true;
                     }
                 }
-                world.delete(this);
+
                 alive = false;
+                dropCarcass(world);
                 System.out.println(animal + " has died of age");
             }
         }
