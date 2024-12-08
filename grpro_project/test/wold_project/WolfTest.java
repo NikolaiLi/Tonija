@@ -10,10 +10,7 @@ import org.junit.jupiter.api.Test;
 import itumulator.world.Location;
 import itumulator.world.World;
 
-import world_project.AdultRabbit;
-import world_project.BabyRabbit;
-import world_project.Bear;
-import world_project.Wolf;
+import world_project.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -122,9 +119,35 @@ public class WolfTest {
 
 
     @Test
-    public void WolfHoleDiggingRates() {//run 100 simulations and check a counter every time a hole is dug +/-5% accuracy
-        for(int i = 0; i <= 100; i++) {
+    public void WolfHoleDiggingRates() {//run 100 simulations and check a counter every time a hole is dug
+        int amount = 200;
+        int counter = 0;
 
+
+        //add and locate people
+        for(int i = 0; i < amount; i++){
+            int x = r.nextInt(size);
+            int y = r.nextInt(size);
+            Location l = new Location(x,y);
+
+            while(!world.isTileEmpty(l)){
+                x = r.nextInt(size);
+                y = r.nextInt(size);
+                l = new Location(x,y);
+            }
+
+            Wolf leader = new Wolf(1, world, l);
+            world.setCurrentLocation(l);
+            world.setTile(l, leader);
+            leader.digWolfHole(world);
+
+            Object o = world.getNonBlocking(l);
+            if(o instanceof WolfHole){
+                counter++;
+            }
         }
+
+        assertTrue((1.0* counter/amount) *100 >= 6.0 && (1.0* counter/amount) *100 <= 13.0,
+                "Chance of digging hole is not 10% but was: " + (1.0* counter/amount) *100 + "%");
     }
 }

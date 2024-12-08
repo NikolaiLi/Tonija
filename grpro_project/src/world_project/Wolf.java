@@ -37,6 +37,7 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         maxEnergy = 125;
         ageOfDeath = 80;
 
+        wolfPackID = nextPackID++;
         wolfpack.add(this);
         this.isLeader = true;
         wolfHoleLocation = null;
@@ -348,8 +349,9 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     //digs a WolfHole. Only 1 WolfHole is possible per wolfpack.
     //if wolfTerritories already contains a wolfhole for the wolf's pack, returns method
     public void digWolfHole(World world) {
+
         if (isLeader && !hiding && (!wolfHoleLocations.containsKey(wolfPackID))) {
-            if ((r.nextInt(100)) < 10) {
+            if ((r.nextInt(100)) <= 10) {
                 Location current = world.getLocation(this);
                 if (!world.containsNonBlocking(current)) {
                     WolfHole wolfhole = new WolfHole();
