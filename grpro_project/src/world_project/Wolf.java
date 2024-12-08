@@ -28,7 +28,7 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
     //1st Constructor: Filereader Constructor used when new wolf is created from files in filereader
     //This wolf automatically creates a Wolfpack, and becomes the leader, then calls 2nd Constructor to create the rest of the pack.
-    Wolf(int number, World world, Location initialSpawn) {
+    public Wolf(int number, World world, Location initialSpawn) {
         super();
         animal = "WolfLeader";
         health = 80;
@@ -75,9 +75,9 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
             hiding = true;
         }
 
-        //if wolf was created straight from filereader, the wolf will be placed next to its wolfLeader
+        //if wolf was created straight from filereader, and wolfleader is on the map, the wolf will be placed next to its wolfLeader
         //This method is only used when a wolf is created by calling this constructor while using the 1st constructor.
-        else {
+        else if (world.contains(wolfmother) && world.isOnTile(wolfmother)){
             world.setCurrentLocation(initialSpawn);
             ArrayList<Location> neighbours = new ArrayList<>(world.getEmptySurroundingTiles());
             if (!neighbours.isEmpty()) {
@@ -244,6 +244,7 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         //path 1
         if (isLeader && !hiding) {
             Location currentLocation = world.getLocation(this);
+            world.setCurrentLocation(currentLocation);
             Queue<Location> toVisit = new LinkedList<>(world.getSurroundingTiles(2));
             Set<Location> visited = new HashSet<>();
             toVisit.add(currentLocation);
@@ -400,6 +401,10 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 // GET-Methods
     public Location getWolfHoleLocation() {
         return wolfHoleLocation;
+    }
+
+    public ArrayList<Wolf> getWolfPack() {
+        return wolfpack;
     }
 
 
