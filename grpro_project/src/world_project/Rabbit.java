@@ -218,12 +218,13 @@ public abstract class Rabbit extends Creature {
                 visited.add(current);
 
                 if (world.getTile(current) instanceof RabbitHole) {
-                    moveTowards(world, current);
                     seeking = true;
+                    moveTowards(world, current);
                     Location currentL = world.getLocation(this);
                     Object obj = world.getNonBlocking(currentL);
                     if (obj instanceof RabbitHole) {
                         hide(world);
+                        seeking = false;
                     }
                     return;
                 }

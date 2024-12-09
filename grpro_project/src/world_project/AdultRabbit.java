@@ -144,10 +144,10 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
      * @param world to access the world library
      */
     private void changeCurrentDisplay (World world) {
-        if (world.isDay()) {
-            currentDisplayInformation = di_adult_rabbit;
-        } else if (world.isNight() && !hiding && !hasBuiltRabbitHole()) {
+        if (world.isNight() && !hiding && !seeking) {
             currentDisplayInformation = di_adult_rabbit_sleeping;
+        } else {
+            currentDisplayInformation = di_adult_rabbit;
         }
     }
 
