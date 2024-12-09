@@ -173,6 +173,7 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
                     Carcass carcass = (Carcass) objectCarcass;
                     carcass.gettingEaten(35);
                     energize(35);
+                    return;
                 }
             }
         }

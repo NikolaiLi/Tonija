@@ -129,7 +129,8 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
                 Object objectBush = world.getTile(location);
                 Bush bush = (Bush) objectBush;
                 bush.isRipe(false);
-                energize(50);
+                energize(25);
+                return;
             }
 
             if (world.getTile(location) instanceof Carcass) {
@@ -137,6 +138,7 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
                 Carcass carcass = (Carcass) objectCarcass;
                 carcass.gettingEaten(50);
                 energize(50);
+                return;
             }
         }
     }
