@@ -9,6 +9,11 @@ import itumulator.world.World;
 import java.awt.*;
 import java.util.*;
 
+/**
+ * The Carcass class is a blocking object that can decompose and get infected by other fungi infected Carcass objects.
+ * Carcass implements interfaces actor and DynamicDisplayInformationProvider, to enact its methods
+ * and ensure correct display of Carcass at all times during the world simulation.
+ */
 public class Carcass implements Actor, DynamicDisplayInformationProvider {
     boolean infected;
     int duration;
@@ -18,6 +23,11 @@ public class Carcass implements Actor, DynamicDisplayInformationProvider {
     DisplayInformation displayBig;
     DisplayInformation displaySmall;
 
+    /**
+     * Initializes a Carcass object with parameters relevant to the objects size and duration.
+     * @param maxHealth determines whether if the Carcass is a normal or small carcass.
+     * @param isInfected determines whether if the Carcass is infected by fungi.
+     */
     public Carcass(int maxHealth, boolean isInfected) {
         displayBig = new DisplayInformation(Color.blue, "carcass");
         displaySmall = new DisplayInformation(Color.blue, "carcass-small");
@@ -32,6 +42,10 @@ public class Carcass implements Actor, DynamicDisplayInformationProvider {
         maxDuration = duration;
     }
 
+    /**
+     * Provides the relevant display information if the Carcass should be displayed as a normal or small Carcass.
+     * @return the relevant display image for the object.
+     */
     @Override
     public DisplayInformation getInformation() {
         if (isBig) {
@@ -41,6 +55,11 @@ public class Carcass implements Actor, DynamicDisplayInformationProvider {
         }
     }
 
+    /**
+     * Provides the order of when individual methods should be executed inside the simulation.
+     * The Carcass can decompose and get infected by Fungi.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void act(World world) {
         decompose(world);
@@ -49,7 +68,7 @@ public class Carcass implements Actor, DynamicDisplayInformationProvider {
     }
 
     /**
-     * Decrements duration with 10 after each step if it is infected or 5 if it isn't.
+     * Decrements duration with 10 after each step if it is infected by fungi or 5 if it isn't.
      *
      * @param world to access the world library
      */
@@ -69,22 +88,51 @@ public class Carcass implements Actor, DynamicDisplayInformationProvider {
         }
     }
 
+    /**
+     * Provides an indicator of whether it is infected or not.
+     * @return true if it is infected by fungi or false if it isn't.
+     */
     public boolean getIsInfected() {
         return infected;
     }
 
+    /**
+     * Updates the {@link #infected} variable to true in the case where a Carcass is infected by a fungi.
+     */
     public void getInfected() {
         infected = true;
     }
 
+    /**
+     * Provides information about the {@link #duration} field.
+     * Used in unit testing.
+     * @return the number that the field represents.
+     */
     public int getDuration() {return duration;}
 
+    /**
+     * Provides information about the size of the Carcass object.
+     * Used in unit testing.
+     * @return true if the carcass is big and false if it isn't.
+     */
     public boolean getIsBig(){return isBig;}
 
+    /**
+     * Method that subtracts the {@link #duration} field with the value of the parameter.
+     * @param damage that reduces the value of duration.
+     */
     public void gettingEaten(int damage) {
         duration -= damage;
     }
 
+    /**
+     * Method that monitors the {@link #duration} after each step.
+     * When the duration is greater than half of its maximal value, then there is 1% chance of the Carcass object
+     * being infected by fungi.
+     * When the duration is less that half the maximal value and greater than a quarter of its maximal value
+     * there is 25% chance of infection.
+     * When the duration is less than a quarter there is 50% chance of infection.
+     */
     public void chanceOfInfection() {
         if (!infected) {
             r = new Random();

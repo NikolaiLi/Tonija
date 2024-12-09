@@ -25,7 +25,7 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
     DisplayInformation currentDisplayInformation = di_bear;
 
     /**
-     * Initializes a bear object with several attributes that are of relevance to how the class works and.
+     * Initializes a bear object with several attributes that are of relevance to how the class works and
      * acts in the world simulation and interacts with other objects in the world.
      */
     public Bear() {
