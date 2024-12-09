@@ -7,12 +7,21 @@ import itumulator.world.World;
 
 import java.awt.*;
 
-
+/**
+ * The Baby Rabbit class is a herbivorous subclass inherited from the abstract Rabbit class and an object in the world.
+ * Baby Rabbit implements interfaces actor and DynamicDisplayInformationProvider, to enact its methods
+ * and ensure correct display of Baby Rabbit at all times during the world simulation.
+ * Baby Rabbits are not capable of many things. They eat grass, jump around and seek rabbit holes at night.
+ * Their capabilities evolve when they grow up to become an adult rabbit.
+ */
 public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvider {
     DisplayInformation di_baby_rabbit = new DisplayInformation(Color.magenta, "rabbit-small");
     DisplayInformation di_baby_rabbit_sleeping = new DisplayInformation(Color.magenta, "rabbit-small-sleeping");
     DisplayInformation currentDisplayInformation = di_baby_rabbit;
 
+    /**
+     * Initializes a Baby Rabbit object with 10 health.
+     */
     public BabyRabbit() {
         super();
         health = 10;
@@ -21,12 +30,20 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
     }
 
 
-
+    /**
+     * Provides the visual display of the baby rabbit, whether if its sleeping or not.
+     * @return DisplayInformation for the simulation to display.
+     */
     @Override
     public DisplayInformation getInformation() {
         return currentDisplayInformation;
     }
 
+    /**
+     /**
+     * Provides the order of when individual methods should be executed inside the simulation.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     public void act(World world) {
 
         //opdaterer displayInformation når dyret skal sove

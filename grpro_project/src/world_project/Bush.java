@@ -7,12 +7,21 @@ import itumulator.world.World;
 
 import java.awt.*;
 
+/**
+ * The Bush class is a blocking object that can bear fruits which the Bear class can eat.
+ * Bush implements interfaces actor and DynamicDisplayInformationProvider, to enact its methods
+ * and ensure correct display of bush at all times during the world simulation.
+ */
 public class Bush implements Actor, DynamicDisplayInformationProvider {
     protected boolean hasFruits = true;
     int steps;
     DisplayInformation di_berry           = new DisplayInformation(Color.green, "bush-berries");
     DisplayInformation di_berry_no_fruits = new DisplayInformation(Color.green, "bush");
 
+    /**
+     * Provides the visual display of the bush, whether if bears fruits or not.
+     * @return DisplayInformation type variable that changes the display of the Bush object if it bears fruits or not.
+     */
     @Override
     public DisplayInformation getInformation() {
         if (hasFruits) {
@@ -22,6 +31,11 @@ public class Bush implements Actor, DynamicDisplayInformationProvider {
         }
     }
 
+    /**
+     * The act method is used for the correct displaying of bush whether if it has fruits or not. A step counter
+     * counts each step up and if that number is divisible and the bush bears no fruits, it changes the display.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void act(World world){
         if(!hasFruits) {

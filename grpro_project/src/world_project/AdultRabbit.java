@@ -9,12 +9,24 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+/**
+ * The Adult Rabbit class is a herbivorous subclass inherited from the abstract Rabbit class and an object in the world.
+ * Adult Rabbit implements interfaces actor and DynamicDisplayInformationProvider, to enact its methods
+ * and ensure correct display of Adult Rabbit at all times during the world simulation.
+ * Adult Rabbits have the ability to breed with other adult rabbits and dig rabbit holes for sleeping and breeding
+ * at night.
+ */
 public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProvider {
     Random r = new Random();
     DisplayInformation di_adult_rabbit = new DisplayInformation(Color.green, "rabbit-large");
     DisplayInformation di_adult_rabbit_sleeping = new DisplayInformation(Color.green, "rabbit-sleeping");
     DisplayInformation currentDisplayInformation = di_adult_rabbit;
 
+    /**
+     * Initializes an adult rabbit with more health and energy than a baby rabbit.
+     * The adult rabbit automatically gets more energy with an increase of 50 energy from that of the baby rabbit.
+     * @param energy is the baby rabbit's amount of energy when growing into an adult rabbit.
+     */
     public AdultRabbit(int energy) {
         super();
         animal = "Adult Rabbit";
@@ -29,7 +41,10 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
     @Override
     public DisplayInformation getInformation() {return currentDisplayInformation;}
 
-
+    /**
+     * Provides the order of when individual methods should be executed inside the simulation.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void act(World world) {
         //outside the act loop
@@ -59,6 +74,12 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
         }
     }
 
+    /**
+     * Deletes the rabbit object from the world and drops a Carcass object on the tile.
+     * @param world the world where the animal is
+     * @param ageOfDeath the age after which the animal may die of old age
+     * @param animal the type of the animal
+     */
     @Override
     public void dyingOfAge(World world, int ageOfDeath, String animal) {super.dyingOfAge(world,ageOfDeath, animal);}
 

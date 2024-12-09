@@ -16,7 +16,7 @@ import java.util.List;
  * Wolves are organized into packs at birth, either organizing their own pack as its leader,
  * or being assigned the pack of its parent.
  * a Wolf Leader will lead its pack, and will hunt for prey/enemies in the vicinity.
- * a Wolf Leader will try to provide shelter by digging a hole, which the wolfpack will search for
+ * a Wolf Leader will try to provide shelter by digging a hole, which the wolf pack will search for
  * When a wolf Leader dies, then next eldest wolf in the pack will become the new Leader.
  */
 public class Wolf extends Creature implements DynamicDisplayInformationProvider {
@@ -186,7 +186,7 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
 
     /**
-     * Provides the visual display of the bear, whether if its sleeping or not.
+     * Provides the visual display of the wolf, whether if its sleeping or not.
      * @return DisplayInformation for the simulation to display.
      */
     @Override

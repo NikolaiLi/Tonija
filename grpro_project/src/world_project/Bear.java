@@ -10,9 +10,10 @@ import java.util.*;
 import java.util.List;
 
 /**
- * Represents a Bear in the simulation.
- * This class encapsulates the behavior and state of the Bear, like its health,
- * energy and age, and actions like eating, hunting and attacking.
+ * The Bear class is an omnivorous subclass inherited from the abstract creature class and an object in the world.
+ * Bear implements interfaces actor and DynamicDisplayInformationProvider, to enact its methods
+ * and ensure correct display of bear at all times during the world simulation.
+ * Bears are territorial creatures that prefer privacy and will attack other creatures that enter its territory.
  */
 public class Bear extends Creature implements DynamicDisplayInformationProvider {
     Random r = new Random();
