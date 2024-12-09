@@ -54,6 +54,9 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
                 // Creates territory for the bear
                 makeTerritory(world);
 
+                // If there is a berry bush nearby, the bear will eat the berries in the bush.
+                eat(world);
+
                 // Bear moves around randomly in the territory
                 move(world);
 
@@ -62,9 +65,6 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
 
                 // If there is a Creature nearby, the bear will attack the Creature
                 attack(world);
-
-                // If there is a berry bush nearby, the bear will eat the berries in the bush.
-                eat(world);
 
                 // Bear using energy
                 starve();

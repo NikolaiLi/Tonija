@@ -112,6 +112,9 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
                 //comes out of hiding
                 unhide(world);
 
+                //eats a surrounding piece of meat
+                eat(world);
+
                 //wolfLeader hunts for food, while pack follows
                 hunt(world);
 
@@ -136,9 +139,11 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
             }
 
-            aging();
+            //starves wolf
+            starve();
 
-            eat(world);
+            //ages wolf
+            aging();
 
             return;
         }
@@ -194,7 +199,9 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
             alive = false;
             if (isLeader) {
                 wolfpack.remove(this);
-                wolfpack.getFirst().isLeader = true;
+                if (!wolfpack.isEmpty()) {
+                    wolfpack.getFirst().isLeader = true;
+                }
             }
 
             dropCarcass(world);
@@ -208,7 +215,9 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
             alive = false;
             if (isLeader) {
                 wolfpack.remove(this);
-                wolfpack.getFirst().isLeader = true;
+                if (!wolfpack.isEmpty()) {
+                    wolfpack.getFirst().isLeader = true;
+                }
             }
 
             dropCarcass(world);

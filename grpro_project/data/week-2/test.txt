@@ -1,6 +1,6 @@
 10
-bear 2
-wolf 3
+bear 1
+wolf 1
 rabbit 5-15
 berry 6
 grass 7-15

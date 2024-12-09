@@ -32,10 +32,8 @@ public abstract class Rabbit extends Creature {
         //act runs in a loop that works while creature is alive
         while (alive) {
 
-            // Bliver ældre
-            aging();
-
             if (world.isDay()) {
+
                 // unhider
                 unhide(world);
 
@@ -52,6 +50,10 @@ public abstract class Rabbit extends Creature {
             if (world.isNight()) {
                 seek(world);
             }
+
+            // Bliver ældre
+            aging();
+
             return;
         }
     }
