@@ -110,7 +110,6 @@ abstract public class Creature implements Actor {
      * @param ageOfDeath the age after which the animal may die of old age
      * @param animal the type of the animal
      */
-    
     public void dyingOfAge(World world, int ageOfDeath, String animal) {
         if (isAlive()) {
             int chanceOfDying = r.nextInt(10);
