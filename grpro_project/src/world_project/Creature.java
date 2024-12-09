@@ -109,6 +109,14 @@ abstract public class Creature implements Actor {
         }
     }
 
+    /**
+     * Moves the object one step towards the target location by calculating
+     * the difference in x and y coordinates between the current and target locations.
+     * The movement is one step at a time, either horizontally, vertically,
+     * or diagonally, depending on the calculated difference.
+     * @param world getting the object position in world
+     * @param target the target position that the object are heading to
+     */
     public void moveTowards(World world, Location target) {
         Location current = world.getLocation(this);
         int diffX = target.getX() - current.getX();
