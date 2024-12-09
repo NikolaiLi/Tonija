@@ -9,6 +9,16 @@ import java.util.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * The Wolf class is a carnivorous subclass inherited from the abstract creature class and an object in the world.
+ * Wolf implements interfaces actor and DynamicDisplayInformationProvider, to enact its methods
+ * and ensure correct display of wolf at all times during the world simulation.
+ * Wolves are organized into packs at birth, either organizing their own pack as its leader,
+ * or being assigned the pack of its parent.
+ * a Wolf Leader will lead its pack, and will hunt for prey/enemies in the vicinity.
+ * a Wolf Leader will try to provide shelter by digging a hole, which the wolfpack will search for
+ * When a wolf Leader dies, then next eldest wolf in the pack will become the new Leader.
+ */
 public class Wolf extends Creature implements DynamicDisplayInformationProvider {
     public DisplayInformation di_wolf = new DisplayInformation(Color.gray, "wolf");
     public DisplayInformation di_wolf_sleeping = new DisplayInformation(Color.gray, "wolf-sleeping");
@@ -25,9 +35,18 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
     public static Map<Integer, Location> wolfHoleLocations = new HashMap<>();
 
-
-    //1st Constructor: Filereader Constructor used when new wolf is created from files in filereader
-    //This wolf automatically creates a Wolfpack, and becomes the leader, then calls 2nd Constructor to create the rest of the pack.
+    /**
+     * 1st Constructor: FileReader Constructor used when new wolf is initialized from input files used in the fileReader.
+     * Initializing a wolf with this constructor will make it create its own Wolfpack, become leader,
+     * then call the 2nd Constructor to create the rest of the pack.
+     * Every wolfpack is identified with an int ID, which gets incremented after usage marking a wolfpack.
+     * WolfHoleLocation is initialized as null, as a WolfHole will only become assigned to a wolfpack once the WolfLeader digs it.
+     *
+     * @param number of wolves the fileReader expects to create for the specific pack.
+     * @param world to access the World library.
+     * @param initialSpawn location onto which the wolf will be spawned. Relevant for the 2nd constructor which this
+     * constructor calls, when fileReader expects more than 1 wolf in the pack, and that wolf needs to stand next to its leader.
+     */
     public Wolf(int number, World world, Location initialSpawn) {
         super();
         animal = "WolfLeader";
@@ -51,9 +70,22 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
-    //2nd Constructor: used when a new wolf is born by another wolf in the wolfhole while running the simulation.
-    // Or when the wolfLeader calls it before simulation starts running to complete the rest of the wolfpack from filereader.
-    Wolf(Wolf wolfmother, World world, Location initialSpawn) {
+    /**
+     * 2nd Constructor: RealTime-Constructor used when new wolf is initialized by a WolfLeader as a member of the pack, either while
+     * constructing the WolfLeader with 1st constructor, or during the simulation when
+     * breeding with another wolf in the wolfpack's assigned wolfhole.
+     * Wolves instantiated from this constructor serve as followers of their WolfLeader.
+     * Followers will adopt WolfLeader's wolfpackID and WolfHoleLocation, and thus join the wolfpack.
+     * Depending on whether follower is initialized during simulationstep or not, follower will either
+     * be placed next to its leader, or simply be hiding in the wolfhole until morning.
+     *
+     * @param wolfLeader reference Wolf that the initialized wolf uses to join the wolfpack.
+     * @param world to access the World library.
+     * @param initialSpawn location onto which the wolf-Leader will be spawned. The wolf Follower will spawn
+     * onto an empty neighbouring tile.
+     */
+
+    Wolf(Wolf wolfLeader, World world, Location initialSpawn) {
         super();
         animal = "Wolf";
         health = 80;
@@ -62,23 +94,23 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         maxEnergy = 125;
         ageOfDeath = 80;
 
-        wolfpack = wolfmother.wolfpack;
+        wolfpack = wolfLeader.wolfpack;
         wolfpack.add(this);
         isLeader = false;
-        wolfHoleLocation = wolfmother.getWolfHoleLocation();
-        wolfPackID = wolfmother.wolfPackID;
+        wolfHoleLocation = wolfLeader.getWolfHoleLocation();
+        wolfPackID = wolfLeader.wolfPackID;
 
         System.out.println("Created wolf in wolfpack");
 
         //if wolf has been born during the simulation, parent gave birth while hiding in wolfhole, and the new wolf will start out in hiding as well
-        if (wolfmother.hiding) {
+        if (wolfLeader.hiding) {
             world.add(this);
             hiding = true;
         }
 
         //if wolf was created straight from filereader, and wolfleader is on the map, the wolf will be placed next to its wolfLeader
-        //This method is only used when a wolf is created by calling this constructor while using the 1st constructor.
-        else if (world.contains(wolfmother) && world.isOnTile(wolfmother)){
+        //This method is only called when a wolf is created by calling this constructor during usage of the 1st constructor.
+        else if (world.contains(wolfLeader) && world.isOnTile(wolfLeader)){
             world.setCurrentLocation(initialSpawn);
             ArrayList<Location> neighbours = new ArrayList<>(world.getEmptySurroundingTiles());
             if (!neighbours.isEmpty()) {
@@ -90,7 +122,10 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
 
 //ABSTRACT METHODS
-
+    /**
+     * Provides the order of when individual methods should be executed inside the simulation.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void act(World world) {
 
@@ -150,12 +185,21 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     }
 
 
-
+    /**
+     * Provides the visual display of the bear, whether if its sleeping or not.
+     * @return DisplayInformation for the simulation to display.
+     */
     @Override
     public DisplayInformation getInformation() {
         return currentDisplayInformation;
     }
 
+    /**
+     * The Wolf eats other animals by checking its surrounding tiles for instances of other objects.
+     * In the case of an instance of a nearby carcass to eat, it will then energize with a given amount of
+     * energy.
+     * @param world to access the World library.
+     */
     @Override
     public void eat(World world) {
         if (!hiding) {
@@ -179,7 +223,10 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
-
+    /**
+     * The wolf moves by checking surrounding tiles for a free position to move towards.
+     * @param world to access the World library.
+     */
     //moves wolf to random free tile
     @Override
     public void move(World world) {
@@ -193,7 +240,12 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
-
+    /**
+     * Handles the death of an animal when its health reaches zero.
+     * Replaces the animal with a carcass.
+     * @param world the world where the animal is
+     * @param animal the type of the animal
+     */
     @Override
     public void deathByDamage(World world, String animal) {
         if (alive && health <= 0) {
@@ -210,6 +262,12 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
+    /**
+     * Handles the death of an animal by starvation.
+     * Replaces the animal with a carcass.
+     * @param world the world where the animal is
+     * @param animal the type of the animal
+     */
     @Override
     public void hungerDeath(World world, String animal) {
         if (energy <= 0 && alive) {
@@ -226,6 +284,14 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
+    /**
+     * Handles the death of an animal by old age.
+     * Replaces the animal with a carcass if it surpasses the age of death
+     * and have a random chance condition, that makes the animal die.
+     * @param world the world where the animal is
+     * @param ageOfDeath the age after which the animal may die of old age
+     * @param animal the type of the animal
+     */
     @Override
     public void dyingOfAge(World world, int ageOfDeath, String animal) {
         if (isAlive()) {
@@ -246,7 +312,13 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     }
 
 
-//Movement methods
+    /**
+     * Method for moving towards a given location.
+     * @param world to access the world library.
+     * @param target a Location type object that specifies where to move towards.
+     */
+    @Override
+    public void moveTowards(World world, Location target) {super.moveTowards(world, target);}
 
     //method has 2 paths, depending on if wolf is leader or not.
     //Path 1: if Leader, hunts for rabbits in 2 tile radius, else moves randomly
@@ -293,8 +365,11 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
 
 
-    //Wolf seeks the WolfHole registered to the wolfpack.
-    //if no wolfhole is currently registered to wolfpack, method does nothing.
+    /**
+     * Wolf will seek the wolfhole registrered to it's wolfpack.
+     *
+     * @param world to access the world library.
+     */
     public void seekWolfHole(World world) {
         if (!hiding && wolfHoleLocations.containsKey(wolfPackID)) {
             moveTowards(world, wolfHoleLocations.get(wolfPackID));
@@ -302,9 +377,11 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     }
 
 
-//OTHER BEHAVIOUR Methods
-
-    //attacks a random neighbouring enemy creature, as long as they are not part of the wolf's wolfpack
+    /**
+     * attacks a random neighbouring enemy creature, as long as they are not part of the wolf's wolfpack
+     *
+     * @param world to access the world library.
+     */
     @Override
     public void attack(World world) {
         Set<Location> neighbourTiles = world.getSurroundingTiles();
@@ -330,7 +407,11 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
     }
 
 
-    // if two wolves from the same pack are hiding in the same wolfhole, they will try to breed another wolf, unless the wolfpack contains 5 wolves already
+    /**
+     * If WolfLeader and another follower is hiding in their wolfHole, wolfleader tries to breed a new Wolf, unless the wolfpack contains 4 or more wolves already.
+     *
+     * @param world to access the world library.
+     */
     public void breed(World world) {
         if (isLeader && hiding && (wolfpack.size() <= 5) && (r.nextInt(100) <= 10)) {
 
@@ -356,8 +437,11 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
 
 
-    //digs a WolfHole. Only 1 WolfHole is possible per wolfpack.
-    //if wolfTerritories already contains a wolfhole for the wolf's pack, returns method
+    /**
+     * digs a WolfHole. Only 1 WolfHole is attainable per wolfpack.
+     *
+     * @param world to access the world library.
+     */
     public void digWolfHole(World world) {
 
         if (isLeader && !hiding && (!wolfHoleLocations.containsKey(wolfPackID))) {
@@ -375,7 +459,13 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
 
 
-    //Wolf hides, if not currently
+    /**
+     * A method that lets a wolf hide in the wolfhole assigned to the wolfpack, if it is currently standing on top of it.
+     * The method checks for a wolfhole underneath the wolf, then checks if it's the same
+     *  as the one registered for the wolfpack before committing.
+     *
+     * @param world to access the world library.
+     */
     public void hide(World world) {
         if(world.isOnTile(this) && !hiding && wolfHoleLocations.containsKey(wolfPackID)) {
             Object o = world.getNonBlocking(world.getLocation(this));
@@ -389,6 +479,16 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
+
+    /**
+     * A method that lets a wolf come out of hiding if it is currently daytime.
+     * The method checks if the wolf is currently hiding, then places it on the map.
+     * If the hole is blocked, the wolf will be placed next to the whole on an empty tile.
+     *  as the one registered for the wolfpack before committing.
+     * The wolf's field hiding will be turned false.
+     *
+     * @param world to access the world library.
+     */
     public void unhide(World world) {
         if (!world.isOnTile(this) && hiding) {
             Location hidingSpot = wolfHoleLocations.get(wolfPackID);
@@ -403,18 +503,24 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
-    @Override
-    public void moveTowards(World world, Location target) {
-        super.moveTowards(world, target);
-    }
-
 
 
 // GET-Methods
+
+    /**
+     * Used for constructing followers in the leaders wolfpack.
+     *
+     * @return the location of the wolf-instance's wolfHoleLocation field.
+     */
     public Location getWolfHoleLocation() {
         return wolfHoleLocation;
     }
 
+    /**
+     * Used for unit testing the wolf object.
+     *
+     * @return the wolfpack of the wolf-Instance's wolfpack field.
+     */
     public ArrayList<Wolf> getWolfPack() {
         return wolfpack;
     }
@@ -422,6 +528,10 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
 
 //PRIVATE METHODS
+    /**
+     * Changes the display according to the state of the day.
+     * @param world to access the World library
+     */
     private void changeCurrentDisplay (World world) {
         if (world.isDay()) {
             currentDisplayInformation = di_wolf;

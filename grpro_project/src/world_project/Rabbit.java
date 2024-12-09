@@ -63,7 +63,7 @@ public abstract class Rabbit extends Creature {
      * A method that lets a rabbit eat the tile of grass on which it stands upon to energize.
      * The method checks for grass underneath the rabbit before committing.
      *
-     * @param world
+     * @param world to access the world library.
      */
     @Override
     public void move(World world) {
@@ -82,7 +82,7 @@ public abstract class Rabbit extends Creature {
      * A method that lets a rabbit eat the tile of grass on which it stands upon to energize.
      * The method checks for grass underneath the rabbit before committing.
      *
-     * @param world
+     * @param world to access the world library.
      */
     @Override
     public void eat(World world) {
@@ -100,7 +100,7 @@ public abstract class Rabbit extends Creature {
      * A method that lets a rabbit hide in a rabbithole, if it is currently standing on top of one.
      * The method checks for rabbithole underneath the rabbit before committing.
      *
-     * @param world
+     * @param world to access the world library.
      */
     public void hide(World world) {
         Object o = world.getNonBlocking(world.getLocation(this));
@@ -112,35 +112,10 @@ public abstract class Rabbit extends Creature {
     }
 
     /**
-     * A method that lets a rabbit come out of a random rabbithole connected to its current hidingspot (rabbithole).
-     * Checks @tunnels to gather all exits currently not being blocked, and chooses one randomly for rabbit to exit from.
+     * A method that lets a rabbit come out of the rabbithole connected to its current hidingPlace.
      *
-     * @param world
+     * @param world to access the world library.
      */
-/*    public void unhideTest(World world) {
-        if (hiding) {
-            if (!world.isOnTile(this)) {
-                world_project.RabbitHole hidingSpot = currentHidingPlace;
-                ArrayList<world_project.RabbitHole> allExits = hidingSpot.getTunnels().get(hidingSpot);
-                ArrayList<world_project.RabbitHole> unblockedExits = new ArrayList<>();
-
-                for (world_project.RabbitHole exit : allExits) {
-                    if (world.isTileEmpty(exit.getLocation())) {
-                        unblockedExits.add(exit);
-                    }
-                }
-                if(!unblockedExits.isEmpty()) {
-                    int number = r.nextInt(unblockedExits.size());
-                    world_project.RabbitHole exit = unblockedExits.get(number);
-                    Location rabbithole = exit.getLocation();
-                    world.setTile(rabbithole,this);
-                } else {
-                    System.out.println("No exits available yet. world_project.Rabbit remains in hiding at " + this.getCurrentHidingPlace().getLocation());
-                }
-            }
-        }
-    }*/
-
     public void unhide(World world) {
         if (!world.isOnTile(this) && hiding) {
             RabbitHole hidingSpot = currentHidingPlace;
