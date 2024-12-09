@@ -124,8 +124,8 @@ public class World {
     /**
      * Sets the location which is deemed as the 'current' location. This is the
      * location used when calling parameterless methods normally requiring a
-     * parameter (e.g., {@link getSurroundingTiles() getSurroundingTiles}). Please note that methods like  {@link move(Object, Location) move} and {@link setTile(Location, Object) setTile} do not update this location.
-     * You have to do that manually using {@link setCurrentLocation(Location)} if you want to keep using the parameterless methods.
+     * parameter (e.g., {@link #getSurroundingTiles() getSurroundingTiles}). Please note that methods like  {@link #move(Object, Location) move} and {@link #setTile(Location, Object) setTile} do not update this location.
+     * You have to do that manually using {@link #setCurrentLocation(Location)} if you want to keep using the parameterless methods.
      * 
      * @param current the location which will be set as currently under examination
      *                (can be null). Eg. when the actor is not on the map but exists in the world.
@@ -140,7 +140,7 @@ public class World {
 
     /**
      * Provides the current location of the world. This is the location which the world uses
-     * for the overloaded methods (e.g., {@link getSurroundingTiles()}). This does not provide any object.
+     * for the overloaded methods (e.g., {@link #getSurroundingTiles()}). This does not provide any object.
      * @return the current location.
      */
     public Location getCurrentLocation() {
@@ -165,7 +165,7 @@ public class World {
 
     /**
      * Get immediate tiles surrounding the current location (as defined by
-     * {@link getCurrentLocation() getCurrentLocation} and {@link setCurrentLocation(Location current)
+     * {@link #getCurrentLocation() getCurrentLocation} and {@link #setCurrentLocation(Location current)
      * setLocation}). The method only returns existing locations within the map.
      * 
      * @return set of immediate surrounding locations.
@@ -179,8 +179,8 @@ public class World {
 
     /**
      * Get tiles (up to the radius provided) surrounding the current location which
-     * are not filled (as defined by {@link getCurrentLocation() getCurrentLocation} and
-     * {@link setCurrentLocation(Location current) setCurrentLocation}). 
+     * are not filled (as defined by {@link #getCurrentLocation() getCurrentLocation} and
+     * {@link #setCurrentLocation(Location current) setCurrentLocation}).
      * The method only returns existing locations within the map.
      * 
      * @param radius the number of locations to include in each direction.
@@ -195,7 +195,7 @@ public class World {
 
     /**
      * Get tiles which are not filled surrounding the current location (as defined
-     * by {@link getCurrentLocation() getCurrentLocation} and {@link setCurrentLocation(Location current)
+     * by {@link #getCurrentLocation() getCurrentLocation} and {@link #setCurrentLocation(Location current)
      * setLocation}) and {@link #isTileEmpty(Location)}). The method only returns existing locations within the map.
      * 
      * @return set of surrounding tiles which are empty.
