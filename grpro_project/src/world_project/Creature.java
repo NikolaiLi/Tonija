@@ -101,6 +101,11 @@ abstract public class Creature implements Actor {
         }
     }
 
+    /**
+     * Replaces the object with a carcass at its current location in the world.
+     * The carcass inherits the object's health and infection status.
+     * @param world the world where the object and carcass exist
+     */
     public void dropCarcass(World world) {
         if (world.isOnTile(this)) {
             Location l = world.getLocation(this);
