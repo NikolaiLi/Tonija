@@ -25,7 +25,7 @@ public class Carcass implements Actor, DynamicDisplayInformationProvider {
 
     /**
      * Initializes a Carcass object with parameters relevant to the objects size and duration.
-     * @param maxHealth determines whether if the Carcass is a normal or small carcass.
+     * @param maxHealth determines whether if the Carcass is a big or small carcass.
      * @param isInfected determines whether if the Carcass is infected by fungi.
      */
     public Carcass(int maxHealth, boolean isInfected) {
@@ -43,7 +43,7 @@ public class Carcass implements Actor, DynamicDisplayInformationProvider {
     }
 
     /**
-     * Provides the relevant display information if the Carcass should be displayed as a normal or small Carcass.
+     * Provides the relevant display information if the Carcass should be displayed as a big or small Carcass.
      * @return the relevant display image for the object.
      */
     @Override

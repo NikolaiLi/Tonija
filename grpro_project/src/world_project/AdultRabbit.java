@@ -116,7 +116,7 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
      * A rabbit digs a rabbit hole if its current tile doesn't already contain any non-blocking objects. The rabbit has
      * a boolean that checks whether it has built a hole or not. If it hasn't already, a hole can be dug and the
      * boolean AlreadyBuiltRabbitHole is updated.
-     * @param world to access the world library
+     * @param world to access the world library.
      */
     public void digRabbitHole(World world) {
         if (!AlreadyBuiltRabbitHole && !hiding && isAlive()) {
