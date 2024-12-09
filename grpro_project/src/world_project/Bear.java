@@ -9,6 +9,11 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+/**
+ * Represents a Bear in the simulation.
+ * This class encapsulates the behavior and state of the Bear, like its health,
+ * energy and age, and actions like eating, hunting and attacking.
+ */
 public class Bear extends Creature implements DynamicDisplayInformationProvider {
     Random r = new Random();
     boolean hasTerritory = false;
@@ -18,6 +23,10 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
     DisplayInformation di_bear_sleeping = new DisplayInformation(Color.red, "bear-sleeping");
     DisplayInformation currentDisplayInformation = di_bear;
 
+    /**
+     * Initializes a bear object with several attributes that are of relevance to how the class works and.
+     * acts in the world simulation and interacts with other objects in the world.
+     */
     public Bear() {
         animal = "Bear";
         maxEnergy = 200;
@@ -28,12 +37,19 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
         ageOfDeath = 150;
     }
 
+    /**
+     * Provides the visual display of the bear, whether if its sleeping or not.
+     * @return DisplayInformation for the simulation to display.
+     */
     @Override
     public DisplayInformation getInformation() {
         return currentDisplayInformation;
     }
 
-
+    /**
+     * Provides the order of when individual methods should be executed inside the simulation.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void act(World world) {
 
@@ -89,6 +105,10 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
+    /**
+     * Moves the bear randomly inside its territory.
+     * @param world to access the World library
+     */
     @Override
     public void move(World world) {
         Set<Location> neighbourTiles = world.getEmptySurroundingTiles();
@@ -112,7 +132,7 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
      * In the case of an instance of another object a bear can eat it will then energize with a given amount of
      * energy.
      * The bear also makes sure not to eat itself.
-     * @param world to access the world library
+     * @param world to access the World library.
      */
     @Override
     public void eat(World world) {
@@ -145,8 +165,8 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
 
     /**
      * Method for moving towards a given location.
-     * @param world to access the world library
-     * @param target a Location type object that specifies where to move towards
+     * @param world to access the world library.
+     * @param target a Location type object that specifies where to move towards.
      */
     @Override
     public void moveTowards(World world, Location target) {super.moveTowards(world, target);}
@@ -155,7 +175,7 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
      * Method for hunting prey down if an instance of a Creature type object appears inside the b bears territory.
      * If a creature appears inside the territory, and it isn't an instance of the bear itself, a call to the
      * {@link #moveTowards(World, Location)} moves the bear towards the creature inside the territory.
-     * @param world to access the world library
+     * @param world to access the world library.
      */
     public void hunt(World world) {
         for (Location location : territoryArea) {
@@ -168,8 +188,10 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
     }
 
     /**
-     *
-     * @param world to access the world library
+     * Checks the bears surrounding tiles for instances of other creatures and adds the instances to an array of
+     * targets. The bear chooses a random creature to attack and does 50 damage to that given creature.
+     * The bear makes sure that it doesn't damage itself.
+     * @param world to access the world library.
      */
     @Override
     public void attack(World world) {
@@ -196,19 +218,19 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
     }
 
     /**
-     *
-     * @return
+     * Used for unit testing the Bear object.
+     * @return the set of locations in the bears territory.
      */
     public Set<Location> getTerritoryArea() {
         return territoryArea;
     }
 
-    public Location getTerritoryCenter() {
-        return territoryCenter;
-    }
-
 // PRIVATE METHODS
 
+    /**
+     * Changes the display according to the state of the day.
+     * @param world to access the World library
+     */
     private void changeCurrentDisplay (World world) {
         if (world.isDay()) {
             currentDisplayInformation = di_bear;
@@ -216,5 +238,4 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
             currentDisplayInformation = di_bear_sleeping;
         }
     }
-
 }
