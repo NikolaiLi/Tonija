@@ -4,6 +4,12 @@ import itumulator.world.World;
 import itumulator.world.Location;
 import java.util.*;
 
+/**
+ * The Rabbit class is an abstract class that inherits from the creature class.
+ * Rabbits are herbivores that eat grass and seek nearby rabbitholes to hide in during nighttime.
+ * All Rabbits share common methods like {@link #eat(World world)}, {@link #hide(World world)},
+ * {@link #unhide(World world)} and {@link #seek(World world)}, which are documented here.
+ */
 public abstract class Rabbit extends Creature {
     protected Random r = new Random();
     protected boolean AlreadyBuiltRabbitHole = false;
@@ -11,6 +17,10 @@ public abstract class Rabbit extends Creature {
     protected boolean hiding;
     protected boolean seeking;
 
+    /**
+     * Initializes a rabbit object with several attributes that are of relevance to how the class works and
+     * acts in the world simulation and interacts with other objects in the world.
+     */
     public Rabbit() {
         super();
         animal = "Rabbit";
@@ -21,6 +31,10 @@ public abstract class Rabbit extends Creature {
         seeking = false;
     }
 
+    /**
+     * Provides the order of when individual methods should be executed inside the simulation.
+     * @param world providing details of the position on which the actor is currently located and much more.
+     */
     @Override
     public void act(World world)
     {
@@ -131,7 +145,8 @@ public abstract class Rabbit extends Creature {
     }
 
     /**
-     * Energize() er en metode, som giver energi til objektet, altså world_project.Rabbit.
+     * Method energizes the rabbit by amount given in parameter.
+     * @param addEnergy amount of energy rabbit regains.
      */
     @Override
     public void energize(int addEnergy) {
@@ -139,7 +154,7 @@ public abstract class Rabbit extends Creature {
     }
 
     /**
-     * Starve() er en metode som sørger for at sulte objektet, altså world_project.Rabbit.
+     * Method starves rabbit, cosuming some of its energy.
      */
     @Override
     public void starve() {
@@ -147,7 +162,8 @@ public abstract class Rabbit extends Creature {
     }
 
     /**
-     * getHunger() er en metode som returnere det antal hunger som objektet har.
+     * Method returns the current amount of hunger/energy rabbit has.
+     * @return amount of energy the rabbit posses currently.
      */
     @Override
     public int getEnergy() {
@@ -155,7 +171,8 @@ public abstract class Rabbit extends Creature {
     }
 
     /**
-     * isAlive() er en metode som returnerer en sandhedsværdi om world_project.Rabbit er død eller ej.
+     * Method returns a boolean that answers whether rabbit is alive or not.
+     * @return truth or false based on what the field alive is set to.
      */
     @Override
     public boolean isAlive() {
@@ -181,6 +198,11 @@ public abstract class Rabbit extends Creature {
     @Override
     public void moveTowards(World world, Location target) {super.moveTowards(world, target);}
 
+    /**
+     * A method used to scan the world tiles for a rabbithole, then moving the rabbit towards it.
+     * If the location rabbit tries to move towards is blocked, the rabbit will simply stand still.
+     * @param world
+     */
     public void seek(World world) {
         if (!hiding) {
             Location currentLocation = world.getLocation(this);
@@ -213,5 +235,9 @@ public abstract class Rabbit extends Creature {
         }
     }
 
+    /**
+     * A method used in the Rabbit Junit tests to return the field AlreadyBuiltRabbitHole.
+     * @return returns AlreadyBuiltRabbitHole
+     */
     public boolean hasBuiltRabbitHole(){ return AlreadyBuiltRabbitHole; }
 }

@@ -131,30 +131,6 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
         }
     }
 
-    public void digTunnel() {
-        RabbitHole rabbitHole = this.getCurrentHidingPlace();
-        Map<RabbitHole, ArrayList<RabbitHole>> tunnels = rabbitHole.getTunnels();
-        HashSet<RabbitHole> exits = new HashSet<>(tunnels.get(rabbitHole));
-        Set<RabbitHole> allHoles = tunnels.keySet();
-        if (exits.equals(allHoles)) {
-            System.out.println("Cannot dig tunnel. RabbitHole is already connected to all other RabbitHoles.");
-            return;
-        }
-        RabbitHole newExit = null;
-        ArrayList<RabbitHole> allHolesList= new ArrayList<>(allHoles);
-        while (!tunnels.get(rabbitHole).contains(newExit)) {
-            RabbitHole tempExit = allHolesList.get(r.nextInt(allHolesList.size()));
-            if (!exits.contains(tempExit)) {
-                newExit = tempExit;
-                tunnels.get(rabbitHole).add(newExit);
-                tunnels.get(newExit).add(rabbitHole);
-                System.out.println("New tunnel built between " + rabbitHole + " and " + newExit);
-            }
-        }
-
-    }
-
-
 
 
 // PRIVATE METHODS
