@@ -63,6 +63,12 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
     public void dyingOfAge(World world, int ageOfDeath, String animal) {super.dyingOfAge(world,ageOfDeath, animal);}
 
 
+    /**
+     * A method that enables rabbits to breed, checking the rabbits surrounding tiles for other rabbits. If another
+     * rabbit is inside the surrounding tiles there will be a 5% chance of them breeding. A baby rabbit will be born on
+     * an empty surrounding tile.
+     * @param world to access the world library
+     */
     public void breed(World world) {
         if (!hiding) {
             Set<Location> neighbours = world.getSurroundingTiles();
@@ -85,6 +91,12 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
         }
     }
 
+    /**
+     * A rabbit digs a rabbit hole if its current tile doesn't already contain any non-blocking objects. The rabbit has
+     * a boolean that checks whether it has built a hole or not. If it hasn't already, a hole can be dug and the
+     * boolean AlreadyBuiltRabbitHole is updated.
+     * @param world to access the world library
+     */
     public void digRabbitHole(World world) {
         if (!AlreadyBuiltRabbitHole && !hiding && isAlive()) {
             Location current = world.getLocation(this);
@@ -126,6 +138,11 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
 
 // PRIVATE METHODS
 
+    /**
+     * Dynamically changes the display from awake to sleeping depending on whether it is day or night, and if it isn't
+     * hiding in a rabbit hole
+     * @param world to access the world library
+     */
     private void changeCurrentDisplay (World world) {
         if (world.isDay()) {
             currentDisplayInformation = di_adult_rabbit;

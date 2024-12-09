@@ -48,6 +48,15 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
        }
     }
 
+    /**
+     * Baby rabbit grow up and becomes an adult. The method checks for two instances of the rabbit, one where it is
+     * hiding and one where it isn't. If the baby rabbit is hiding, the object is deleted and replaced by an adult
+     * rabbit with the same amount of energy as the baby rabbit.
+     * In the case where location of the baby rabbits hiding place is occupied it temporarily removes the
+     * object occupying the hiding place, allows the baby rabbit to grow into an adult
+     * and hide, and then restores the original object to maintain the world's state.
+     * @param world to access the world library
+     */
     public void grow(World world) {
         if (hiding) {
             Location rabbitHoleLocation = currentHidingPlace.getLocation();
@@ -74,6 +83,12 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
 
 
 //PRIVATE METHODS
+
+    /**
+     * Dynamically changes the display from awake to sleeping depending on whether it is day or night, and if it isn't
+     * hiding in a rabbit hole or seeking a rabbit hole
+     * @param world to access the world library
+     */
     private void changeCurrentDisplay (World world) {
         if (world.isDay()) {
             currentDisplayInformation = di_baby_rabbit;

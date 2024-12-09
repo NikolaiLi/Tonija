@@ -77,6 +77,10 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
+    /**
+     * Creates a territory for the bear with a radius of 3 from its first initial location.
+     * @param world to access the world library
+     */
     public void makeTerritory(World world) {
         if(!hasTerritory) {
             hasTerritory = true;
@@ -103,7 +107,13 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
-
+    /**
+     * The bear eats berries and other animals by checking its surrounding tiles for instances of other objects.
+     * In the case of an instance of another object a bear can eat it will then energize with a given amount of
+     * energy.
+     * The bear also makes sure not to eat itself.
+     * @param world to access the world library
+     */
     @Override
     public void eat(World world) {
         Set<Location> neighbourTiles = world.getSurroundingTiles();
@@ -131,9 +141,20 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
+    /**
+     * Method for moving towards a given location.
+     * @param world to access the world library
+     * @param target a Location type object that specifies where to move towards
+     */
     @Override
     public void moveTowards(World world, Location target) {super.moveTowards(world, target);}
 
+    /**
+     * Method for hunting prey down if an instance of a Creature type object appears inside the b bears territory.
+     * If a creature appears inside the territory, and it isn't an instance of the bear itself, a call to the
+     * {@link #moveTowards(World, Location)} moves the bear towards the creature inside the territory.
+     * @param world to access the world library
+     */
     public void hunt(World world) {
         for (Location location : territoryArea) {
             Object tile = world.getTile(location);
@@ -144,7 +165,10 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
-
+    /**
+     *
+     * @param world to access the world library
+     */
     @Override
     public void attack(World world) {
         Set<Location> neighbourTiles = world.getSurroundingTiles();
@@ -169,6 +193,10 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public Set<Location> getTerritoryArea() {
         return territoryArea;
     }

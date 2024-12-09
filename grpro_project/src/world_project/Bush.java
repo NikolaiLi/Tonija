@@ -34,13 +34,17 @@ public class Bush implements Actor, DynamicDisplayInformationProvider {
     }
 
     /**
-     * when this method is called, the hasFruits variable can be changed.
-     * @param x
+     * When this method is called, the hasFruits variable can be changed.
+     * @param x a boolean value that can be set to the hasFruits variable
      */
     public void isRipe(boolean x){
         hasFruits = x;
     }
 
+    /**
+     * A method to call for the boolean variable of hasFruits
+     * @return the boolean value of hasFruits
+     */
     public boolean isHasFruits() {
         return hasFruits;
     }

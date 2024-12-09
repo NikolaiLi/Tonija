@@ -48,6 +48,11 @@ public class Carcass implements Actor, DynamicDisplayInformationProvider {
         chanceOfInfection();
     }
 
+    /**
+     * Decrements duration with 10 after each step if it is infected or 5 if it isn't.
+     *
+     * @param world to access the world library
+     */
     public void decompose(World world) {
         if (infected) {
             duration -= 10;
