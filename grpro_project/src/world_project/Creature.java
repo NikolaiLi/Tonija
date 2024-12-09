@@ -74,6 +74,12 @@ abstract public class Creature implements Actor {
         health -= amountOfDamage;
     }
 
+    /**
+     * Handles the death of an animal when its health reaches zero.
+     * Replaces the animal with a carcass.
+     * @param world the world where the animal is
+     * @param animal the type of the animal
+     */
     public void deathByDamage(World world, String animal) {
         if (alive && health <= 0) {
             alive = false;
@@ -82,6 +88,12 @@ abstract public class Creature implements Actor {
         }
     }
 
+    /**
+     * Handles the death of an animal by starvation.
+     * Replaces the animal with a carcass.
+     * @param world the world where the animal is
+     * @param animal the type of the animal
+     */
     public void hungerDeath(World world, String animal) {
         if (energy <= 0 && alive) {
             alive = false;
@@ -90,6 +102,15 @@ abstract public class Creature implements Actor {
         }
     }
 
+    /**
+     * Handles the death of an animal by old age.
+     * Replaces the animal with a carcass if it surpasses the age of death
+     * and have a random chance condition, that makes the animal die.
+     * @param world the world where the animal is
+     * @param ageOfDeath the age after which the animal may die of old age
+     * @param animal the type of the animal
+     */
+    
     public void dyingOfAge(World world, int ageOfDeath, String animal) {
         if (isAlive()) {
             int chanceOfDying = r.nextInt(10);
