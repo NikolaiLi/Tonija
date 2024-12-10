@@ -1,4 +1,0 @@
-10
-rabbit 10
-berry 6
-grass 7-15

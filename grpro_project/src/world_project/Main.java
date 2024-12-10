@@ -22,7 +22,7 @@ public class Main {
 
 
         //------------------------FILE MANIPULATION------------------------\\
-        String filePath = "data/week-2/test.txt";
+        String filePath = "data/week-1/tf1-1.txt";
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             String line;
