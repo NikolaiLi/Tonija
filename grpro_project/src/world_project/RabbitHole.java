@@ -19,11 +19,10 @@ public class RabbitHole extends Hole implements DynamicDisplayInformationProvide
      * initializes a rabbithole Without a rabbitHoleLocation
      * @param world world to access the world library.
      */
-    public RabbitHole(World world){
-    }
+    public RabbitHole(World world){}
 
     /**
-     * initializes a rabbithole With a rabbitHoleLocation
+     * initializes a rabbithole With a rabbitHoleLocation, meant for reading burrows from FileReader.
      * @param world world to access the world library.
      * @param location Location of the placement of the RabbitHole
      */

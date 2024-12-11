@@ -96,7 +96,7 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
             List<Location> list = new ArrayList<>(neighbours);
             int chanceOfBirth = r.nextInt(100);
             for (Location location : list) {
-                if (world.getTile(location) instanceof AdultRabbit && chanceOfBirth >= 95) {
+                if (world.getTile(location) instanceof AdultRabbit mate && (mate != this) && chanceOfBirth >= 95) {
                     Set<Location> emptyNeighbours = world.getEmptySurroundingTiles();
                     List<Location> listOfEmptyTiles = new ArrayList<>(emptyNeighbours);
 
