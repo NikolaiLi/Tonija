@@ -63,6 +63,8 @@ public abstract class Rabbit extends Creature {
 
             if (world.isNight()) {
                 seek(world);
+
+                hide(world);
             }
 
             // Bliver ældre
@@ -119,11 +121,13 @@ public abstract class Rabbit extends Creature {
      * @param world to access the world library.
      */
     public void hide(World world) {
-        Object o = world.getNonBlocking(world.getLocation(this));
-        if (o instanceof RabbitHole) {
-            currentHidingPlace = world.getLocation(o);
-            world.remove(this);
-            hiding = true;
+        if(!hiding) {
+            Object o = world.getNonBlocking(world.getLocation(this));
+            if (o instanceof RabbitHole) {
+                currentHidingPlace = world.getLocation(o);
+                world.remove(this);
+                hiding = true;
+            }
         }
     }
 
