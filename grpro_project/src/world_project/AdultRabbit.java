@@ -91,8 +91,8 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
      * @param world to access the world library
      */
     public void breed(World world) {
-        if (!hiding) {
-            Set<Location> neighbours = world.getSurroundingTiles();
+        if (!hiding && world.isOnTile(this)) {
+            Set<Location> neighbours = world.getSurroundingTiles(world.getLocation(this));
             List<Location> list = new ArrayList<>(neighbours);
             int chanceOfBirth = r.nextInt(100);
             for (Location location : list) {

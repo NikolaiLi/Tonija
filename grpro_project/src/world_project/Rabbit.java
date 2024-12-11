@@ -13,7 +13,7 @@ import java.util.*;
 public abstract class Rabbit extends Creature {
     protected Random r = new Random();
     protected boolean AlreadyBuiltRabbitHole = false;
-    protected RabbitHole currentHidingPlace;
+    protected Location currentHidingPlace;
     protected boolean hiding;
     protected boolean seeking;
 
@@ -81,13 +81,15 @@ public abstract class Rabbit extends Creature {
      */
     @Override
     public void move(World world) {
-        Set<Location> neighbours = world.getEmptySurroundingTiles();
-        List<Location> list = new ArrayList<>(neighbours);
+        if (alive && !hiding && world.isOnTile(this)) {
+            Set<Location> neighbours = world.getEmptySurroundingTiles(world.getLocation(this));
+            List<Location> list = new ArrayList<>(neighbours);
 
-        if (!neighbours.isEmpty()) {
-            int randomNumber = r.nextInt(list.size());
-            Location l = list.get(randomNumber);
-            world.move(this, l);
+            if (!neighbours.isEmpty()) {
+                int randomNumber = r.nextInt(list.size());
+                Location l = list.get(randomNumber);
+                world.move(this, l);
+            }
         }
     }
 
@@ -119,7 +121,7 @@ public abstract class Rabbit extends Creature {
     public void hide(World world) {
         Object o = world.getNonBlocking(world.getLocation(this));
         if (o instanceof RabbitHole) {
-            currentHidingPlace = (RabbitHole) o;
+            currentHidingPlace = world.getLocation(o);
             world.remove(this);
             hiding = true;
         }
@@ -132,13 +134,13 @@ public abstract class Rabbit extends Creature {
      */
     public void unhide(World world) {
         if (!world.isOnTile(this) && hiding) {
-            RabbitHole hidingSpot = currentHidingPlace;
-            world.setCurrentLocation(currentHidingPlace.getLocation());
-            ArrayList<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
+            ArrayList<Location> list = new ArrayList<>(world.getEmptySurroundingTiles(currentHidingPlace));
 
             if (!list.isEmpty()) {
                 int size = r.nextInt(list.size());
+                System.out.println("trying to unhide");
                 world.setTile(list.get(size),this);
+                System.out.println("unhiding");
                 hiding = false;
             }
         }
@@ -185,7 +187,7 @@ public abstract class Rabbit extends Creature {
     /**
      * getCurrentHidingPlace() returns the rabbithole that this rabbit is currently hiding inside.
      */
-    public RabbitHole getCurrentHidingPlace() {
+    public Location getCurrentHidingPlace() {
         return currentHidingPlace;
     }
 
