@@ -183,7 +183,6 @@ public class Bear extends Creature implements DynamicDisplayInformationProvider 
             Object tile = world.getTile(location);
             if (tile instanceof Creature && tile != this) {
                 moveTowards(world, location);
-                System.out.println("Hunting prey down!");
             }
         }
     }

@@ -105,7 +105,6 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
                         Location l = listOfEmptyTiles.get(randomNumber);
                         world.setTile(l, new BabyRabbit());
                     }
-                    System.out.println("A baby rabbit has been born");
                     return;
                 }
             }
@@ -126,7 +125,6 @@ public class AdultRabbit extends Rabbit implements DynamicDisplayInformationProv
                 world.setTile(current, rabbitHole);
                 AlreadyBuiltRabbitHole = true;
                 rabbitHole.setLocation(world);
-                System.out.println("Rabbit has dug a hole at " + current);
             }
         }
     }

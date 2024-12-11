@@ -62,7 +62,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         wolfHoleLocation = null;
         wolfPackID = nextPackID;
 
-        System.out.println("Created Packleader");
 
         //calls 2nd constructor calling the constructor used while in simulation
         for (int i = 0; i < number - 1; i++) {
@@ -100,7 +99,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
         wolfHoleLocation = wolfLeader.getWolfHoleLocation();
         wolfPackID = wolfLeader.wolfPackID;
 
-        System.out.println("Created wolf in wolfpack");
 
         //if wolf has been born during the simulation, parent gave birth while hiding in wolfhole, and the new wolf will start out in hiding as well
         if (wolfLeader.hiding) {
@@ -258,7 +256,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
             }
 
             dropCarcass(world);
-            System.out.println(animal + " has bled out and died");
         }
     }
 
@@ -280,7 +277,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
             }
 
             dropCarcass(world);
-            System.out.println(animal + " has died of hunger");
         }
     }
 
@@ -306,7 +302,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
 
                 alive = false;
                 dropCarcass(world);
-                System.out.println(animal + " has died of age");
             }
         }
     }
@@ -337,7 +332,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
                 visited.add(current);
 
                 if (world.getTile(current) instanceof Rabbit) {
-                    System.out.println("wolfLeader follows rabbit at: " + current);
                     moveTowards(world, current);
                     return;
                 }
@@ -427,7 +421,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
                 }
                 if (wolf.hiding) {
                     Wolf wolfcub = new Wolf(this, world, this.wolfHoleLocation);
-                    System.out.println("A new wolf has been born");
                     wolfcounter ++;
                 }
             }
@@ -451,7 +444,6 @@ public class Wolf extends Creature implements DynamicDisplayInformationProvider 
                     WolfHole wolfhole = new WolfHole();
                     world.setTile(current, wolfhole);
                     wolfHoleLocations.put(wolfPackID, current);
-                    System.out.println("WolfLeader has dug a hole at " + current);
                 }
             }
         }

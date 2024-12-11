@@ -28,10 +28,8 @@ public class Main {
             String line;
 
             line = reader.readLine();
-            System.out.println(line);
             if (line != null) {
                 size = Integer.parseInt(line.trim());
-                System.out.println("World size set to: " + size);
 
             }
 
@@ -43,7 +41,6 @@ public class Main {
                 String[] parts = line.split(" ");
 
                 if (parts.length < 2) {
-                    System.out.println("Skipping invalid line: " + line);
                     continue;
                 }
                 String className = parts[0].toLowerCase();
@@ -77,7 +74,6 @@ public class Main {
 
                 switch (className) {
                     case "grass":
-                        System.out.println("Added " + count + " Grass objects");
                         //------------------------PLACE GRASS------------------------\\
                         for (int i = 0; i < count; i++) {
                             world.setTile(addLocation(world, r, size), new Grass());
@@ -85,7 +81,6 @@ public class Main {
                         break;
 
                     case "rabbit":
-                        System.out.println("Added " + count + " Rabbits objects");
                         //------------------------PLACE RABBIT------------------------\\
                         for (int i = 0; i < count; i++) {
                             world.setTile(addLocation(world,r,size), new BabyRabbit());
@@ -93,7 +88,6 @@ public class Main {
                         break;
 
                     case "burrow":
-                        System.out.println("Added " + count + " RabbitHole objects");
                         //------------------------PLACE RABBIT HOLE------------------------\\
                         for (int i = 0; i < count; i++) {
                             world.setTile(addLocation(world,r,size), new RabbitHole(world,addLocation(world,r,size)));
@@ -101,7 +95,6 @@ public class Main {
                         break;
 
                     case "wolf":
-                        System.out.println("Added " + count + " Wolf objects");
                         //------------------------PLACE WOLF------------------------\\
                         for (int i = 0; i < 1; i++) {
                             Location l = addLocation(world,r,size);
@@ -110,7 +103,6 @@ public class Main {
                         break;
 
                     case "berry":
-                        System.out.println("Added " + count + " Bush objects");
                         //------------------------PLACE BERRY BUSH------------------------\\
                         for (int i = 0; i < count; i++) {
                             world.setTile(addLocation(world,r,size), new Bush());
@@ -118,7 +110,6 @@ public class Main {
                         break;
 
                     case "bear":
-                        System.out.println("Added " + count + " Bear objects");
                         //------------------------PLACE BEAR------------------------\\
                         Location l;
                         for (int i = 0; i < count; i++) {
@@ -128,14 +119,11 @@ public class Main {
                             else {
                                 l = addLocation(world,r,size);
                             }
-                            System.out.println("Bear coordinates: " + l.getX() + ", " + l.getY());
                             world.setTile(l, new Bear());
                         }
                         break;
 
                     case "carcass":
-                        System.out.println("Added " + count + " Carcass objects");
-
                         for (int i = 0; i < count; i++) {
                             world.setTile(addLocation(world,r,size), new Carcass(0,hasFungi));
                         }

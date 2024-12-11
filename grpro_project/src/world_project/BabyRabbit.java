@@ -73,7 +73,6 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
      */
     public void grow(World world) {
         if (age >= 15 && !hiding) {
-            System.out.println("BabyRabbit has grown up");
             Location l = world.getLocation(this);
             world.delete(this);
             world.setTile(l, new AdultRabbit(getEnergy()));

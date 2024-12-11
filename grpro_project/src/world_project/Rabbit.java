@@ -142,9 +142,7 @@ public abstract class Rabbit extends Creature {
 
             if (!list.isEmpty()) {
                 int size = r.nextInt(list.size());
-                System.out.println("trying to unhide");
                 world.setTile(list.get(size),this);
-                System.out.println("unhiding");
                 hiding = false;
             }
         }

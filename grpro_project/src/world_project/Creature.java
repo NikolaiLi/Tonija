@@ -137,7 +137,6 @@ abstract public class Creature implements Actor {
         if (alive && health <= 0) {
             alive = false;
             dropCarcass(world);
-            System.out.println(animal + " has bled out and died");
         }
     }
 
@@ -151,7 +150,6 @@ abstract public class Creature implements Actor {
         if (energy <= 0 && alive) {
             alive = false;
             dropCarcass(world);
-            System.out.println(animal + " has died of hunger");
         }
     }
 
@@ -169,7 +167,6 @@ abstract public class Creature implements Actor {
             if (age > ageOfDeath && chanceOfDying == 1) {
                 alive = false;
                 dropCarcass(world);
-                System.out.println(animal + " has died of age");
             }
         }
     }
