@@ -55,12 +55,9 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
         deathByDamage(world, animal);
 
         while (alive) {
-           if (age == 15) {
-               grow(world);
-               return;
-           }
-
            super.act(world);
+
+           grow(world);
            return;
        }
     }
@@ -75,22 +72,7 @@ public class BabyRabbit extends Rabbit implements DynamicDisplayInformationProvi
      * @param world to access the world library
      */
     public void grow(World world) {
-        if (hiding) {
-            Location rabbitHoleLocation = currentHidingPlace.getLocation();
-            if (world.isTileEmpty(rabbitHoleLocation)) {
-                world.setTile(rabbitHoleLocation, this);
-                world.delete(this);
-                System.out.println("Baby Rabbit has grown up");
-                world.setTile(rabbitHoleLocation, new AdultRabbit(getEnergy()));
-            } else {
-                Object o = world.getTile(rabbitHoleLocation);
-                world.remove(o);
-                Rabbit adultRabbit = new AdultRabbit(getEnergy());
-                world.setTile(rabbitHoleLocation, adultRabbit);
-                adultRabbit.hide(world);
-                world.setTile(rabbitHoleLocation, o);
-            }
-        } else {
+        if (age >= 15 && !hiding) {
             System.out.println("BabyRabbit has grown up");
             Location l = world.getLocation(this);
             world.delete(this);
